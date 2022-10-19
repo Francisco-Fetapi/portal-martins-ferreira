@@ -19,7 +19,6 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontSize: 26,
     fontWeight: 900,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
   },
 
   controls: {
