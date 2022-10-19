@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/router";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 
 const courses = ["Curso1", "Curso2", "Curso3", "Curso4", "Curso5"];
@@ -35,9 +36,11 @@ export function MoreInformationForm() {
       },
     },
   });
-
+  const router = useRouter();
   const handleSubmit = (values: typeof form.values) => {
     console.log(values);
+
+    router.push("/criar-conta/foto-de-perfil");
   };
 
   console.log(form.values.myGlade);

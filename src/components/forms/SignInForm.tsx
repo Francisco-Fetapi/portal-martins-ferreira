@@ -15,6 +15,7 @@ import {
 import { useForm } from "@mantine/form";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export function SignInForm() {
   const validate = useValidateFunctions();
@@ -32,9 +33,10 @@ export function SignInForm() {
       },
     },
   });
-
+  const router = useRouter();
   const handleSubmit = (values: typeof form.values) => {
     console.log(values);
+    router.push("/");
   };
 
   return (

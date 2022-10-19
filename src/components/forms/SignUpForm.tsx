@@ -15,6 +15,7 @@ import {
 
 import { useForm } from "@mantine/form";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { IUser } from "../../interfaces/IUser";
 import { InputGenre } from "../InputGenre";
@@ -49,9 +50,11 @@ export function SignUpForm() {
       },
     },
   });
+  const router = useRouter();
 
   const handleSubmit = (values: typeof form.values) => {
     console.log(values);
+    router.push("/confirmar-email");
   };
 
   return (

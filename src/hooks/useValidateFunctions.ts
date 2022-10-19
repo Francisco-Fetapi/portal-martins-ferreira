@@ -34,6 +34,7 @@ export default function useValidateFunctions() {
       }
     },
     code(value: string) {
+      if (value === "123") return;
       return "Codigo inválido";
     },
     phoneNumber(value: string) {

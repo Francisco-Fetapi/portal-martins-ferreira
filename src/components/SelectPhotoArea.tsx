@@ -8,11 +8,13 @@ import {
   Text,
 } from "@mantine/core";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 
 export default function SelectPhotoArea() {
   const [file, setFile] = useState<File | null>(null);
   const resetRef = useRef<() => void>(null);
+  const router = useRouter();
 
   console.log(file);
 
@@ -20,6 +22,9 @@ export default function SelectPhotoArea() {
     setFile(null);
     resetRef.current?.();
   };
+  function handleDone() {
+    router.push("/");
+  }
   return (
     <Center p={5}>
       <Stack>
@@ -56,7 +61,9 @@ export default function SelectPhotoArea() {
           </Button>
         </Center>
         <Center>
-          <Button color="green">Concluir</Button>
+          <Button color="green" onClick={handleDone}>
+            Concluir
+          </Button>
         </Center>
       </Stack>
     </Center>

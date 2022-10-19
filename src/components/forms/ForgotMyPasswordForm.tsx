@@ -14,6 +14,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconArrowLeft } from "@tabler/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 
 const useStyles = createStyles((theme) => ({
@@ -50,12 +51,15 @@ export function ForgotMyPasswordForm() {
     },
   });
 
+  const router = useRouter();
   function handleSubmit(values: typeof form.values) {
     console.log(values);
+    // ir para redefinir senha
+    router.push("/");
   }
 
   return (
-    <Container size={460} my={30}>
+    <Container my={30}>
       <Title className={classes.title} align="center">
         Esqueceu sua senha?
       </Title>

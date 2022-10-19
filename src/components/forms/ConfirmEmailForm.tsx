@@ -14,6 +14,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconArrowLeft } from "@tabler/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 
 const useStyles = createStyles((theme) => ({
@@ -49,9 +50,10 @@ export function ConfirmEmailForm() {
       },
     },
   });
-
+  const router = useRouter();
   function handleSubmit(values: typeof form.values) {
     console.log(values);
+    router.push("/criar-conta/informacoes-adicionais");
   }
 
   return (
