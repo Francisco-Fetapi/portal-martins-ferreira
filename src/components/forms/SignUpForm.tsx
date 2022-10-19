@@ -110,13 +110,23 @@ export function SignUpForm() {
             required
             {...form.getInputProps("birthday")}
           />
-          <Text variant="text" size="md">
-            Genero
-          </Text>
-          <InputGenre
-            genre={form.values.genre}
-            setGenre={(value) => form.setFieldValue("genre", value)}
-          />
+          <Stack
+            align="center"
+            sx={{
+              zoom: 0.85,
+              flexDirection: "column",
+              // flexDirection: "row",
+              // justifyContent: "space-between",
+            }}
+          >
+            <Text variant="text" size="md">
+              Gênero
+            </Text>
+            <InputGenre
+              genre={form.values.genre}
+              setGenre={(value) => form.setFieldValue("genre", value)}
+            />
+          </Stack>
           <Group position="apart">
             <Checkbox
               label={

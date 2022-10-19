@@ -39,8 +39,6 @@ export function InputGenre({ genre, setGenre }: InputGenreProps) {
     f: "Feminino",
   };
 
-  console.log(genre, options[genre]);
-
   return (
     <SegmentedControl
       radius="xl"
