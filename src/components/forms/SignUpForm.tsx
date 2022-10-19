@@ -110,12 +110,16 @@ export function SignUpForm() {
           />
           <Group position="apart">
             <Checkbox
-              label="Sou um aluno"
+              label={
+                <p>
+                  Sou um aluno do <b>Obadias Malaquias</b>
+                </p>
+              }
               {...form.getInputProps("isStudent")}
             />
-            <Link href="/esqueci-minha-senha">
+            {/* <Link href="/esqueci-minha-senha">
               <Anchor<"a"> size="sm">Esqueceste sua senha?</Anchor>
-            </Link>
+            </Link> */}
           </Group>
           <Center>
             <Button type="submit">Criar conta</Button>

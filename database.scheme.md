@@ -5,6 +5,7 @@ name
 email
 password
 birthday
+genre
 
 ---
 
