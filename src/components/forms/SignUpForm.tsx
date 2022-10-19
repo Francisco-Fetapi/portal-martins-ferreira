@@ -6,56 +6,64 @@ import {
   Paper,
   Title,
   Text,
-  Container,
   Group,
   Button,
   Box,
+  Center,
 } from "@mantine/core";
 
 export function SignUpForm() {
   return (
     <Box>
+      <FormHeader />
+      <Paper
+        component="form"
+        autoComplete="off"
+        autoSave="off"
+        autoCorrect="off"
+        withBorder
+        shadow="md"
+        p={30}
+        mt={30}
+        radius="md"
+      >
+        <TextInput label="Email" placeholder="you@mantine.dev" required />
+        <PasswordInput label="Senha" placeholder="Sua senha" mt="md" required />
+        <Group position="apart" mt="md">
+          <Checkbox label="Sou um aluno" />
+          <Anchor<"a"> href="/esqueci-minha-senha" size="sm">
+            Esqueceste sua senha?
+          </Anchor>
+        </Group>
+        <Center>
+          <Button mt="xl">Criar conta</Button>
+        </Center>
+      </Paper>
+    </Box>
+  );
+}
+
+function FormHeader() {
+  return (
+    <>
       <Title
         align="center"
         sx={() => ({
           fontWeight: 900,
         })}
       >
-        Welcome back!
+        Bem-vindo de volta
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Do not have an account yet?{" "}
+        Você já tem uma conta?{" "}
         <Anchor<"a">
-          href="#"
+          href="/iniciar-sessao"
           size="sm"
-          onClick={(event) => event.preventDefault()}
+          // onClick={(event) => event.preventDefault()}
         >
-          Create account
+          Iniciar sessão
         </Anchor>
       </Text>
-
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          mt="md"
-        />
-        <Group position="apart" mt="md">
-          <Checkbox label="Remember me" />
-          <Anchor<"a">
-            onClick={(event) => event.preventDefault()}
-            href="#"
-            size="sm"
-          >
-            Forgot password?
-          </Anchor>
-        </Group>
-        <Button fullWidth mt="xl">
-          Sign in
-        </Button>
-      </Paper>
-    </Box>
+    </>
   );
 }

@@ -6,8 +6,8 @@ email
 password
 birthday
 photo
-phone_number!
 is_student!
+phone_number!
 my_class!
 my_course!
 my_glade!
