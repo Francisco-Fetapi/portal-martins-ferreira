@@ -132,7 +132,7 @@ export function SignUpForm() {
             <Checkbox
               label={
                 <p>
-                  Sou um/a aluno/a do <b>Obadias Malaquias</b>
+                  Sou um(a) aluno(a) do <b>Obadias Malaquias</b>
                 </p>
               }
               {...form.getInputProps("isStudent")}

@@ -10,8 +10,8 @@ export interface IUser {
   genre: IGenre;
 
   photo?: string;
-  phoneNumber?: string;
+  phoneNumber?: number;
   myClass?: string;
   myCourse?: string;
-  myGlade?: number;
+  myGlade?: 10 | 11 | 12 | 13;
 }

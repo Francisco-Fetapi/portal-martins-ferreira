@@ -36,5 +36,13 @@ export default function useValidateFunctions() {
     code(value: string) {
       return "Codigo inválido";
     },
+    phoneNumber(value: string) {
+      if (!/^9\d{8}$/.test(value)) {
+        return "Número de telefone inválido.";
+      }
+    },
+    myClass(value: string) {
+      if (!value) return message.required;
+    },
   };
 }
