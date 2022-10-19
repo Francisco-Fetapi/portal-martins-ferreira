@@ -5,4 +5,10 @@ export interface IUser {
   password2: string;
   birthday: string;
   isStudent: boolean;
+
+  photo?: string;
+  phoneNumber?: string;
+  myClass?: string;
+  myCourse?: string;
+  myGlade?: number;
 }

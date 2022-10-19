@@ -15,7 +15,7 @@ import {
 
 import { useForm } from "@mantine/form";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
-import { IUser } from "./interfaces/IUser";
+import { IUser } from "../../interfaces/IUser";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();

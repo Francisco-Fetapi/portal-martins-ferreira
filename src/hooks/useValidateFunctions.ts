@@ -1,7 +1,4 @@
-// import { FormValidateInput } from "@mantine/form/lib/types";
-// import { IUser } from "../components/forms/interfaces/IUser";
-
-import { IUser } from "../components/forms/interfaces/IUser";
+import { IUser } from "../interfaces/IUser";
 
 export default function useValidateFunctions() {
   return {
