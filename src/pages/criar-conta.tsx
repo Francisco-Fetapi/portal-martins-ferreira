@@ -1,6 +1,7 @@
-import { Center } from "@mantine/core";
+import { Box, Center } from "@mantine/core";
 import Head from "next/head";
 import React from "react";
+import { SignUpForm } from "../components/forms/SignUpForm";
 
 export default function SignUpPage() {
   return (
@@ -9,7 +10,9 @@ export default function SignUpPage() {
         <title>Criar conta</title>
       </Head>
       <Center sx={{ height: "100vh" }}>
-        <h1>Ola Mundo</h1>
+        <Box style={{ width: "90%", maxWidth: 500 }}>
+          <SignUpForm />
+        </Box>
       </Center>
     </>
   );
