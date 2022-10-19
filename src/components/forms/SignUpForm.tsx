@@ -14,10 +14,10 @@ import {
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
-
-type FuncFormSubmit = React.FormEventHandler<HTMLFormElement> | undefined;
+import useValidateFunctions from "../../hooks/useValidateFunctions";
 
 export function SignUpForm() {
+  const validate = useValidateFunctions();
   const form = useForm({
     initialValues: {
       name: "",
@@ -27,13 +27,33 @@ export function SignUpForm() {
       birthday: "",
       isStudent: false,
     },
+    validate: {
+      name($value) {
+        return validate.name($value);
+      },
+      password1(value) {
+        return validate.password1(value);
+      },
+      password2(value, values) {
+        if (value !== values.password1)
+          return "Senha e confirmar senha não batem.";
+      },
+      birthday(value) {
+        const date = new Date(value);
+        const currentDate = new Date();
+        const age = currentDate.getFullYear() - date.getFullYear();
+        console.log(age);
+        if (age < 14) {
+          return "Deves ter uma idade superior à 13 anos para aderir ao sistema.";
+        }
+      },
+    },
   });
 
-  const handleSubmit: FuncFormSubmit = (e) => {
-    e.preventDefault();
-
-    console.log(form.values);
+  const handleSubmit = (values: typeof form.values) => {
+    console.log(values);
   };
+
   return (
     <Stack my={50}>
       <FormHeader />
@@ -45,7 +65,8 @@ export function SignUpForm() {
         p={30}
         mt={30}
         radius="md"
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
+        onSubmit={form.onSubmit(handleSubmit)}
       >
         <Stack style={{ flexDirection: "column" }}>
           <Title
@@ -67,13 +88,14 @@ export function SignUpForm() {
           />
           <TextInput
             label="Email"
+            type="email"
             placeholder="seu@email.com"
             required
             {...form.getInputProps("email")}
           />
           <PasswordInput
             label="Senha"
-            placeholder="Sua senha"
+            placeholder="6 digitos no minimo"
             required
             {...form.getInputProps("password1")}
           />
