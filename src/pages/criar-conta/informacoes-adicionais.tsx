@@ -7,7 +7,7 @@ export default function MoreInformationPage() {
   return (
     <>
       <Head>
-        <title>Informações Adicionais</title>
+        <title>Criar Conta - Informações Adicionais</title>
       </Head>
       <Center sx={{ minHeight: "100vh" }}>
         <Box style={{ width: "90%", maxWidth: 500 }}>
