@@ -4,7 +4,7 @@ import Header from "../components/Header";
 
 export default function IndexPage() {
   return (
-    <Center sx={{ height: "100vh" }}>
+    <Center sx={{ minHeight: "100vh" }}>
       <Header />
       <Footer />
     </Center>

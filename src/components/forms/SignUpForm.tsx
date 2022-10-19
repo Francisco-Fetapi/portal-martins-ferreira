@@ -41,6 +41,9 @@ export function SignUpForm() {
       birthday(value) {
         return validate.birthday(value);
       },
+      email(value) {
+        return validate.email(value);
+      },
     },
   });
 
@@ -81,7 +84,6 @@ export function SignUpForm() {
           />
           <TextInput
             label="Email"
-            type="email"
             placeholder="seu@email.com"
             required
             {...form.getInputProps("email")}

@@ -1,5 +1,9 @@
 import { IUser } from "../interfaces/IUser";
 
+const message = {
+  required: "Este campo não pode estar vazio",
+};
+
 export default function useValidateFunctions() {
   return {
     name($value: string) {
@@ -21,6 +25,12 @@ export default function useValidateFunctions() {
       const age = currentDate.getFullYear() - date.getFullYear();
       if (age < 14) {
         return "Deves ter uma idade superior à 13 anos para aderir ao sistema.";
+      }
+    },
+    email(value: string) {
+      if (!value) return message.required;
+      if (!value.includes("@")) {
+        return "Email inválido";
       }
     },
   };
