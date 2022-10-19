@@ -33,5 +33,8 @@ export default function useValidateFunctions() {
         return "Email inválido";
       }
     },
+    code(value: string) {
+      return "Codigo inválido";
+    },
   };
 }
