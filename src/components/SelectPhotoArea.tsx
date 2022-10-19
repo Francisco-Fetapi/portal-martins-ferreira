@@ -56,7 +56,7 @@ export default function SelectPhotoArea() {
           </Button>
         </Center>
         <Center>
-          <Button>Concluir</Button>
+          <Button color="green">Concluir</Button>
         </Center>
       </Stack>
     </Center>
