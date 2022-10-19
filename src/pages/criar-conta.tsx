@@ -9,7 +9,7 @@ export default function SignUpPage() {
       <Head>
         <title>Criar conta</title>
       </Head>
-      <Center sx={{ height: "100vh" }}>
+      <Center sx={{ minHeight: "100vh" }}>
         <Box style={{ width: "90%", maxWidth: 500 }}>
           <SignUpForm />
         </Box>

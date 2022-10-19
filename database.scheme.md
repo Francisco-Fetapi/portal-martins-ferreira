@@ -5,6 +5,9 @@ name
 email
 password
 birthday
+
+---
+
 photo
 is_student!
 phone_number!
