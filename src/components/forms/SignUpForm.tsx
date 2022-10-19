@@ -15,10 +15,11 @@ import {
 
 import { useForm } from "@mantine/form";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
+import { IUser } from "./interfaces/IUser";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();
-  const form = useForm({
+  const form = useForm<IUser>({
     initialValues: {
       name: "",
       email: "",
@@ -35,17 +36,10 @@ export function SignUpForm() {
         return validate.password1(value);
       },
       password2(value, values) {
-        if (value !== values.password1)
-          return "Senha e confirmar senha não batem.";
+        return validate.password2(value, values);
       },
       birthday(value) {
-        const date = new Date(value);
-        const currentDate = new Date();
-        const age = currentDate.getFullYear() - date.getFullYear();
-        console.log(age);
-        if (age < 14) {
-          return "Deves ter uma idade superior à 13 anos para aderir ao sistema.";
-        }
+        return validate.birthday(value);
       },
     },
   });
