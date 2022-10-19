@@ -59,7 +59,6 @@ export function SignUpForm() {
         p={30}
         mt={30}
         radius="md"
-        // onSubmit={handleSubmit}
         onSubmit={form.onSubmit(handleSubmit)}
       >
         <Stack style={{ flexDirection: "column" }}>
