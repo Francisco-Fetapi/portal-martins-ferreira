@@ -1,3 +1,5 @@
+export type IGenre = "m" | "f";
+
 export interface IUser {
   name: string;
   email: string;
@@ -5,6 +7,7 @@ export interface IUser {
   password2: string;
   birthday: string;
   isStudent: boolean;
+  genre: IGenre;
 
   photo?: string;
   phoneNumber?: string;

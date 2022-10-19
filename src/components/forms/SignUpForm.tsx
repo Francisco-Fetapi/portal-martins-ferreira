@@ -17,6 +17,7 @@ import { useForm } from "@mantine/form";
 import Link from "next/link";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { IUser } from "../../interfaces/IUser";
+import { InputGenre } from "../InputGenre";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();
@@ -28,6 +29,7 @@ export function SignUpForm() {
       password2: "",
       birthday: "",
       isStudent: false,
+      genre: "m",
     },
     validate: {
       name($value) {
@@ -108,11 +110,18 @@ export function SignUpForm() {
             required
             {...form.getInputProps("birthday")}
           />
+          <Text variant="text" size="md">
+            Genero
+          </Text>
+          <InputGenre
+            genre={form.values.genre}
+            setGenre={(value) => form.setFieldValue("genre", value)}
+          />
           <Group position="apart">
             <Checkbox
               label={
                 <p>
-                  Sou um aluno do <b>Obadias Malaquias</b>
+                  Sou um/a aluno/a do <b>Obadias Malaquias</b>
                 </p>
               }
               {...form.getInputProps("isStudent")}
