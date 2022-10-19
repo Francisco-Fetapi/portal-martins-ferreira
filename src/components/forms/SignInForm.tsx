@@ -1,7 +1,6 @@
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
@@ -14,33 +13,19 @@ import {
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
-import Link from "next/link";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
-import { IUser } from "../../interfaces/IUser";
+import Link from "next/link";
 
-export function SignUpForm() {
+export function SignInForm() {
   const validate = useValidateFunctions();
-  const form = useForm<IUser>({
+  const form = useForm({
     initialValues: {
-      name: "",
       email: "",
       password1: "",
-      password2: "",
-      birthday: "",
-      isStudent: false,
     },
     validate: {
-      name($value) {
-        return validate.name($value);
-      },
       password1(value) {
         return validate.password1(value);
-      },
-      password2(value, values) {
-        return validate.password2(value, values);
-      },
-      birthday(value) {
-        return validate.birthday(value);
       },
       email(value) {
         return validate.email(value);
@@ -74,15 +59,9 @@ export function SignUpForm() {
             })}
             mb="md"
           >
-            CRIAR CONTA
+            INICIAR SESSÃO
           </Title>
-          <TextInput
-            label="Nome"
-            placeholder="Nome e sobrenome"
-            required
-            {...form.getInputProps("name")}
-            // width="100%"
-          />
+
           <TextInput
             label="Email"
             placeholder="seu@email.com"
@@ -95,30 +74,13 @@ export function SignUpForm() {
             required
             {...form.getInputProps("password1")}
           />
-          <PasswordInput
-            label="Confirmar senha"
-            placeholder="Confirme sua senha"
-            required
-            {...form.getInputProps("password2")}
-          />
-          <TextInput
-            type="date"
-            label="Data de nascimento"
-            placeholder="DD/MM/AAAA"
-            required
-            {...form.getInputProps("birthday")}
-          />
           <Group position="apart">
-            <Checkbox
-              label="Sou um aluno"
-              {...form.getInputProps("isStudent")}
-            />
             <Link href="/esqueci-minha-senha">
               <Anchor<"a"> size="sm">Esqueceste sua senha?</Anchor>
             </Link>
           </Group>
           <Center>
-            <Button type="submit">Criar conta</Button>
+            <Button type="submit">Iniciar sessão</Button>
           </Center>
         </Stack>
       </Paper>
@@ -135,12 +97,12 @@ function FormHeader() {
           fontWeight: 900,
         })}
       >
-        Seja Bem-vindo!
+        Bem-vindo de Volta!
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Você já tem uma conta?{" "}
-        <Link href="/iniciar-sessao">
-          <Anchor<"a"> size="sm">Iniciar sessão</Anchor>
+        Ainda não tens uma conta?{" "}
+        <Link href="/criar-conta">
+          <Anchor<"a"> size="sm">Criar conta</Anchor>
         </Link>
       </Text>
     </Box>

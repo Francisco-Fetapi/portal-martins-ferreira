@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconArrowLeft } from "@tabler/icons";
+import Link from "next/link";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 
 const useStyles = createStyles((theme) => ({
@@ -80,17 +81,14 @@ export function ConfirmEmailForm() {
           required
         />
         <Group position="apart" mt="lg" className={classes.controls}>
-          <Anchor<"a">
-            href="/criar-conta"
-            color="dimmed"
-            size="sm"
-            className={classes.control}
-          >
-            <Center inline>
-              <IconArrowLeft size={12} stroke={1.5} />
-              <Box ml={5}>Criar conta</Box>
-            </Center>
-          </Anchor>
+          <Link href="/criar-conta">
+            <Anchor<"a"> color="dimmed" size="sm" className={classes.control}>
+              <Center inline>
+                <IconArrowLeft size={12} stroke={1.5} />
+                <Box ml={5}>Criar conta</Box>
+              </Center>
+            </Anchor>
+          </Link>
           <Button type="submit" className={classes.control}>
             Confirmar email
           </Button>
