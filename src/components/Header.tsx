@@ -5,7 +5,6 @@ import {
   Text,
   Center,
 } from "@mantine/core";
-import useTranslation from "next-translate/useTranslation";
 
 export default function Header() {
   const { toggleColorScheme } = useMantineColorScheme();
