@@ -113,7 +113,6 @@ export function SignUpForm() {
           <Stack
             align="center"
             sx={{
-              zoom: 0.85,
               flexDirection: "column",
               // flexDirection: "row",
               // justifyContent: "space-between",
@@ -122,10 +121,12 @@ export function SignUpForm() {
             <Text variant="text" size="md">
               Gênero
             </Text>
-            <InputGenre
-              genre={form.values.genre}
-              setGenre={(value) => form.setFieldValue("genre", value)}
-            />
+            <Box mt={-10} sx={{ zoom: 0.85 }}>
+              <InputGenre
+                genre={form.values.genre}
+                setGenre={(value) => form.setFieldValue("genre", value)}
+              />
+            </Box>
           </Stack>
           <Group position="apart">
             <Checkbox
