@@ -9,7 +9,6 @@ import useTranslation from "next-translate/useTranslation";
 
 export default function Header() {
   const { toggleColorScheme } = useMantineColorScheme();
-  const { t } = useTranslation("common");
 
   return (
     <Center
@@ -21,7 +20,7 @@ export default function Header() {
         <Text size={24}>NextJs + Mantine Boilerplate</Text>
       </Box>
       <Button size="xl" onClick={() => toggleColorScheme()}>
-        {t("change_theme")}
+        Mudar tema
       </Button>
     </Center>
   );

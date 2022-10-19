@@ -4,9 +4,6 @@ import store from "./App.store";
 import { resetAllState } from "../store/App.store";
 import { ColorSchemeProvider } from "@mantine/core";
 
-import I18nProvider from "next-translate/I18nProvider";
-import common from "../../locales/en/common.json";
-
 interface AppSetupProps {
   children: ReactNode;
 }
@@ -14,13 +11,11 @@ interface AppSetupProps {
 // for testing
 export function AppProvider({ children }: AppSetupProps) {
   return (
-    <I18nProvider lang="en" namespaces={{ common }}>
-      <Provider store={store}>
-        <ColorSchemeProvider colorScheme="dark" toggleColorScheme={() => null}>
-          <ComponentWrapper>{children}</ComponentWrapper>
-        </ColorSchemeProvider>
-      </Provider>
-    </I18nProvider>
+    <Provider store={store}>
+      <ColorSchemeProvider colorScheme="dark" toggleColorScheme={() => null}>
+        <ComponentWrapper>{children}</ComponentWrapper>
+      </ColorSchemeProvider>
+    </Provider>
   );
 }
 
