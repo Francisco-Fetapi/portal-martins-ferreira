@@ -16,7 +16,12 @@ export default function Header() {
       }}
     >
       <Box mb={14}>
-        <Text size={24}>NextJs + Mantine Boilerplate</Text>
+        <Text align="center" size={24}>
+          Portal Obadias Malaquias - Pagina principal
+        </Text>
+        <Text align="center" size="sm">
+          Aqui ficará a página principal
+        </Text>
       </Box>
       <Button size="xl" onClick={() => toggleColorScheme()}>
         Mudar tema

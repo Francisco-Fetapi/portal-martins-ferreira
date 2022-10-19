@@ -1,4 +1,4 @@
-import { Box, Center } from "@mantine/core";
+import { Box, Center, Anchor } from "@mantine/core";
 import Link from "next/link";
 
 export default function Footer() {
@@ -6,19 +6,25 @@ export default function Footer() {
     <Box
       sx={{
         position: "absolute",
-        bottom: 0,
+        bottom: 10,
         left: 0,
         right: 0,
       }}
       component="footer"
     >
-      <Center px={2} mb={2}>
+      <Center px={2} mb={2} style={{ listStyle: "none" }}>
         <li>
-          <Link href="/criar-conta">Criar conta</Link>
+          <Link href="/criar-conta">
+            <Anchor>Criar conta</Anchor>
+          </Link>
         </li>
-        <li>
-          <Link href="/login">Login</Link>
-        </li>
+        <Box ml={10}>
+          <li>
+            <Link href="/login">
+              <Anchor>Login</Anchor>
+            </Link>
+          </li>
+        </Box>
       </Center>
     </Box>
   );

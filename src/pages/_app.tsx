@@ -20,11 +20,15 @@ export default function App(props: AppProps) {
   return (
     <>
       <Head>
-        <title>Page title</title>
+        <title>Portal Obadias Malaquias - Página Inicial</title>
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+        <meta
+          name="description"
+          content="Portal de noticias do colégio Obadias Malaquias, saiba tudo em primeiro mão."
         />
       </Head>
 
