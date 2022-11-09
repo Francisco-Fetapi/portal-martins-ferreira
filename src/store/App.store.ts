@@ -2,11 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../interfaces/IUser";
 import { reducers } from "./App.actions";
+import { parseCookies } from "nookies";
 
 export const THEME_KEY_IN_LOCALSTORAGE = "darkMode";
 export const SIGNUP_KEY_IN_LOCALSTORAGE = "signup-data";
-export const USER_DATA_KEY_IN_LOCALSTORAGE = "user";
-
+export const USER_COOKIE_KEY = "user";
 export interface IDarkMode {
   darkMode: boolean;
 }
@@ -18,13 +18,18 @@ export interface IUserLoggedData extends IUser {
 }
 export interface App extends IDarkMode {
   signupData: Partial<IUserFormSigninData>;
-  userLoggedData?: IUserLoggedData;
+  userLoggedData: IUserLoggedData;
 }
+
+const cookies = parseCookies();
+const userData = JSON.parse(
+  cookies[USER_COOKIE_KEY] || "{}"
+) as IUserLoggedData;
 
 export const initialState: App = {
   darkMode: false,
   signupData: {},
-  userLoggedData: undefined,
+  userLoggedData: userData,
 };
 
 export function sliceCreator(initialState: App) {

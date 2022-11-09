@@ -12,8 +12,10 @@ import {
   IUserFormSigninData,
   SIGNUP_KEY_IN_LOCALSTORAGE,
   IUserLoggedData,
-  USER_DATA_KEY_IN_LOCALSTORAGE,
+  USER_COOKIE_KEY,
 } from "./App.store";
+
+import { setCookie, destroyCookie } from "nookies";
 
 export const reducers: ValidateSliceCaseReducers<
   App,
@@ -42,20 +44,17 @@ export const reducers: ValidateSliceCaseReducers<
   setUserLoggedData(state, action: PayloadAction<IUserLoggedData>) {
     state.userLoggedData = action.payload;
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { save } = useStatePersist<IUserLoggedData>(
-      USER_DATA_KEY_IN_LOCALSTORAGE
-    );
     if (state.userLoggedData) {
-      save(state.userLoggedData);
+      setCookie(null, USER_COOKIE_KEY, JSON.stringify(state.userLoggedData), {
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
+      });
     }
   },
   logout(state) {
-    state.userLoggedData = undefined;
+    state.userLoggedData = {} as IUserLoggedData;
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { save } = useStatePersist<IUserLoggedData | undefined>(
-      USER_DATA_KEY_IN_LOCALSTORAGE
-    );
-    save(state.userLoggedData);
+    destroyCookie(null, USER_COOKIE_KEY);
   },
   resetAllState(state, action: PayloadAction<boolean>) {
     if (action.payload) {
