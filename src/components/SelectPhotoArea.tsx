@@ -10,6 +10,10 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { selectSignupData } from "../store/App.selectors";
+import { setUserLoggedData } from "../store/App.store";
 
 const DEFAULT_PHOTO = "/user.jpg";
 
@@ -18,6 +22,8 @@ export default function SelectPhotoArea() {
   const resetRef = useRef<() => void>(null);
   const router = useRouter();
   const [photoSrc, setPhotoSrc] = useState(DEFAULT_PHOTO);
+  const dispatch = useDispatch();
+  const signupData = useSelector(selectSignupData);
 
   const clearFile = () => {
     setFile(null);
@@ -26,7 +32,13 @@ export default function SelectPhotoArea() {
   function handleDone() {
     // await salvar foto no servidor
     // pegar o nome da foto
-    // dispacth(setLoggedUserData{...signupData,photo: photoURL})
+    dispatch(
+      setUserLoggedData({
+        ...signupData,
+        photo: "Foto de teste.jpg",
+      })
+    );
+
     router.push("/");
   }
   useEffect(() => {

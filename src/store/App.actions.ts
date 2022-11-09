@@ -11,6 +11,8 @@ import {
   App,
   IUserFormSigninData,
   SIGNUP_KEY_IN_LOCALSTORAGE,
+  IUserLoggedData,
+  USER_DATA_KEY_IN_LOCALSTORAGE,
 } from "./App.store";
 
 export const reducers: ValidateSliceCaseReducers<
@@ -29,11 +31,31 @@ export const reducers: ValidateSliceCaseReducers<
     const { save } = useStatePersist<boolean>(THEME_KEY_IN_LOCALSTORAGE);
     save(state.darkMode);
   },
-  setSignUpData(state, action: PayloadAction<IUserFormSigninData>) {
+  setSignUpData(state, action: PayloadAction<Partial<IUserFormSigninData>>) {
     Object.assign(state.signupData, action.payload);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { save } = useStatePersist<boolean>(SIGNUP_KEY_IN_LOCALSTORAGE);
-    save(state.darkMode);
+    const { save } = useStatePersist<Partial<IUserFormSigninData>>(
+      SIGNUP_KEY_IN_LOCALSTORAGE
+    );
+    save(state.signupData);
+  },
+  setUserLoggedData(state, action: PayloadAction<IUserLoggedData>) {
+    state.userLoggedData = action.payload;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { save } = useStatePersist<IUserLoggedData>(
+      USER_DATA_KEY_IN_LOCALSTORAGE
+    );
+    if (state.userLoggedData) {
+      save(state.userLoggedData);
+    }
+  },
+  logout(state) {
+    state.userLoggedData = undefined;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { save } = useStatePersist<IUserLoggedData | undefined>(
+      USER_DATA_KEY_IN_LOCALSTORAGE
+    );
+    save(state.userLoggedData);
   },
   resetAllState(state, action: PayloadAction<boolean>) {
     if (action.payload) {
