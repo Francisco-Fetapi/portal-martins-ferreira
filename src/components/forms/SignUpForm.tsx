@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { IUser } from "../../interfaces/IUser";
+import FormHeader from "../FormHeader";
 import { InputGenre } from "../InputGenre";
 
 export function SignUpForm() {
@@ -59,7 +60,12 @@ export function SignUpForm() {
 
   return (
     <Stack my={50}>
-      <FormHeader />
+      <FormHeader title="Seja Bem-vindo!">
+        Você já tem uma conta?{" "}
+        <Link href="/iniciar-sessao">
+          <Anchor<"a"> size="sm">Iniciar sessão</Anchor>
+        </Link>
+      </FormHeader>
       <Paper
         component="form"
         autoComplete="off"
@@ -150,26 +156,5 @@ export function SignUpForm() {
         </Stack>
       </Paper>
     </Stack>
-  );
-}
-
-function FormHeader() {
-  return (
-    <Box>
-      <Title
-        align="center"
-        sx={() => ({
-          fontWeight: 900,
-        })}
-      >
-        Seja Bem-vindo!
-      </Title>
-      <Text color="dimmed" size="sm" align="center" mt={5}>
-        Você já tem uma conta?{" "}
-        <Link href="/iniciar-sessao">
-          <Anchor<"a"> size="sm">Iniciar sessão</Anchor>
-        </Link>
-      </Text>
-    </Box>
   );
 }

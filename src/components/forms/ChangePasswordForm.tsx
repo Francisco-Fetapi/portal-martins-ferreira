@@ -16,6 +16,7 @@ import { useForm } from "@mantine/form";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import FormHeader from "../FormHeader";
 
 export function ChangePasswordForm() {
   const validate = useValidateFunctions();
@@ -45,7 +46,12 @@ export function ChangePasswordForm() {
 
   return (
     <Stack my={50}>
-      <FormHeader />
+      <FormHeader title="Bem-vindo de Volta!">
+        Ainda não tens uma conta?{" "}
+        <Link href="/criar-conta">
+          <Anchor<"a"> size="sm">Criar conta</Anchor>
+        </Link>
+      </FormHeader>
       <Paper
         component="form"
         autoComplete="off"
@@ -72,7 +78,7 @@ export function ChangePasswordForm() {
             type={"text"}
             label="Código de confirmação"
             // placeholder="Código enviado para os "
-            about="Ola Mundo"
+            description="Insira o código que foi enviado para o seu email neste campo."
             required
             {...form.getInputProps("code")}
           />
@@ -94,26 +100,5 @@ export function ChangePasswordForm() {
         </Stack>
       </Paper>
     </Stack>
-  );
-}
-
-function FormHeader() {
-  return (
-    <Box>
-      <Title
-        align="center"
-        sx={() => ({
-          fontWeight: 900,
-        })}
-      >
-        Bem-vindo de Volta!
-      </Title>
-      <Text color="dimmed" size="sm" align="center" mt={5}>
-        Ainda não tens uma conta?{" "}
-        <Link href="/criar-conta">
-          <Anchor<"a"> size="sm">Criar conta</Anchor>
-        </Link>
-      </Text>
-    </Box>
   );
 }

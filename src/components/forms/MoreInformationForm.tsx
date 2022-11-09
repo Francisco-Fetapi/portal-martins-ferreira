@@ -15,6 +15,7 @@ import {
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
+import FormHeader from "../FormHeader";
 
 const courses = ["Curso1", "Curso2", "Curso3", "Curso4", "Curso5"];
 
@@ -47,7 +48,9 @@ export function MoreInformationForm() {
 
   return (
     <Stack my={50}>
-      <FormHeader />
+      <FormHeader title="Mais Sobre Você">
+        Adicione mais detalhes sobre o seu perfil para uma melhor experiência.
+      </FormHeader>
       <Paper
         component="form"
         autoComplete="off"
@@ -117,23 +120,5 @@ export function MoreInformationForm() {
         </Stack>
       </Paper>
     </Stack>
-  );
-}
-
-function FormHeader() {
-  return (
-    <Box>
-      <Title
-        align="center"
-        sx={() => ({
-          fontWeight: 900,
-        })}
-      >
-        Mais Sobre Você
-      </Title>
-      <Text color="dimmed" size="sm" align="center" mt={5}>
-        Adicione mais detalhes sobre o seu perfil para uma melhor experiência.
-      </Text>
-    </Box>
   );
 }

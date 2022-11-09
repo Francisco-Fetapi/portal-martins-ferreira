@@ -16,6 +16,7 @@ import { useForm } from "@mantine/form";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import FormHeader from "../FormHeader";
 
 export function SignInForm() {
   const validate = useValidateFunctions();
@@ -41,7 +42,12 @@ export function SignInForm() {
 
   return (
     <Stack my={50}>
-      <FormHeader />
+      <FormHeader title="Bem-vindo de Volta!">
+        Ainda não tens uma conta?{" "}
+        <Link href="/criar-conta">
+          <Anchor<"a"> size="sm">Criar conta</Anchor>
+        </Link>
+      </FormHeader>
       <Paper
         component="form"
         autoComplete="off"
@@ -87,26 +93,5 @@ export function SignInForm() {
         </Stack>
       </Paper>
     </Stack>
-  );
-}
-
-function FormHeader() {
-  return (
-    <Box>
-      <Title
-        align="center"
-        sx={() => ({
-          fontWeight: 900,
-        })}
-      >
-        Bem-vindo de Volta!
-      </Title>
-      <Text color="dimmed" size="sm" align="center" mt={5}>
-        Ainda não tens uma conta?{" "}
-        <Link href="/criar-conta">
-          <Anchor<"a"> size="sm">Criar conta</Anchor>
-        </Link>
-      </Text>
-    </Box>
   );
 }
