@@ -20,7 +20,7 @@ export default function Footer() {
         </li>
         <Box ml={10}>
           <li>
-            <Link href="/login">
+            <Link href="/iniciar-sessao">
               <Anchor>Login</Anchor>
             </Link>
           </li>
