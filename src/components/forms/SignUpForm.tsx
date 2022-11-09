@@ -16,13 +16,16 @@ import {
 import { useForm } from "@mantine/form";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { IUser } from "../../interfaces/IUser";
+import { setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
 import { InputGenre } from "../InputGenre";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();
+  const dispatch = useDispatch();
   const form = useForm<IUser>({
     initialValues: {
       name: "",
@@ -55,6 +58,12 @@ export function SignUpForm() {
 
   const handleSubmit = (values: typeof form.values) => {
     console.log(values);
+    dispatch(
+      setSignUpData({
+        ...values,
+        password: values.password1,
+      })
+    );
     router.push("/confirmar-email");
   };
 

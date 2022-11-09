@@ -24,16 +24,16 @@ export default function SelectPhotoArea() {
     resetRef.current?.();
   };
   function handleDone() {
+    // await salvar foto no servidor
+    // pegar o nome da foto
+    // dispacth(setLoggedUserData{...signupData,photo: photoURL})
     router.push("/");
   }
   useEffect(() => {
-    console.log(file);
-
     if (file) {
       const fr = new FileReader();
       fr.readAsDataURL(file);
       fr.onload = (e) => {
-        console.log(e.target?.result);
         setPhotoSrc(String(e.target?.result));
       };
     } else {

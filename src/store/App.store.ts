@@ -1,16 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { IUser } from "../interfaces/IUser";
 import { reducers } from "./App.actions";
 
 export const THEME_KEY_IN_LOCALSTORAGE = "darkMode";
+export const SIGNUP_KEY_IN_LOCALSTORAGE = "signup-data";
 
 export interface IDarkMode {
   darkMode: boolean;
 }
-export interface App extends IDarkMode {}
+export interface IUserFormSigninData extends IUser {
+  password: IUser["password1"];
+}
+export interface App extends IDarkMode {
+  signupData: Partial<IUserFormSigninData>;
+}
 
 export const initialState: App = {
   darkMode: false,
+  signupData: {},
 };
 
 export function sliceCreator(initialState: App) {
@@ -39,7 +47,8 @@ export const store = configureStore({
 
 export default store;
 
-export const { toggleTheme, resetAllState, setTheme } = app.actions;
+export const { toggleTheme, resetAllState, setSignUpData, setTheme } =
+  app.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

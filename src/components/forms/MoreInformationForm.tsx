@@ -14,13 +14,19 @@ import {
 
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
+import { selectSignupData } from "../../store/App.selectors";
+import { setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
 
 const courses = ["Curso1", "Curso2", "Curso3", "Curso4", "Curso5"];
 
 export function MoreInformationForm() {
   const validate = useValidateFunctions();
+  const formSigninData = useSelector(selectSignupData);
+  const dispatch = useDispatch();
   const form = useForm({
     initialValues: {
       myClass: "",
@@ -40,11 +46,14 @@ export function MoreInformationForm() {
   const router = useRouter();
   const handleSubmit = (values: typeof form.values) => {
     console.log(values);
-
+    dispatch(
+      setSignUpData({
+        ...formSigninData,
+        ...values,
+      })
+    );
     router.push("/criar-conta/foto-de-perfil");
   };
-
-  console.log(form.values.myGlade);
 
   return (
     <Stack my={50}>

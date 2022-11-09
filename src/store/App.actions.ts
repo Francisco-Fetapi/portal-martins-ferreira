@@ -5,7 +5,13 @@ import {
 } from "@reduxjs/toolkit";
 import useStatePersist from "../hooks/useStatePersist";
 import { stateReseted } from "./utils";
-import { initialState, THEME_KEY_IN_LOCALSTORAGE, App } from "./App.store";
+import {
+  initialState,
+  THEME_KEY_IN_LOCALSTORAGE,
+  App,
+  IUserFormSigninData,
+  SIGNUP_KEY_IN_LOCALSTORAGE,
+} from "./App.store";
 
 export const reducers: ValidateSliceCaseReducers<
   App,
@@ -21,6 +27,12 @@ export const reducers: ValidateSliceCaseReducers<
     state.darkMode = action.payload;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { save } = useStatePersist<boolean>(THEME_KEY_IN_LOCALSTORAGE);
+    save(state.darkMode);
+  },
+  setSignUpData(state, action: PayloadAction<IUserFormSigninData>) {
+    Object.assign(state.signupData, action.payload);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { save } = useStatePersist<boolean>(SIGNUP_KEY_IN_LOCALSTORAGE);
     save(state.darkMode);
   },
   resetAllState(state, action: PayloadAction<boolean>) {

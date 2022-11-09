@@ -15,7 +15,11 @@ import { useForm } from "@mantine/form";
 import { IconArrowLeft } from "@tabler/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
+import { selectSignupData } from "../../store/App.selectors";
+import { setSignUpData } from "../../store/App.store";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -40,6 +44,8 @@ const useStyles = createStyles((theme) => ({
 export function ConfirmEmailForm() {
   const { classes } = useStyles();
   const validate = useValidateFunctions();
+
+  const formSigninData = useSelector(selectSignupData);
   const form = useForm({
     initialValues: {
       code: "",
@@ -53,7 +59,12 @@ export function ConfirmEmailForm() {
   const router = useRouter();
   function handleSubmit(values: typeof form.values) {
     console.log(values);
-    router.push("/criar-conta/informacoes-adicionais");
+    console.log(formSigninData);
+    if (formSigninData.isStudent) {
+      router.push("/criar-conta/informacoes-adicionais");
+    } else {
+      router.push("/criar-conta/foto-de-perfil");
+    }
   }
 
   return (
