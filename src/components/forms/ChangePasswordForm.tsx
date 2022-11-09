@@ -46,7 +46,7 @@ export function ChangePasswordForm() {
 
   return (
     <Stack my={50}>
-      <FormHeader title="Bem-vindo de Volta!">
+      <FormHeader title="Redefinição da Senha">
         Ainda não tens uma conta?{" "}
         <Link href="/criar-conta">
           <Anchor<"a"> size="sm">Criar conta</Anchor>
@@ -71,7 +71,7 @@ export function ChangePasswordForm() {
             })}
             mb="md"
           >
-            REDEFINIR SENHA
+            ALTERAR SENHA
           </Title>
 
           <TextInput

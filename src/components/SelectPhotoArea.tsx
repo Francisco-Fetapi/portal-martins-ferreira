@@ -9,14 +9,15 @@ import {
 } from "@mantine/core";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+const DEFAULT_PHOTO = "/user.jpg";
 
 export default function SelectPhotoArea() {
   const [file, setFile] = useState<File | null>(null);
   const resetRef = useRef<() => void>(null);
   const router = useRouter();
-
-  console.log(file);
+  const [photoSrc, setPhotoSrc] = useState(DEFAULT_PHOTO);
 
   const clearFile = () => {
     setFile(null);
@@ -25,12 +26,26 @@ export default function SelectPhotoArea() {
   function handleDone() {
     router.push("/");
   }
+  useEffect(() => {
+    console.log(file);
+
+    if (file) {
+      const fr = new FileReader();
+      fr.readAsDataURL(file);
+      fr.onload = (e) => {
+        console.log(e.target?.result);
+        setPhotoSrc(String(e.target?.result));
+      };
+    } else {
+      setPhotoSrc(DEFAULT_PHOTO);
+    }
+  }, [file]);
   return (
     <Center p={5}>
       <Stack>
         <Container sx={{ height: 64 }}>
           <Image
-            src="/user.jpg"
+            src={photoSrc}
             width={64}
             height={64}
             style={{ borderRadius: "50%" }}
