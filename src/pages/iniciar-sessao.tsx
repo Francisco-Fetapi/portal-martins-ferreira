@@ -10,7 +10,7 @@ export default function SignInPage() {
         <title>Iniciar Sessão</title>
       </Head>
       <Center sx={{ minHeight: "100vh" }}>
-        <Box style={{ width: "90%", maxWidth: 500 }}>
+        <Box className="page-container">
           <SignInForm />
         </Box>
       </Center>

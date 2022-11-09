@@ -15,9 +15,17 @@ export default function useValidateFunctions() {
     password1(value: string) {
       if (value.length < 6) return "Senha demasiado curta.";
     },
-    password2(value: string, values: IUser) {
-      if (value !== values.password1)
-        return "Senha e confirmar senha não batem.";
+    password2(value: string, values: IUser | string) {
+      const message = "Senha e confirmar senha não batem.";
+      if (typeof values === "string") {
+        if (value !== values) {
+          return message;
+        }
+      } else {
+        if (value !== values.password1) {
+          return message;
+        }
+      }
     },
     birthday(value: string) {
       const date = new Date(value);

@@ -55,7 +55,7 @@ export function ForgotMyPasswordForm() {
   function handleSubmit(values: typeof form.values) {
     console.log(values);
     // ir para redefinir senha
-    router.push("/");
+    router.push("/alterar-senha");
   }
 
   return (

@@ -5,5 +5,8 @@ interface StylesProps {
 }
 
 export const GlobalStyles = createGlobalStyle<StylesProps>`
-    
+    .page-container{
+      width: 99%; 
+      max-width: 500px;
+    }
 `;

@@ -9,7 +9,7 @@ export default function EmailConfirmPage() {
         <title>Confirmar email</title>
       </Head>
       <Center sx={{ minHeight: "100vh" }}>
-        <Box style={{ width: "90%", maxWidth: 500 }}>
+        <Box className="page-container">
           <ConfirmEmailForm />
         </Box>
       </Center>

@@ -9,7 +9,7 @@ export default function ProfilePhotoPage() {
         <title>Criar Conta - Foto de Perfil</title>
       </Head>
       <Center sx={{ minHeight: "100vh" }}>
-        <Box style={{ width: "90%", maxWidth: 500 }}>
+        <Box className="page-container">
           <ProfilePhotoForm />
         </Box>
       </Center>
