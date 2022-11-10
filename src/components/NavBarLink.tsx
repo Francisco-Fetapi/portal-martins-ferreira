@@ -59,7 +59,7 @@ export default function NavBarLink({ Icon, label, link }: NavBarLinkProps) {
       className={classes.control}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <ThemeIcon variant="light" size={30}>
+        <ThemeIcon variant="light" size={30} color="red">
           <Icon size={18} />
         </ThemeIcon>
         <Box ml="md">{label}</Box>
