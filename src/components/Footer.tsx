@@ -29,9 +29,13 @@ export default function Footer() {
           {copyrights}
           <Group>
             <Breadcrumbs>
-              <FooterLink href="/">Politicas de Privacidade</FooterLink>
-              <FooterLink href="/">Termos e Condições</FooterLink>
-              <FooterLink href="/">Quem somos</FooterLink>
+              <FooterLink href="/politicas-de-privacidade">
+                Politicas de Privacidade
+              </FooterLink>
+              <FooterLink href="/termos-e-condicoes">
+                Termos e Condições
+              </FooterLink>
+              <FooterLink href="/quem-somos">Quem somos</FooterLink>
             </Breadcrumbs>
           </Group>
         </Group>

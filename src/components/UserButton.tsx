@@ -8,6 +8,7 @@ import {
   MediaQuery,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -43,23 +44,25 @@ export function UserButton({
 
   return (
     <UnstyledButton className={classes.user} {...others}>
-      <Group>
-        <Avatar src={image} radius="xl" />
+      <Link href="/perfil">
+        <Group>
+          <Avatar src={image} radius="xl" />
 
-        <div style={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
-            {name}
-          </Text>
+          <div style={{ flex: 1 }}>
+            <Text size="sm" weight={500}>
+              {name}
+            </Text>
 
-          <Text color="dimmed" size="xs">
-            {email}
-          </Text>
-        </div>
+            <Text color="dimmed" size="xs">
+              {email}
+            </Text>
+          </div>
 
-        <MediaQuery smallerThan="lg" styles={{ display: "none" }}>
-          {icon || <IconChevronRight size={14} stroke={1.5} />}
-        </MediaQuery>
-      </Group>
+          <MediaQuery smallerThan="lg" styles={{ display: "none" }}>
+            {icon || <IconChevronRight size={14} stroke={1.5} />}
+          </MediaQuery>
+        </Group>
+      </Link>
     </UnstyledButton>
   );
 }

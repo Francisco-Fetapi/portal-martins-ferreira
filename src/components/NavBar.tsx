@@ -37,8 +37,12 @@ export default function NavBar({ opened }: NavBarProps) {
           />
         </Stack>
         <NavBarLink Icon={IconHome} label="Página Inicial" link="/" />
-        <NavBarLink Icon={IconUser} label="Perfil" link="/" />
-        <NavBarLink Icon={IconNotes} label="Guardadas" link="/" />
+        <NavBarLink Icon={IconUser} label="Perfil" link="/perfil" />
+        <NavBarLink
+          Icon={IconNotes}
+          label="Guardadas"
+          link="/noticias-guardadas"
+        />
       </Navbar.Section>
       <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
         <Navbar.Section>
