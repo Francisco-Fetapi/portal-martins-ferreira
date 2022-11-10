@@ -23,7 +23,11 @@ interface NavBarProps {
 
 export default function NavBar({ opened }: NavBarProps) {
   return (
-    <Navbar hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }}>
+    <Navbar
+      hiddenBreakpoint="sm"
+      hidden={!opened}
+      width={{ lg: 300, base: 250 }}
+    >
       <Navbar.Section grow component={ScrollArea} p="md">
         {/* Os itens do menu */}
         <Stack>
