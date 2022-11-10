@@ -6,7 +6,13 @@ import {
   TextInput,
   Stack,
 } from "@mantine/core";
-import { IconHome, IconNotes, IconPaperBag, IconSearch, IconUser } from "@tabler/icons";
+import {
+  IconHome,
+  IconNotes,
+  IconPaperBag,
+  IconSearch,
+  IconUser,
+} from "@tabler/icons";
 import React from "react";
 import NavBarLink from "./NavBarLink";
 import { UserButton } from "./UserButton";
@@ -28,10 +34,10 @@ export default function NavBar({ opened }: NavBarProps) {
             rightSectionWidth={70}
             mb="sm"
           />
-          <NavBarLink Icon={IconHome} label="Página Inicial" link="/" />
-          <NavBarLink Icon={IconUser} label="Perfil" link="/" />
-          <NavBarLink Icon={IconNotes} label="Guardadas" link="/" />
         </Stack>
+        <NavBarLink Icon={IconHome} label="Página Inicial" link="/" />
+        <NavBarLink Icon={IconUser} label="Perfil" link="/" />
+        <NavBarLink Icon={IconNotes} label="Guardadas" link="/" />
       </Navbar.Section>
       <Navbar.Section>
         <Divider />

@@ -12,16 +12,15 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
     display: "block",
     width: "100%",
-    // padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
+    padding: `${theme.spacing.xs}px 9px`,
     color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
     fontSize: theme.fontSizes.sm,
 
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[7]
+          ? theme.colors.dark[8]
           : theme.colors.gray[0],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
     },
   },
   link: {
