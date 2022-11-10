@@ -1,5 +1,6 @@
-import { Box, Text } from "@mantine/core";
+import { Box, Text, UnstyledButton } from "@mantine/core";
 import React from "react";
+import useGlobalStyles from "../hooks/useGlobalStyles";
 
 interface FeaturedNewProps {
   title: React.ReactNode;
@@ -12,6 +13,7 @@ export default function FeaturedNew({
   children,
   time,
 }: FeaturedNewProps) {
+  const { classes } = useGlobalStyles();
   const words = children.trim().split(" ");
   const wordsToShow = 15;
   const isLarger = words.length > wordsToShow;
@@ -21,7 +23,7 @@ export default function FeaturedNew({
   }
 
   return (
-    <Box>
+    <UnstyledButton className={classes.buttonHovered} p="xs">
       <Text size="md" weight={700}>
         {title}
       </Text>
@@ -31,6 +33,6 @@ export default function FeaturedNew({
       <Text size="xs" color="dimmed" mt={-3} align="right">
         {time}
       </Text>
-    </Box>
+    </UnstyledButton>
   );
 }
