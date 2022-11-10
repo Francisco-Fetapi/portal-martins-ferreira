@@ -22,8 +22,8 @@ export default function AppScheme({ children }: AppSchemeProps) {
               : theme.colors.gray[0],
         },
       }}
-      navbarOffsetBreakpoint="sm"
-      asideOffsetBreakpoint="sm"
+      navbarOffsetBreakpoint="md"
+      asideOffsetBreakpoint="md"
       navbar={<NavBar opened={opened} />}
       aside={<Aside />}
       footer={<Footer />}

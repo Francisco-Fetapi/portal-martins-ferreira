@@ -5,6 +5,7 @@ import {
   Avatar,
   Text,
   createStyles,
+  MediaQuery,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons";
 
@@ -55,7 +56,9 @@ export function UserButton({
           </Text>
         </div>
 
-        {icon || <IconChevronRight size={14} stroke={1.5} />}
+        <MediaQuery smallerThan="lg" styles={{ display: "none" }}>
+          {icon || <IconChevronRight size={14} stroke={1.5} />}
+        </MediaQuery>
       </Group>
     </UnstyledButton>
   );

@@ -70,7 +70,7 @@ export default function Header({ opened, setOpened }: HeaderProps) {
               <IconMoonStars size={20} />
             )}
           </ActionIcon>
-          <ActionIcon className={classes.background}>
+          <ActionIcon className={classes.background} size="lg">
             <IconLogout />
           </ActionIcon>
         </Group>
