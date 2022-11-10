@@ -5,6 +5,7 @@ import {
   ScrollArea,
   TextInput,
   Stack,
+  MediaQuery,
 } from "@mantine/core";
 import {
   IconHome,
@@ -39,14 +40,16 @@ export default function NavBar({ opened }: NavBarProps) {
         <NavBarLink Icon={IconUser} label="Perfil" link="/" />
         <NavBarLink Icon={IconNotes} label="Guardadas" link="/" />
       </Navbar.Section>
-      <Navbar.Section>
-        <Divider />
-        <UserButton
-          name="Nome do usuario"
-          email="emaildousuario@gmail.com"
-          image="/user.jpg"
-        />
-      </Navbar.Section>
+      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+        <Navbar.Section>
+          <Divider />
+          <UserButton
+            name="Nome do usuario"
+            email="emaildousuario@gmail.com"
+            image="/user.jpg"
+          />
+        </Navbar.Section>
+      </MediaQuery>
     </Navbar>
   );
 }
