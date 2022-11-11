@@ -57,7 +57,7 @@ export default function Header({ opened, setOpened }: HeaderProps) {
           />
         </MediaQuery>
 
-        <Text>Logotipo da instituição</Text>
+        <Text>Logo Do Sistema</Text>
         <Group>
           <ActionIcon
             onClick={() => toggleColorScheme()}

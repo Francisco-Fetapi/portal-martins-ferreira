@@ -11,7 +11,7 @@ import FeaturedNew from "./FeaturedNew";
 export default function Aside() {
   return (
     <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-      <AsideMantine hiddenBreakpoint="md" width={{ lg: 300, sm: 250 }}>
+      <AsideMantine hiddenBreakpoint="md" width={{ lg: 350, sm: 270 }}>
         <Title order={3} mb={10} p="xs">
           Em Destaque
         </Title>
