@@ -50,9 +50,11 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
 
   return (
     <Card withBorder p="lg" radius="md" className={classes.card}>
-      <Card.Section mb="sm">
-        <Image src={post.image} alt={post.title} height={250} />
-      </Card.Section>
+      {post.image && (
+        <Card.Section mb="sm">
+          <Image src={post.image} alt={post.title} height={250} />
+        </Card.Section>
+      )}
 
       <Title order={4} className={classes.title} mt="xs">
         {post.title}
@@ -62,6 +64,7 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
           maxHeight={95}
           showLabel="Mostrar mais"
           hideLabel="Mostrar menos"
+          transitionDuration={0}
         >
           {post.content}
         </Spoiler>
@@ -72,7 +75,7 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
         <div>
           <Text weight={500}>{user.name}</Text>
           <Text size="xs" color="dimmed">
-            {post.created_at.toDateString()}
+            {post.created_at.toLocaleDateString()}
           </Text>
         </div>
       </Group>
