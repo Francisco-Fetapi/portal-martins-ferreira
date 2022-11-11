@@ -1,7 +1,6 @@
 import {
   MediaQuery,
   Aside as AsideMantine,
-  Text,
   Title,
   ScrollArea,
   Box,
@@ -22,6 +21,7 @@ export default function Aside() {
               <FeaturedNew
                 title={`Titulo da Noticia ${item + 1}`}
                 time={`há ${item + 2} horas`}
+                author={`Autor ${item + 1}`}
               >
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa
                 assumenda est libero facere eveniet, modi, dolore voluptatem vel
