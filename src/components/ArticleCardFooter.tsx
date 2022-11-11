@@ -1,5 +1,6 @@
 import {
   createStyles,
+  Tooltip,
   Card,
   Image,
   ActionIcon,
@@ -10,7 +11,15 @@ import {
   Badge,
   Spoiler,
 } from "@mantine/core";
-import { IconHeart, IconBookmark, IconShare } from "@tabler/icons";
+import {
+  IconHeart,
+  IconThumbDown,
+  IconBookmark,
+  IconMessage,
+  IconThumbUp,
+  TablerIcon,
+} from "@tabler/icons";
+import useGlobalStyles from "../hooks/useGlobalStyles";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -59,6 +68,20 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
       <Title order={4} className={classes.title} mt="xs">
         {post.title}
       </Title>
+      <Group spacing={10} my={3} mb={15}>
+        <Text color="dimmed" size="xs">
+          <Group spacing={1}>
+            <IconThumbUp size={18} />
+            <div>{post.likes} pessoas</div>
+          </Group>
+        </Text>
+        <Text color="dimmed" size="xs">
+          <Group spacing={1}>
+            <IconThumbDown size={18} />
+            <div>{post.disLikes} pessoas</div>
+          </Group>
+        </Text>
+      </Group>
       <Text>
         <Spoiler
           maxHeight={95}
@@ -83,25 +106,73 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
       <Card.Section className={classes.footer}>
         <Group position="apart">
           <Text size="xs" color="dimmed">
-            {post.comments} comentários
+            <Group spacing={1}>
+              <IconMessage />
+              <div>{post.comments} comentários</div>
+            </Group>
           </Text>
-          <Group spacing={0}>
-            <ActionIcon>
-              <IconHeart size={18} color={theme.colors.red[6]} stroke={1.5} />
-            </ActionIcon>
-            <ActionIcon>
-              <IconBookmark
-                size={18}
-                color={theme.colors.yellow[6]}
-                stroke={1.5}
-              />
-            </ActionIcon>
-            <ActionIcon>
-              <IconShare size={16} color={theme.colors.blue[6]} stroke={1.5} />
-            </ActionIcon>
+          <Group spacing={10}>
+            <PostIcon
+              icon={
+                <IconThumbUp
+                  size={18}
+                  color={theme.colors.blue[6]}
+                  stroke={1.5}
+                />
+              }
+              title="gostar"
+            />
+
+            <PostIcon
+              icon={
+                <IconThumbDown
+                  size={18}
+                  color={theme.colors.cyan[6]}
+                  stroke={1.5}
+                />
+              }
+              title="não gostar"
+            />
+            <PostIcon
+              icon={
+                <IconMessage
+                  size={18}
+                  color={theme.colors.green[6]}
+                  stroke={1.5}
+                />
+              }
+              title="comentar"
+            />
+            <PostIcon
+              icon={
+                <IconBookmark
+                  size={18}
+                  color={theme.colors.yellow[6]}
+                  stroke={1.5}
+                />
+              }
+              title="guardar"
+            />
           </Group>
         </Group>
       </Card.Section>
     </Card>
+  );
+}
+
+interface PostIconProps {
+  icon: React.ReactNode;
+  title: string;
+  onClick?: () => void;
+}
+
+function PostIcon({ icon, title, onClick }: PostIconProps) {
+  const { classes } = useGlobalStyles();
+  return (
+    <Tooltip label={title}>
+      <ActionIcon className={classes.background} onClick={onClick}>
+        {icon}
+      </ActionIcon>
+    </Tooltip>
   );
 }

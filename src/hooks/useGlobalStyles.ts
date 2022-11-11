@@ -14,6 +14,12 @@ const useStyles = createStyles((theme) => ({
           : theme.colors.gray[0],
     },
   },
+  background: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[1],
+  },
 }));
 
 export default function useGlobalStyles() {
