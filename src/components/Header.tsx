@@ -10,6 +10,7 @@ import {
   createStyles,
 } from "@mantine/core";
 import { IconSun, IconMoonStars, IconLogout } from "@tabler/icons";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 
 interface HeaderProps {
@@ -36,6 +37,11 @@ export default function Header({ opened, setOpened }: HeaderProps) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const router = useRouter();
+
+  function logout() {
+    router.push("/iniciar-sessao");
+  }
 
   return (
     <HeaderMantine height={70} p="md">
@@ -70,7 +76,7 @@ export default function Header({ opened, setOpened }: HeaderProps) {
               <IconMoonStars size={20} />
             )}
           </ActionIcon>
-          <ActionIcon className={classes.background} size="lg">
+          <ActionIcon className={classes.background} size="lg" onClick={logout}>
             <IconLogout />
           </ActionIcon>
         </Group>
