@@ -1,5 +1,6 @@
 import { Box, Text, UnstyledButton } from "@mantine/core";
 import React from "react";
+import getShortText from "../helpers/getShortText";
 import useGlobalStyles from "../hooks/useGlobalStyles";
 
 interface FeaturedNewProps {
@@ -16,13 +17,7 @@ export default function FeaturedNew({
   author,
 }: FeaturedNewProps) {
   const { classes } = useGlobalStyles();
-  const words = children.trim().split(" ");
-  const wordsToShow = 15;
-  const isLarger = words.length > wordsToShow;
-  let content = words.slice(0, wordsToShow).join(" ");
-  if (isLarger) {
-    content += "...";
-  }
+  const content = getShortText(children, 15);
 
   return (
     <UnstyledButton className={classes.buttonHovered} p="xs">
