@@ -17,7 +17,8 @@ import {
   IconBookmark,
   IconMessage,
   IconThumbUp,
-  TablerIcon,
+  IconTrash,
+  IconEdit,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
 import dateDistance from "../helpers/dateDistance";
@@ -51,6 +52,7 @@ interface ArticleCardFooterProps {
     comments: number;
     likes: number;
     disLikes: number;
+    isMine: boolean;
   };
   user: {
     name: string;
@@ -158,6 +160,30 @@ export function ArticleCardFooter({
                 title="comentar"
                 onClick={() => router.push("/noticia/" + post.id)}
               />
+            )}
+            {post.isMine && (
+              <>
+                <PostIcon
+                  icon={
+                    <IconEdit
+                      size={18}
+                      color={theme.colors.gray[6]}
+                      stroke={1.5}
+                    />
+                  }
+                  title="editar"
+                />
+                <PostIcon
+                  icon={
+                    <IconTrash
+                      size={18}
+                      color={theme.colors.red[6]}
+                      stroke={1.5}
+                    />
+                  }
+                  title="apagar"
+                />
+              </>
             )}
             <PostIcon
               icon={

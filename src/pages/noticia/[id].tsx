@@ -24,6 +24,7 @@ export default function Noticia() {
             disLikes: 2 * postId,
             likes: 1 * postId,
             image: postId === 4 ? undefined : `/img/image${postId}.jpg`,
+            isMine: postId % 2 === 0,
           }}
           user={{
             image: postId === 4 ? "/user.jpg" : `/user${postId}.jpg`,

@@ -13,6 +13,7 @@ const useStyles = createStyles((theme) => ({
   body: {
     paddingLeft: 54,
     paddingTop: theme.spacing.xs,
+    marginBottom: 10,
   },
 }));
 

@@ -18,6 +18,7 @@ export default function ArticlesList() {
               disLikes: 2 * item,
               likes: 1 * item,
               image: item === 4 ? undefined : `/img/image${item}.jpg`,
+              isMine: item % 2 === 0,
             }}
             user={{
               image: item === 4 ? "/user.jpg" : `/user${item}.jpg`,
