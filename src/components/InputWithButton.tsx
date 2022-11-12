@@ -23,7 +23,7 @@ export function InputWithButton({ onClick, ...props }: InputWithButtonProps) {
           onClick={onClick}
           size={32}
           radius="xl"
-          color={theme.primaryColor}
+          //   color={theme.primaryColor}
           variant="filled"
         >
           {theme.dir === "ltr" ? (

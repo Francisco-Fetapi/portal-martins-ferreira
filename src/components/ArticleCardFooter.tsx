@@ -146,17 +146,19 @@ export function ArticleCardFooter({
               }
               title="não gostar"
             />
-            <PostIcon
-              icon={
-                <IconMessage
-                  size={18}
-                  color={theme.colors.green[6]}
-                  stroke={1.5}
-                />
-              }
-              title="comentar"
-              onClick={() => router.push("/noticia/" + post.id)}
-            />
+            {!long && (
+              <PostIcon
+                icon={
+                  <IconMessage
+                    size={18}
+                    color={theme.colors.green[6]}
+                    stroke={1.5}
+                  />
+                }
+                title="comentar"
+                onClick={() => router.push("/noticia/" + post.id)}
+              />
+            )}
             <PostIcon
               icon={
                 <IconBookmark

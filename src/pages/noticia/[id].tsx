@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import AppScheme from "../../components/AppScheme";
 import { ArticleCardFooter } from "../../components/ArticleCardFooter";
+import { CommentSimple } from "../../components/CommentSimple";
 import { InputWithButton } from "../../components/InputWithButton";
 
 export default function Noticia() {
@@ -30,7 +31,29 @@ export default function Noticia() {
           }}
         />
       </Box>
-      <InputWithButton onClick={() => console.log("Ola Mundo")} placeholder="Escreva um comentário"/>
+      <InputWithButton
+        onClick={() => console.log("Ola Mundo")}
+        placeholder="Escreva um comentário"
+      />
+      <Box mt={30}>
+        {[1, 2, 3, 4, 5, 6].map((item) => (
+          <Box key={item} mb={30}>
+            <CommentSimple
+              key={item}
+              liked={item % 2 === 0}
+              disliked={item % 2 !== 0}
+              likes={item * 2}
+              dislikes={item}
+              author={{
+                image: item > 3 ? "/user.jpg" : `/user${item}.jpg`,
+                name: `Nome do Usuario ${item}`,
+              }}
+              body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit mollitia, repudiandae libero, voluptatum nostrum provident magni at quisquam dolor fuga ad assumenda ut rerum excepturi animi aspernatur aut alias doloremque!"
+              created_at={new Date(2022, 11, item)}
+            />
+          </Box>
+        ))}
+      </Box>
     </AppScheme>
   );
 }
