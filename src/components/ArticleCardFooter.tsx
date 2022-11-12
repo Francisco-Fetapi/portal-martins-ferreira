@@ -19,6 +19,7 @@ import {
   IconThumbUp,
   TablerIcon,
 } from "@tabler/icons";
+import dateDistance from "../helpers/dateDistance";
 import useGlobalStyles from "../hooks/useGlobalStyles";
 
 const useStyles = createStyles((theme) => ({
@@ -98,7 +99,7 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
         <div>
           <Text weight={500}>{user.name}</Text>
           <Text size="xs" color="dimmed">
-            {post.created_at.toLocaleDateString()}
+            {dateDistance(post.created_at)}
           </Text>
         </div>
       </Group>
