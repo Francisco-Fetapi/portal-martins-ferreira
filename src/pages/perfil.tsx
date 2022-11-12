@@ -1,5 +1,7 @@
 import AppScheme from "../components/AppScheme";
 import { UserInfo } from "../components/UserInfo";
+import { Box } from "@mantine/core";
+import PostArea from "../components/PostArea";
 
 export default function IndexPage() {
   return (
@@ -17,6 +19,9 @@ export default function IndexPage() {
           myClass: "Turma 2",
         }}
       />
+      <Box mt={30}>
+        <PostArea />
+      </Box>
     </AppScheme>
   );
 }
