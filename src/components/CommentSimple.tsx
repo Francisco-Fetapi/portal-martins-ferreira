@@ -67,11 +67,10 @@ export function CommentSimple({
             size="xs"
             variant="light"
             leftIcon={<IconThumbUp size={15} />}
-            // rightIcon={<>{likes}</>}
           >
             {likes}
           </Button>
-          {/* {liked ? "gostei" : "gostar"} */}
+
           <Button
             color={disliked ? "red" : "gray"}
             size="xs"
@@ -80,7 +79,6 @@ export function CommentSimple({
           >
             {dislikes}
           </Button>
-          {/* {disliked ? "não gostei" : "não gostar"} */}
         </Group>
       </div>
     </div>

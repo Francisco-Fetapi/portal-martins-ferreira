@@ -49,7 +49,7 @@ export default function Noticia() {
                 name: `Nome do Usuario ${item}`,
               }}
               body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit mollitia, repudiandae libero, voluptatum nostrum provident magni at quisquam dolor fuga ad assumenda ut rerum excepturi animi aspernatur aut alias doloremque!"
-              created_at={new Date(2022, 11, item)}
+              created_at={new Date(2022, 10, item)}
             />
           </Box>
         ))}
