@@ -17,7 +17,7 @@ export default function Aside() {
         </Title>
         <ScrollArea>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <Box key={item} mb={10}>
+            <Box key={item} mb={5}>
               <FeaturedNew
                 title={`Titulo da Noticia ${item + 1}`}
                 time={`há ${item + 2} horas`}

@@ -31,6 +31,9 @@ const useStyles = createStyles((theme) => ({
         ? theme.colors.yellow[4]
         : theme.colors.blue[6],
   },
+  alterIcon: {
+    color: theme.colors.cyan[6],
+  },
 }));
 
 export default function Header({ opened, setOpened }: HeaderProps) {
@@ -76,8 +79,12 @@ export default function Header({ opened, setOpened }: HeaderProps) {
               <IconMoonStars size={20} />
             )}
           </ActionIcon>
-          <ActionIcon className={classes.background} size="lg" onClick={logout}>
-            <IconLogout />
+          <ActionIcon
+            className={`${classes.background} ${classes.alterIcon}`}
+            size="lg"
+            onClick={logout}
+          >
+            <IconLogout size={20} />
           </ActionIcon>
         </Group>
       </div>

@@ -21,7 +21,7 @@ export default function FeaturedNew({
 
   return (
     <UnstyledButton className={classes.buttonHovered} p="xs">
-      <Text size="md" weight={700} color="blue">
+      <Text size="md" weight={700} color="cyan">
         {title}
       </Text>
       <Text size="xs" color="dimmed" mt={-1}>

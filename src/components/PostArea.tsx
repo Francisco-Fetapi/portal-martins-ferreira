@@ -1,5 +1,4 @@
-import { Anchor, Title, Box, Textarea, Center, Button } from "@mantine/core";
-import ArticlesList from "./ArticlesList";
+import { Anchor, Textarea, Center, Button } from "@mantine/core";
 
 export default function PostArea() {
   return (
@@ -23,14 +22,6 @@ export default function PostArea() {
       <Center mt={1}>
         <Button>Publicar</Button>
       </Center>
-
-      <Box mt={30}>
-        <Title order={2}>Publicados por mim</Title>
-      </Box>
-
-      <Box mt={30}>
-        <ArticlesList />
-      </Box>
     </div>
   );
 }

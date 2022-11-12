@@ -7,7 +7,7 @@ export default function IndexPage() {
     <AppScheme>
       <Box mb={30}>
         <Title order={1}>Noticias</Title>
-        <Text size="sm" color="dimmed">
+        <Text size="sm" color="dimmed" mt={5}>
           Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira mão.
         </Text>
       </Box>
