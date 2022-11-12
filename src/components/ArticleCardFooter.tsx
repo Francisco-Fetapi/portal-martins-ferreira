@@ -19,6 +19,7 @@ import {
   IconThumbUp,
   TablerIcon,
 } from "@tabler/icons";
+import { useRouter } from "next/router";
 import dateDistance from "../helpers/dateDistance";
 import useGlobalStyles from "../hooks/useGlobalStyles";
 
@@ -41,6 +42,7 @@ const useStyles = createStyles((theme) => ({
 
 interface ArticleCardFooterProps {
   post: {
+    id: number;
     title: string;
     content: string;
     image?: string;
@@ -57,6 +59,7 @@ interface ArticleCardFooterProps {
 
 export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
   const { classes, theme } = useStyles();
+  const router = useRouter();
 
   return (
     <Card withBorder p="lg" radius="md" className={classes.card}>
@@ -143,6 +146,7 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
                 />
               }
               title="comentar"
+              onClick={() => router.push("/noticia/" + post.id)}
             />
             <PostIcon
               icon={

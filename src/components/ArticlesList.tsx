@@ -9,6 +9,7 @@ export default function ArticlesList() {
         <Box key={item} mb={30}>
           <ArticleCardFooter
             post={{
+              id: item,
               title: "Titulo da Noticia " + item,
               content:
                 "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex inventore exercitationem commodi ullam excepturi maiores aperiam accusamus, sint mollitia? Dolores voluptatibus quis neque? Quis amet quae, molestias doloremque beatae ab?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex inventore exercitationem commodi ullam excepturi maiores aperiam accusamus, sint mollitia? Dolores voluptatibus quis neque? Quis amet quae, molestias doloremque beatae ab?",
