@@ -1,4 +1,4 @@
-import { createStyles, Avatar, Text, Group } from "@mantine/core";
+import { createStyles, Avatar, Text, Group, Button } from "@mantine/core";
 import {
   IconPhoneCall,
   IconAt,
@@ -107,6 +107,21 @@ export function UserInfo({ user }: UserInfoIconsProps) {
           />
         </div>
       </Group>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Group mt={20}>
+          <Button size="xs" variant="light">
+            Editar Perfil
+          </Button>
+          <Button size="xs" variant="light">
+            Alterar Foto
+          </Button>
+        </Group>
+      </div>
     </div>
   );
 }
