@@ -41,6 +41,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface ArticleCardFooterProps {
+  long?: boolean;
   post: {
     id: number;
     title: string;
@@ -57,7 +58,11 @@ interface ArticleCardFooterProps {
   };
 }
 
-export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
+export function ArticleCardFooter({
+  user,
+  post,
+  long,
+}: ArticleCardFooterProps) {
   const { classes, theme } = useStyles();
   const router = useRouter();
 
@@ -86,15 +91,19 @@ export function ArticleCardFooter({ user, post }: ArticleCardFooterProps) {
           </Group>
         </Text>
       </Group>
-      <Text>
-        <Spoiler
-          maxHeight={95}
-          showLabel="Mostrar mais"
-          hideLabel="Mostrar menos"
-          transitionDuration={0}
-        >
-          {post.content}
-        </Spoiler>
+      <Text size="sm">
+        {!long ? (
+          <Spoiler
+            maxHeight={90}
+            showLabel="Mostrar mais"
+            hideLabel="Mostrar menos"
+            transitionDuration={0}
+          >
+            {post.content}
+          </Spoiler>
+        ) : (
+          <>{post.content}</>
+        )}
       </Text>
 
       <Group mt="lg">
