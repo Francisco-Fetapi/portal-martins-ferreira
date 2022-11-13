@@ -43,6 +43,7 @@ export default function Noticia() {
               key={item}
               liked={item % 2 === 0}
               disliked={item % 2 !== 0}
+              isMine={item % 2 !== 0}
               likes={item * 2}
               dislikes={item}
               author={{
