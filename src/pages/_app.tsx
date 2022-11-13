@@ -20,7 +20,7 @@ export default function App(props: AppProps) {
   return (
     <>
       <Head>
-        <title>Portal Obadias Malaquias - Página Inicial</title>
+        <title>Portal Obadias Malaquias</title>
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
