@@ -1,6 +1,7 @@
 import {
   createStyles,
   Text,
+  Anchor,
   Avatar,
   Group,
   Button,
@@ -12,6 +13,7 @@ import {
 import { IconEdit, IconTrash, IconThumbUp, IconThumbDown } from "@tabler/icons";
 import dateDistance from "../helpers/dateDistance";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   body: {
@@ -57,9 +59,9 @@ export function CommentSimple({
         <Group>
           <Avatar src={author.image} alt={author.name} radius="xl" />
           <div>
-            <Text variant="link" size="sm">
-              {author.name}
-            </Text>
+            <Link href="/perfil/2">
+              <Anchor size="sm">{author.name}</Anchor>
+            </Link>
             <Text size="xs" color="dimmed">
               {dateDistance(created_at)}
             </Text>

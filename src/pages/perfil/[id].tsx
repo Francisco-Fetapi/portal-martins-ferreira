@@ -4,7 +4,7 @@ import { Text, Box, Title } from "@mantine/core";
 import PostArea from "../../components/PostArea";
 import ArticlesList from "../../components/ArticlesList";
 
-export default function ProfilePage() {
+export default function ProfileUserPage() {
   return (
     <AppScheme>
       <UserInfo
@@ -19,21 +19,14 @@ export default function ProfilePage() {
           myGlade: 12,
           myClass: "Turma 2",
         }}
+        isMine={false}
       />
-      <Box
-        mt={30}
-        sx={{
-          maxWidth: 550,
-        }}
-      >
-        <PostArea />
-      </Box>
 
       <Box mt={30}>
-        <Title order={2}>Publicados por mim</Title>
+        <Title order={2}>Noticias</Title>
         <Text color="dimmed" size="xs" mt={5}>
-          Todas as noticias publicadas por você são exibidas nesta seção desde a
-          mais recente à mais antiga.
+          Todas as noticias publicadas por <b>Nome do Usuario</b> são exibidas
+          nesta seção desde a mais recente à mais antiga.
         </Text>
       </Box>
 

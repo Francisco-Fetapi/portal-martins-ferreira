@@ -23,9 +23,10 @@ const useStyles = createStyles((theme) => ({
 
 interface UserInfoIconsProps {
   user: Partial<IUser>;
+  isMine?: boolean;
 }
 
-export function UserInfo({ user }: UserInfoIconsProps) {
+export function UserInfo({ user, isMine }: UserInfoIconsProps) {
   const { classes } = useStyles();
 
   return (
@@ -124,23 +125,25 @@ export function UserInfo({ user }: UserInfoIconsProps) {
           </Group>
         </div>
       </Group>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Group mt={20}>
-          <Link href="/perfil/editar">
+      {isMine && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Group mt={20}>
+            <Link href="/perfil/editar">
+              <Button size="xs" variant="light">
+                Editar Perfil
+              </Button>
+            </Link>
             <Button size="xs" variant="light">
-              Editar Perfil
+              Alterar Foto
             </Button>
-          </Link>
-          <Button size="xs" variant="light">
-            Alterar Foto
-          </Button>
-        </Group>
-      </div>
+          </Group>
+        </div>
+      )}
     </div>
   );
 }
