@@ -1,6 +1,11 @@
 import { Anchor, Textarea, Center, Button } from "@mantine/core";
 
-export default function PostArea() {
+interface PostAreaProps {
+  buttonText?: string;
+}
+// 2 componentes estao usando. Agnostico ao lugar que requisitado
+// get the form returned by useForm
+export default function PostArea({ buttonText }: PostAreaProps) {
   return (
     <div>
       <Textarea
@@ -9,6 +14,7 @@ export default function PostArea() {
         autosize
         minRows={4}
         maxRows={9}
+        required
       />
       <div
         style={{
@@ -20,7 +26,7 @@ export default function PostArea() {
         <Anchor size="xs">Escolher foto</Anchor>
       </div>
       <Center mt={1}>
-        <Button>Publicar</Button>
+        <Button>{buttonText || "Publicar"}</Button>
       </Center>
     </div>
   );
