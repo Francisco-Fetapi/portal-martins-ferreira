@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppShell, useMantineTheme } from "@mantine/core";
+import { Box, AppShell, useMantineTheme } from "@mantine/core";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import Aside from "./Aside";
