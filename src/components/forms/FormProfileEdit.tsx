@@ -15,7 +15,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { IGenre } from "../../interfaces/IUser";
 import { selectUserData } from "../../store/App.selectors";
-import { InputGenre } from "../InputGenre";
 
 const genres = [
   { value: "m", label: "Masculino" },
