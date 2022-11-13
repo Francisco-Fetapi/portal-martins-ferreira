@@ -172,6 +172,7 @@ export function ArticleCardFooter({
                     />
                   }
                   title="editar"
+                  onClick={() => router.push("/noticia/editar/" + post.id)}
                 />
                 <PostIcon
                   icon={
