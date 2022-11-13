@@ -8,6 +8,7 @@ import {
   IconRating12Plus,
 } from "@tabler/icons";
 import { IUser } from "../interfaces/IUser";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -26,6 +27,7 @@ interface UserInfoIconsProps {
 
 export function UserInfo({ user }: UserInfoIconsProps) {
   const { classes } = useStyles();
+
   return (
     <div>
       <Group
@@ -129,9 +131,11 @@ export function UserInfo({ user }: UserInfoIconsProps) {
         }}
       >
         <Group mt={20}>
-          <Button size="xs" variant="light">
-            Editar Perfil
-          </Button>
+          <Link href="/perfil/editar">
+            <Button size="xs" variant="light">
+              Editar Perfil
+            </Button>
+          </Link>
           <Button size="xs" variant="light">
             Alterar Foto
           </Button>

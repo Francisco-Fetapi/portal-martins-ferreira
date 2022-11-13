@@ -1,8 +1,8 @@
-import AppScheme from "../components/AppScheme";
-import { UserInfo } from "../components/UserInfo";
+import AppScheme from "../../components/AppScheme";
+import { UserInfo } from "../../components/UserInfo";
 import { Text, Box, Title } from "@mantine/core";
-import PostArea from "../components/PostArea";
-import ArticlesList from "../components/ArticlesList";
+import PostArea from "../../components/PostArea";
+import ArticlesList from "../../components/ArticlesList";
 
 export default function IndexPage() {
   return (
