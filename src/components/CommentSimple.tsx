@@ -6,10 +6,12 @@ import {
   Button,
   UnstyledButton,
   Menu,
+  Textarea,
+  Center,
 } from "@mantine/core";
 import { IconEdit, IconTrash, IconThumbUp, IconThumbDown } from "@tabler/icons";
 import dateDistance from "../helpers/dateDistance";
-import { openConfirmModal } from "@mantine/modals";
+import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 
 const useStyles = createStyles((theme) => ({
   body: {
@@ -45,17 +47,6 @@ export function CommentSimple({
 }: CommentSimpleProps) {
   const { classes } = useStyles();
 
-  function handleDelete() {
-    openConfirmModal({
-      title: "Tem certeza",
-      children: "Você está prestes a apagar este comentário.",
-      labels: { confirm: "Confirmar", cancel: "Cancelar" },
-      onConfirm() {
-        console.log("Comentario apagado.");
-      },
-    });
-  }
-
   return (
     <div>
       <Group
@@ -76,7 +67,7 @@ export function CommentSimple({
         </Group>
         <div>
           {isMine && (
-            <MenuComment>
+            <MenuComment comment={body} id={2}>
               <UnstyledButton color="gray">...</UnstyledButton>
             </MenuComment>
           )}
@@ -117,17 +108,59 @@ export function CommentSimple({
 
 interface MenuCommentProps {
   children: React.ReactNode;
+  comment: string;
+  id: number;
 }
 
-function MenuComment({ children }: MenuCommentProps) {
+function MenuComment({ children, comment, id }: MenuCommentProps) {
+  function handleDelete() {
+    openConfirmModal({
+      title: "Tem certeza",
+      children: "Você está prestes a apagar este comentário.",
+      labels: { confirm: "Confirmar", cancel: "Cancelar" },
+      onConfirm() {
+        console.log("Comentario apagado.");
+      },
+    });
+  }
+
+  function handleEdit() {
+    openModal({
+      title: "Editar comentário",
+      children: (
+        <>
+          <Textarea
+            label="Comentário"
+            placeholder="Escreva um comentário"
+            autosize
+            minRows={4}
+            maxRows={7}
+            value={comment}
+          />
+          <Center>
+            <Button onClick={() => closeAllModals()} mt="md">
+              Concluido
+            </Button>
+          </Center>
+        </>
+      ),
+    });
+  }
+
   return (
     <Menu withArrow shadow="md" width={200}>
       <Menu.Target>{children}</Menu.Target>
       <Menu.Dropdown>
         <Menu.Label>Comentário</Menu.Label>
-        <Menu.Item icon={<IconEdit size={14} />}>Editar</Menu.Item>
+        <Menu.Item onClick={handleEdit} icon={<IconEdit size={14} />}>
+          Editar
+        </Menu.Item>
 
-        <Menu.Item color="red" icon={<IconTrash size={14} />}>
+        <Menu.Item
+          onClick={handleDelete}
+          color="red"
+          icon={<IconTrash size={14} />}
+        >
           Apagar
         </Menu.Item>
       </Menu.Dropdown>
