@@ -11,6 +11,7 @@ import {
   Badge,
   Spoiler,
 } from "@mantine/core";
+import { openConfirmModal } from "@mantine/modals";
 import {
   IconHeart,
   IconThumbDown,
@@ -67,6 +68,17 @@ export function ArticleCardFooter({
 }: ArticleCardFooterProps) {
   const { classes, theme } = useStyles();
   const router = useRouter();
+
+  function handleDelete() {
+    openConfirmModal({
+      title: "Tem certeza",
+      children: "Você está prestes a apagar esta noticia.",
+      labels: { confirm: "Confirmar", cancel: "Cancelar" },
+      onConfirm() {
+        console.log("Notica apagado.");
+      },
+    });
+  }
 
   return (
     <Card withBorder p="lg" radius="md" className={classes.card}>
@@ -183,6 +195,7 @@ export function ArticleCardFooter({
                     />
                   }
                   title="apagar"
+                  onClick={handleDelete}
                 />
               </>
             )}

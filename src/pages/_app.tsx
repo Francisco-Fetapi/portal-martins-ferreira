@@ -13,7 +13,6 @@ import {
 } from "../store/App.store";
 import { useEffect } from "react";
 import useStatePersist from "../hooks/useStatePersist";
-import { RouterTransition } from "../components/RouterTransition";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -35,7 +34,6 @@ export default function App(props: AppProps) {
 
       <AppStore>
         <ColorSchemeContainer>
-          <RouterTransition />
           <AppProvider Page={<Component {...pageProps} />} />
         </ColorSchemeContainer>
       </AppStore>

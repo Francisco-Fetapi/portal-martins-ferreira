@@ -1,14 +1,11 @@
 import {
-  Box,
   Button,
   Center,
   Checkbox,
   Group,
   Select,
   Stack,
-  Text,
   TextInput,
-  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import React from "react";
