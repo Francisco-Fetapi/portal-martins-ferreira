@@ -49,62 +49,77 @@ export function UserInfo({ user }: UserInfoIconsProps) {
             {user.name}
           </Text>
 
-          <UserGroupInfo
-            item1={{
-              icon: <IconAt stroke={1.5} size={16} className={classes.icon} />,
-              text: user.email,
+          <Group
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              columnGap: 10,
+              rowGap: 5,
             }}
-            item2={{
-              icon: (
-                <IconPhoneCall
-                  stroke={1.5}
-                  size={16}
-                  className={classes.icon}
-                />
-              ),
-              text: user.phoneNumber,
-            }}
-          />
-          <UserGroupInfo
-            item1={{
-              icon: (
-                <IconCalendar stroke={1.5} size={16} className={classes.icon} />
-              ),
-              text: user.birthday,
-            }}
-            item2={{
-              icon: (
-                <IconGenderMale
-                  stroke={1.5}
-                  size={16}
-                  className={classes.icon}
-                />
-              ),
-              text: user.genre === "m" ? "Masculino" : "Feminino",
-            }}
-          />
-          <UserGroupInfo
-            item1={{
-              icon: (
-                <IconDoorEnter
-                  stroke={1.5}
-                  size={16}
-                  className={classes.icon}
-                />
-              ),
-              text: user.myClass,
-            }}
-            item2={{
-              icon: (
-                <IconRating12Plus
-                  stroke={1.5}
-                  size={16}
-                  className={classes.icon}
-                />
-              ),
-              text: `${user.myGlade}ª classe`,
-            }}
-          />
+          >
+            <UserGroupInfo
+              item1={{
+                icon: (
+                  <IconAt stroke={1.5} size={16} className={classes.icon} />
+                ),
+                text: user.email,
+              }}
+              item2={{
+                icon: (
+                  <IconPhoneCall
+                    stroke={1.5}
+                    size={16}
+                    className={classes.icon}
+                  />
+                ),
+                text: user.phoneNumber,
+              }}
+            />
+            <UserGroupInfo
+              item1={{
+                icon: (
+                  <IconCalendar
+                    stroke={1.5}
+                    size={16}
+                    className={classes.icon}
+                  />
+                ),
+                text: user.birthday,
+              }}
+              item2={{
+                icon: (
+                  <IconGenderMale
+                    stroke={1.5}
+                    size={16}
+                    className={classes.icon}
+                  />
+                ),
+                text: user.genre === "m" ? "Masculino" : "Feminino",
+              }}
+            />
+            <UserGroupInfo
+              item1={{
+                icon: (
+                  <IconDoorEnter
+                    stroke={1.5}
+                    size={16}
+                    className={classes.icon}
+                  />
+                ),
+                text: user.myClass,
+              }}
+              item2={{
+                icon: (
+                  <IconRating12Plus
+                    stroke={1.5}
+                    size={16}
+                    className={classes.icon}
+                  />
+                ),
+                text: `${user.myGlade}ª classe`,
+              }}
+            />
+          </Group>
         </div>
       </Group>
       <div
@@ -137,12 +152,7 @@ interface UserGroupInfoProps {
 
 function UserGroupInfo({ item1, item2 }: UserGroupInfoProps) {
   return (
-    <Group
-      sx={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-      }}
-    >
+    <>
       <Group noWrap spacing={10} mt={3}>
         {item1.icon}
         {/*  */}
@@ -157,6 +167,6 @@ function UserGroupInfo({ item1, item2 }: UserGroupInfoProps) {
           {item2.text}
         </Text>
       </Group>
-    </Group>
+    </>
   );
 }
