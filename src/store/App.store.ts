@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../interfaces/IUser";
+import { IUser, IUserLogged } from "../interfaces/IUser";
 import { reducers } from "./App.actions";
 import { parseCookies } from "nookies";
 
@@ -13,18 +13,14 @@ export interface IDarkMode {
 export interface IUserFormSigninData extends IUser {
   password: IUser["password1"];
 }
-export interface IUserLoggedData extends IUser {
-  password: IUser["password1"];
-}
+
 export interface App extends IDarkMode {
   signupData: Partial<IUserFormSigninData>;
-  userLoggedData: IUserLoggedData;
+  userLoggedData: IUserLogged;
 }
 
 const cookies = parseCookies();
-const userData = JSON.parse(
-  cookies[USER_COOKIE_KEY] || "{}"
-) as IUserLoggedData;
+const userData = JSON.parse(cookies[USER_COOKIE_KEY] || "{}") as IUserLogged;
 
 export const initialState: App = {
   darkMode: false,

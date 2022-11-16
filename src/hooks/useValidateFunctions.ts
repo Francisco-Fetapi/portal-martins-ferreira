@@ -6,7 +6,7 @@ const message = {
 
 export default function useValidateFunctions() {
   return {
-    name($value: string) {
+    username($value: string) {
       const value = $value.trim();
       if (value.length < 10) return "Nome demasiado curto.";
       if (value.split(" ").length > 2)

@@ -1,7 +1,7 @@
 export type IGenre = "m" | "f";
 
 export interface IUser {
-  name: string;
+  username: string;
   email: string;
   password1: string;
   password2: string;
@@ -9,9 +9,16 @@ export interface IUser {
   isStudent: boolean;
   genre: IGenre;
 
-  photo?: string;
   phoneNumber?: number;
   myClass?: string;
   myCourse?: string;
   myGlade?: 10 | 11 | 12 | 13;
+}
+
+export interface IUserLogged extends IUser {
+  blocked: boolean;
+  confirmed: boolean;
+  photo_url: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

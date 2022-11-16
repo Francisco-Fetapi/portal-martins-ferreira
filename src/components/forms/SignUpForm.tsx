@@ -28,7 +28,7 @@ export function SignUpForm() {
   const dispatch = useDispatch();
   const form = useForm<IUser>({
     initialValues: {
-      name: "",
+      username: "",
       email: "",
       password1: "",
       password2: "",
@@ -37,8 +37,8 @@ export function SignUpForm() {
       genre: "m",
     },
     validate: {
-      name($value) {
-        return validate.name($value);
+      username($value) {
+        return validate.username($value);
       },
       password1(value) {
         return validate.password1(value);
@@ -100,7 +100,7 @@ export function SignUpForm() {
             label="Nome"
             placeholder="Nome e sobrenome"
             required
-            {...form.getInputProps("name")}
+            {...form.getInputProps("username")}
             // width="100%"
           />
           <TextInput
