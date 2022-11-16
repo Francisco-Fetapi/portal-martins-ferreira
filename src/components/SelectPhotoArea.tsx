@@ -60,9 +60,15 @@ export default function SelectPhotoArea() {
         const photoUploaded = data[0];
         allData.photo_url = photoUploaded.hash + photoUploaded.ext;
       }
-      let { data, ...rest } = await strapi.post("/users", allData);
-      console.log(data);
-      console.log(rest);
+      let { data, ...rest } = await strapi.post<IUserLogged>("/users", allData);
+      if (data.username) {
+        const res = await strapi.post("/auth/local", {
+          identifier: data.email,
+          password: data.password1,
+        });
+
+        console.log("data logged", res.data);
+      }
     } catch (e: any) {
       console.log(e);
       showNotification({
