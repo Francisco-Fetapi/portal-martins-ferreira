@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { ApiUploadDataResponse } from "../api/interfaces";
 import { PHOTO_URL_MAIN, strapi } from "../api/strapi";
+import usePhotoPreview from "../hooks/usePhotoPreview";
 import { IUserLogged } from "../interfaces/IUser";
 import { selectSignupData } from "../store/App.selectors";
 import { IUserFormSigninData, setUserLoggedData } from "../store/App.store";
@@ -22,20 +23,15 @@ import { IUserFormSigninData, setUserLoggedData } from "../store/App.store";
 const DEFAULT_PHOTO = "/user.jpg";
 
 export default function SelectPhotoArea() {
-  const [file, setFile] = useState<File | null>(null);
-  const resetRef = useRef<() => void>(null);
   const router = useRouter();
-  const [photoSrc, setPhotoSrc] = useState(DEFAULT_PHOTO);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const { clearFile, file, photoSrc, resetRef, setFile } =
+    usePhotoPreview(DEFAULT_PHOTO);
   const signupData = useSelector(
     selectSignupData
   ) as Required<IUserFormSigninData>;
 
-  const clearFile = () => {
-    setFile(null);
-    resetRef.current?.();
-  };
   async function handleDone() {
     // await salvar foto no servidor
     // pegar o nome da foto
@@ -60,7 +56,7 @@ export default function SelectPhotoArea() {
         const photoUploaded = data[0];
         allData.photo_url = photoUploaded.hash + photoUploaded.ext;
       }
-      let { data, ...rest } = await strapi.post<IUserLogged>("/users", allData);
+      let { data } = await strapi.post<IUserLogged>("/users", allData);
       if (data.username) {
         const res = await strapi.post("/auth/local", {
           identifier: data.email,
@@ -81,26 +77,8 @@ export default function SelectPhotoArea() {
       setLoading(false);
       console.log(allData);
     }
-
-    // dispatch(
-    //   setUserLoggedData({
-    //     ...signupData,
-    //     photo: null,
-    //   })
-    // );
-    // router.push("/");
   }
-  useEffect(() => {
-    if (file) {
-      const fr = new FileReader();
-      fr.readAsDataURL(file);
-      fr.onload = (e) => {
-        setPhotoSrc(String(e.target?.result));
-      };
-    } else {
-      setPhotoSrc(DEFAULT_PHOTO);
-    }
-  }, [file]);
+
   return (
     <Center p={5}>
       <Stack>
