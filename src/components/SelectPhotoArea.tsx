@@ -32,12 +32,21 @@ export default function SelectPhotoArea() {
   function handleDone() {
     // await salvar foto no servidor
     // pegar o nome da foto
-    dispatch(
-      setUserLoggedData({
-        ...signupData,
-        photo: "Foto de teste.jpg",
-      })
-    );
+    if (file) {
+      dispatch(
+        setUserLoggedData({
+          ...signupData,
+          photo: "Foto de teste.jpg",
+        })
+      );
+    } else {
+      dispatch(
+        setUserLoggedData({
+          ...signupData,
+          photo: null,
+        })
+      );
+    }
 
     router.push("/");
   }
