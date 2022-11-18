@@ -8,6 +8,7 @@ import { selectUserData } from "../../store/App.selectors";
 
 export default function ProfilePage() {
   const userLogged = useSelector(selectUserData);
+
   return (
     <AppScheme>
       <UserInfo user={userLogged} />

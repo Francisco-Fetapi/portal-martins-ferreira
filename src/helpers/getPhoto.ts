@@ -5,6 +5,7 @@ type Sizes = "large" | "medium" | "small";
 
 export default function getPhoto(photo: ApiUploadDataResponse, size?: Sizes) {
   //   return size + "_"+photo;
+  if (!photo) return "";
   let photoURL = photo.hash + photo.ext;
   if (size) {
     if (photo.formats) {

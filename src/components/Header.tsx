@@ -9,6 +9,7 @@ import {
   ActionIcon,
   createStyles,
 } from "@mantine/core";
+import { openConfirmModal } from "@mantine/modals";
 import { IconSun, IconMoonStars, IconLogout } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
@@ -46,8 +47,16 @@ export default function Header({ opened, setOpened }: HeaderProps) {
   const dispatch = useDispatch();
 
   function handleLogout() {
-    dispatch(logout());
-    router.push("/iniciar-sessao");
+    openConfirmModal({
+      title: "Terminar sessão",
+      children: <Text size="sm">Tem certeza que quer terminar sessão?</Text>,
+      labels: { confirm: "Sim", cancel: "Não" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => {
+        dispatch(logout());
+        router.push("/iniciar-sessao");
+      },
+    });
   }
 
   return (

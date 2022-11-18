@@ -47,7 +47,7 @@ function ColorSchemeContainer({ children }: { children: React.ReactNode }) {
   const themeLocal = useStatePersist<boolean>(THEME_KEY_IN_LOCALSTORAGE);
 
   const toggleColorScheme = (value?: ColorScheme) => {
-    dispatch(toggleTheme(null));
+    dispatch(toggleTheme());
   };
 
   useEffect(() => {
