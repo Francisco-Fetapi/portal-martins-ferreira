@@ -13,6 +13,9 @@ import {
 } from "../store/App.store";
 import { useEffect } from "react";
 import useStatePersist from "../hooks/useStatePersist";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -32,11 +35,13 @@ export default function App(props: AppProps) {
         />
       </Head>
 
-      <AppStore>
-        <ColorSchemeContainer>
-          <AppProvider Page={<Component {...pageProps} />} />
-        </ColorSchemeContainer>
-      </AppStore>
+      <QueryClientProvider client={queryClient}>
+        <AppStore>
+          <ColorSchemeContainer>
+            <AppProvider Page={<Component {...pageProps} />} />
+          </ColorSchemeContainer>
+        </AppStore>
+      </QueryClientProvider>
     </>
   );
 }
