@@ -1,8 +1,11 @@
 import { strapi } from "../api/strapi";
 import { useQuery } from "react-query";
 import { IUserLogged } from "../interfaces/IUser";
+import { parseCookies } from "nookies";
 
 export default function useUser() {
+  const cookies = parseCookies();
+  //   depois do logout clean cach form userLogged query
   const userLogged = useQuery<IUserLogged>(
     "user",
     async () => {
@@ -10,8 +13,7 @@ export default function useUser() {
       return data;
     },
     {
-      cacheTime: 60 * 60 * 24,
-      refetchOnMount: false,
+      enabled: !!cookies.token,
     }
   );
 

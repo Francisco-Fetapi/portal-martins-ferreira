@@ -15,7 +15,15 @@ import { useEffect } from "react";
 import useStatePersist from "../hooks/useStatePersist";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      cacheTime: 60 * 60 * 24,
+      refetchOnMount: false,
+    },
+  },
+});
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
