@@ -8,7 +8,6 @@ import { strapi } from "../api/strapi";
 
 export const THEME_KEY_IN_LOCALSTORAGE = "darkMode";
 export const SIGNUP_KEY_IN_LOCALSTORAGE = "signup-data";
-export const USER_COOKIE_KEY = "user";
 export interface IDarkMode {
   darkMode: boolean;
 }
@@ -18,16 +17,13 @@ export interface IUserFormSigninData extends IUser {
 
 export interface App extends IDarkMode {
   signupData: Partial<IUserFormSigninData>;
-  userLoggedData: IUserLogged;
 }
 
 const cookies = parseCookies();
-const userData = JSON.parse(cookies[USER_COOKIE_KEY] || "{}") as IUserLogged;
 
 export const initialState: App = {
   darkMode: false,
   signupData: {},
-  userLoggedData: userData,
 };
 
 export function sliceCreator(initialState: App) {
@@ -58,26 +54,11 @@ export function sliceCreator(initialState: App) {
         );
         save(state.signupData);
       },
-      setUserLoggedData(state, action: PayloadAction<IUserLogged>) {
-        state.userLoggedData = action.payload;
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        if (state.userLoggedData) {
-          setCookie(
-            null,
-            USER_COOKIE_KEY,
-            JSON.stringify(state.userLoggedData),
-            {
-              maxAge: 30 * 24 * 60 * 60,
-              path: "/",
-            }
-          );
-        }
-      },
       logout(state) {
-        state.userLoggedData = {} as IUserLogged;
+        // state.userLoggedData = {} as IUserLogged;
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        destroyCookie(null, USER_COOKIE_KEY);
-        destroyCookie(null, "token");
+        // destroyCookie(null, USER_COOKIE_KEY);
+        // destroyCookie(null, "token");
         strapi.defaults.headers.Authorization = null;
       },
       resetAllState(state, action: PayloadAction<boolean>) {
@@ -109,14 +90,8 @@ export const store = configureStore({
 
 export default store;
 
-export const {
-  toggleTheme,
-  setUserLoggedData,
-  logout,
-  resetAllState,
-  setSignUpData,
-  setTheme,
-} = app.actions;
+export const { toggleTheme, logout, resetAllState, setSignUpData, setTheme } =
+  app.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

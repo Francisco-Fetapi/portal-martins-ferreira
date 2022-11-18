@@ -9,6 +9,10 @@ import {
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons";
 import Link from "next/link";
+import { useQuery } from "react-query";
+import getPhoto from "../helpers/getPhoto";
+import useUser from "../hooks/useUser";
+import { IUserLogged } from "../interfaces/IUser";
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -41,20 +45,23 @@ export function UserButton({
   ...others
 }: UserButtonProps) {
   const { classes } = useStyles();
+  const {
+    userLogged: { data: user },
+  } = useUser();
 
   return (
     <UnstyledButton className={classes.user} {...others}>
       <Link href="/perfil">
         <Group>
-          <Avatar src={image} radius="xl" />
+          <Avatar src={getPhoto(user?.photo!)} radius="xl" />
 
           <div style={{ flex: 1 }}>
             <Text size="sm" weight={500}>
-              {name}
+              {user?.username}
             </Text>
 
             <Text color="dimmed" size="xs">
-              {email}
+              {user?.email}
             </Text>
           </div>
 

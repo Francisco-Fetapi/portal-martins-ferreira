@@ -18,7 +18,7 @@ import { PHOTO_URL_MAIN, strapi } from "../api/strapi";
 import usePhotoPreview from "../hooks/usePhotoPreview";
 import { IUserLogged } from "../interfaces/IUser";
 import { selectSignupData } from "../store/App.selectors";
-import { IUserFormSigninData, setUserLoggedData } from "../store/App.store";
+import { IUserFormSigninData } from "../store/App.store";
 
 const DEFAULT_PHOTO = "/user.jpg";
 
@@ -70,7 +70,6 @@ export default function SelectPhotoArea() {
         router.replace("/");
       }, 2000);
       console.log("data logged", registerInfo);
-      dispatch(setUserLoggedData(registerInfo.user));
     } catch (e: any) {
       console.log(e);
       showNotification({

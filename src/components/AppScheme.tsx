@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import NavBar from "./NavBar";
 import Aside from "./Aside";
 import Header from "./Header";
+import useUser from "../hooks/useUser";
 
 interface AppSchemeProps {
   children: React.ReactNode;
@@ -12,6 +13,12 @@ interface AppSchemeProps {
 export default function AppScheme({ children }: AppSchemeProps) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+  const { userLogged } = useUser();
+
+  if (userLogged.isLoading) {
+    return <div>Carregando...</div>;
+  }
+
   return (
     <AppShell
       styles={{
