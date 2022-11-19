@@ -3,9 +3,10 @@ import { parseCookies, setCookie } from "nookies";
 import { USER_COOKIE_KEY } from "../store/App.store";
 
 const token = parseCookies().token;
+export const STRAPI_URL = "http://localhost:1337";
 
 const strapi = axios.create({
-  baseURL: "http://localhost:1337/api",
+  baseURL: `${STRAPI_URL}/api`,
   headers: {
     Authorization: token ? `Bearer ${token}` : null,
   },

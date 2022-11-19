@@ -3,23 +3,14 @@ import { UserInfo } from "../../components/UserInfo";
 import { Text, Box, Title } from "@mantine/core";
 import PostArea from "../../components/PostArea";
 import ArticlesList from "../../components/ArticlesList";
+import { useSelector } from "react-redux";
+import { selectUserData } from "../../store/App.selectors";
 
 export default function ProfilePage() {
+  const userLogged = useSelector(selectUserData);
   return (
     <AppScheme>
-      <UserInfo
-        user={{
-          name: "Nome do Usuario",
-          phoneNumber: 934312217,
-          photo: "/user.jpg",
-          email: "emaildousuario@gmail.com",
-          genre: "m",
-          myCourse: "Nome do Curso",
-          birthday: new Date().toLocaleDateString(),
-          myGlade: 12,
-          myClass: "Turma 2",
-        }}
-      />
+      <UserInfo user={userLogged} />
       <Box
         mt={30}
         sx={{

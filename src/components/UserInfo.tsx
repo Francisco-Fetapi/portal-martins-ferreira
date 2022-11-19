@@ -7,8 +7,9 @@ import {
   IconDoorEnter,
   IconRating12Plus,
 } from "@tabler/icons";
-import { IUser } from "../interfaces/IUser";
+import { IUser, IUserLogged } from "../interfaces/IUser";
 import Link from "next/link";
+import getPhoto from "../helpers/getPhoto";
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -22,7 +23,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface UserInfoIconsProps {
-  user: Partial<IUser>;
+  user: Partial<IUserLogged>;
   isMine?: boolean;
 }
 
@@ -37,7 +38,7 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
           alignItems: "flex-start",
         }}
       >
-        <Avatar src={user.photo} size={94} radius="md" />
+        <Avatar src={getPhoto(user.photo!, "medium")} size={94} radius="md" />
         <div>
           <Text
             size="xs"
@@ -49,7 +50,7 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
           </Text>
 
           <Text size="lg" weight={500} className={classes.name}>
-            {user.name}
+            {user.username}
           </Text>
 
           <Group
