@@ -25,6 +25,7 @@ import { setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
 import { genres } from "./FormProfileEdit";
 import { useState } from "react";
+import { showNotification } from "@mantine/notifications";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();
@@ -84,7 +85,13 @@ export function SignUpForm() {
     console.log("username", usernameExists);
     console.log("email", emailExists);
 
-    if (!usernameExists && !emailExists[1]) {
+    showNotification({
+      title: "Dados validados",
+      message: "Todos os dados foram validados com sucesso!",
+      color: "green",
+    });
+
+    if (!usernameExists[1] && !emailExists[1]) {
       dispatch(
         setSignUpData({
           ...values,

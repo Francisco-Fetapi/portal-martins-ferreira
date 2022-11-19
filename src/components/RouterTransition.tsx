@@ -5,6 +5,8 @@ import {
   setNavigationProgress,
   NavigationProgress,
 } from "@mantine/nprogress";
+import { closeAllModals } from "@mantine/modals";
+import { cleanNotifications } from "@mantine/notifications";
 
 export function RouterTransition() {
   const router = useRouter();
@@ -19,6 +21,9 @@ export function RouterTransition() {
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
     router.events.on("routeChangeError", handleComplete);
+
+    closeAllModals();
+    cleanNotifications();
 
     return () => {
       router.events.off("routeChangeStart", handleStart);
