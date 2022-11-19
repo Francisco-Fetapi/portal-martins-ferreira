@@ -21,7 +21,7 @@ export default function ArticlesList() {
               isMine: item % 2 === 0,
             }}
             user={{
-              image: item === 4 ? "/user.jpg" : `/user${item}.jpg`,
+              image: item === 4 ? "" : `/user${item}.jpg`,
               name: "Nome do Usuario " + item,
             }}
           />

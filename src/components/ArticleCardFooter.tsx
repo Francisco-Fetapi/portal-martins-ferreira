@@ -121,7 +121,11 @@ export function ArticleCardFooter({
       </Text>
 
       <Group mt="lg">
-        <Avatar src={user.image} radius="sm" />
+        <Avatar
+          src={user.image || "no-photo"}
+          alt="Foto do usuario"
+          style={{ borderRadius: "50%", width: 40, height: 40 }}
+        />
         <div>
           <Text weight={500}>{user.name}</Text>
           <Text size="xs" color="dimmed">

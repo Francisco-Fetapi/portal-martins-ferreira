@@ -92,7 +92,7 @@ export default function SelectPhotoArea() {
         <Container sx={{ height: 64 }}>
           <Avatar
             src={photoSrc}
-            style={{ borderRadius: "50%", width: 64, height: 64, fontSize: 60 }}
+            style={{ borderRadius: "50%", width: 64, height: 64 }}
             alt="Foto de perfil"
           />
           {/* <Image
