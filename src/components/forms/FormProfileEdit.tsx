@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { IGenre } from "../../interfaces/IUser";
 import { selectUserData } from "../../store/App.selectors";
 
-const genres = [
+export const genres = [
   { value: "m", label: "Masculino" },
   { value: "f", label: "Feminino" },
 ];
@@ -22,7 +22,7 @@ export default function FormProfileEdit() {
   const userLogged = useSelector(selectUserData);
   const form = useForm({
     initialValues: {
-      name: userLogged.name || "",
+      username: userLogged.username || "",
       birthday: userLogged.birthday || "",
       isStudent: userLogged.isStudent || false,
       genre: userLogged.genre || ("m" as IGenre),
@@ -40,7 +40,7 @@ export default function FormProfileEdit() {
             label="Nome"
             placeholder="Nome e sobrenome"
             required
-            {...form.getInputProps("name")}
+            {...form.getInputProps("username")}
             // width="100%"
           />
           <TextInput
