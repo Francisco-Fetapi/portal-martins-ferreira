@@ -16,10 +16,13 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { strapi } from "../../api/strapi";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { selectSignupData } from "../../store/App.selectors";
 import { setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
+import { useState } from "react";
+import { showNotification } from "@mantine/notifications";
 
 const courses = ["Curso1", "Curso2", "Curso3", "Curso4", "Curso5"];
 
@@ -27,6 +30,7 @@ export function MoreInformationForm() {
   const validate = useValidateFunctions();
   const formSigninData = useSelector(selectSignupData);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       myClass: "",
@@ -44,15 +48,34 @@ export function MoreInformationForm() {
     },
   });
   const router = useRouter();
-  const handleSubmit = (values: typeof form.values) => {
+  const handleSubmit = async (values: typeof form.values) => {
     console.log(values);
-    dispatch(
-      setSignUpData({
-        ...formSigninData,
-        ...values,
-      })
-    );
-    router.push("/criar-conta/foto-de-perfil");
+    setLoading(true);
+    let res = await strapi.get("/validation/phonenumber", {
+      params: {
+        phoneNumber: values.phoneNumber,
+      },
+    });
+    setLoading(false);
+    console.log(res.data);
+    if (res.data[1]) {
+      form.setFieldError("phoneNumber", "Este número de telefone já existe.");
+    } else {
+      showNotification({
+        title: "Campos validados",
+        message: "O formulário foi validado com sucesso!",
+        color: "green",
+      });
+      setTimeout(() => {
+        dispatch(
+          setSignUpData({
+            ...formSigninData,
+            ...values,
+          })
+        );
+        router.push("/criar-conta/foto-de-perfil");
+      }, 2000);
+    }
   };
 
   return (
@@ -124,7 +147,9 @@ export function MoreInformationForm() {
           </Container>
 
           <Center>
-            <Button type="submit">Concluir</Button>
+            <Button loading={loading} type="submit">
+              Concluir
+            </Button>
           </Center>
         </Stack>
       </Paper>
