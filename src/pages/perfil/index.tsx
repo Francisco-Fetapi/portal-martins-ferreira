@@ -17,7 +17,7 @@ export default function ProfilePage({ user }: PageProps) {
   return (
     <UserProvider user={user}>
       <AppScheme>
-        <UserInfo user={user} />
+        <UserInfo user={user} isMine />
         <Box
           mt={30}
           sx={{
