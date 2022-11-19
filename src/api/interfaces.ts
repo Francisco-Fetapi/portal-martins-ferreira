@@ -32,6 +32,7 @@ export interface ApiUploadDataResponse {
   updatedAt: string;
   url: string;
   width: number;
+  fullURL?: string;
 }
 
 interface withStatus {

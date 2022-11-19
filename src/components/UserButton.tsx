@@ -10,9 +10,10 @@ import {
 import { IconChevronRight } from "@tabler/icons";
 import Link from "next/link";
 import { useQuery } from "react-query";
+import { UserContext } from "../context/UserProvider";
 import getPhoto from "../helpers/getPhoto";
 import useUser from "../hooks/useUser";
-import { IUserLogged } from "../interfaces/IUser";
+import { useContext } from "react";
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -46,12 +47,13 @@ export function UserButton({
 }: UserButtonProps) {
   const { classes } = useStyles();
   const { user } = useUser();
+  const { photoPreviewURL } = useContext(UserContext)!;
 
   return (
     <UnstyledButton className={classes.user} {...others}>
       <Link href="/perfil">
         <Group>
-          <Avatar src={getPhoto(user?.photo!)} radius="xl" />
+          <Avatar src={photoPreviewURL || getPhoto(user?.photo!)} radius="xl" />
 
           <div style={{ flex: 1 }}>
             <Text size="sm" weight={500}>

@@ -1,4 +1,11 @@
-import { createStyles, Avatar, Text, Group, Button } from "@mantine/core";
+import {
+  FileButton,
+  createStyles,
+  Avatar,
+  Text,
+  Group,
+  Button,
+} from "@mantine/core";
 import {
   IconPhoneCall,
   IconAt,
@@ -10,6 +17,9 @@ import {
 import { IUser, IUserLogged } from "../interfaces/IUser";
 import Link from "next/link";
 import getPhoto from "../helpers/getPhoto";
+import usePhotoPreview from "../hooks/usePhotoPreview";
+import { UserContext } from "../context/UserProvider";
+import { useContext, useEffect } from "react";
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -29,6 +39,22 @@ interface UserInfoIconsProps {
 
 export function UserInfo({ user, isMine }: UserInfoIconsProps) {
   const { classes } = useStyles();
+  const DEFAULT_PHOTO = getPhoto(user.photo!, "medium");
+  const { clearFile, file, photoSrc, resetRef, setFile } =
+    usePhotoPreview(DEFAULT_PHOTO);
+  const { setPhotoPreviewURL } = useContext(UserContext)!;
+
+  function changeProfilePhoto() {
+    console.log("mudal foto de perfil.");
+  }
+
+  useEffect(() => {
+    if (file) {
+      setPhotoPreviewURL(photoSrc);
+    } else {
+      setPhotoPreviewURL("");
+    }
+  }, [photoSrc]);
 
   return (
     <div>
@@ -38,7 +64,7 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
           alignItems: "flex-start",
         }}
       >
-        <Avatar src={getPhoto(user.photo!, "medium")} size={94} radius="md" />
+        <Avatar src={photoSrc} size={94} radius="md" />
         <div>
           <Text
             size="xs"
@@ -139,9 +165,39 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
                 Editar Perfil
               </Button>
             </Link>
-            <Button size="xs" variant="light">
-              Alterar Foto
-            </Button>
+
+            {file ? (
+              <>
+                <Button
+                  color="red"
+                  size="xs"
+                  variant="light"
+                  onClick={clearFile}
+                >
+                  Limpar foto
+                </Button>
+                <Button
+                  color="green"
+                  size="xs"
+                  variant="light"
+                  onClick={changeProfilePhoto}
+                >
+                  Concluido
+                </Button>
+              </>
+            ) : (
+              <FileButton
+                //   resetRef={resetRef}
+                onChange={setFile}
+                accept="image/png,image/jpeg"
+              >
+                {(props) => (
+                  <Button {...props} size="xs" variant="light">
+                    Alterar Foto
+                  </Button>
+                )}
+              </FileButton>
+            )}
           </Group>
         </div>
       )}
