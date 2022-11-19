@@ -12,6 +12,8 @@ import {
 import { IconSun, IconMoonStars, IconLogout } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/App.store";
 
 interface HeaderProps {
   opened: boolean;
@@ -41,8 +43,10 @@ export default function Header({ opened, setOpened }: HeaderProps) {
   const { classes } = useStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  function logout() {
+  function handleLogout() {
+    dispatch(logout());
     router.push("/iniciar-sessao");
   }
 
@@ -82,7 +86,7 @@ export default function Header({ opened, setOpened }: HeaderProps) {
           <ActionIcon
             className={`${classes.background} ${classes.alterIcon}`}
             size="lg"
-            onClick={logout}
+            onClick={handleLogout}
           >
             <IconLogout size={20} />
           </ActionIcon>

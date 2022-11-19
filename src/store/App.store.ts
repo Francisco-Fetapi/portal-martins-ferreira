@@ -4,6 +4,7 @@ import { IUser, IUserLogged } from "../interfaces/IUser";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import useStatePersist from "../hooks/useStatePersist";
 import { stateReseted } from "./utils";
+import { strapi } from "../api/strapi";
 
 export const THEME_KEY_IN_LOCALSTORAGE = "darkMode";
 export const SIGNUP_KEY_IN_LOCALSTORAGE = "signup-data";
@@ -76,6 +77,8 @@ export function sliceCreator(initialState: App) {
         state.userLoggedData = {} as IUserLogged;
         // eslint-disable-next-line react-hooks/rules-of-hooks
         destroyCookie(null, USER_COOKIE_KEY);
+        destroyCookie(null, "token");
+        strapi.defaults.headers.Authorization = null;
       },
       resetAllState(state, action: PayloadAction<boolean>) {
         if (action.payload) {
