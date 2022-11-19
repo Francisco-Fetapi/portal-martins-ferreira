@@ -17,9 +17,14 @@ import useValidateFunctions from "../../hooks/useValidateFunctions";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import FormHeader from "../FormHeader";
+import { strapi } from "../../api/strapi";
+import { ApiLogin } from "../../api/interfaces";
+import { showNotification } from "@mantine/notifications";
+import { useState } from "react";
 
 export function SignInForm() {
   const validate = useValidateFunctions();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: "",
@@ -35,9 +40,27 @@ export function SignInForm() {
     },
   });
   const router = useRouter();
-  const handleSubmit = (values: typeof form.values) => {
+  const handleSubmit = async (values: typeof form.values) => {
     console.log(values);
-    router.push("/");
+
+    setLoading(true);
+    try {
+      let { data } = await strapi.post<ApiLogin>("/auth/local", {
+        identifier: values.email,
+        password: values.password1,
+      });
+      console.log(data.user);
+      router.push("/");
+    } catch (e: any) {
+      showNotification({
+        title: "Erro ao iniciar sessão",
+        message:
+          "Houve um erro ao tentar iniciar sessão, certifique-se de estar informando os dados corretos.",
+        color: "red",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -88,7 +111,9 @@ export function SignInForm() {
             </Link>
           </Group>
           <Center>
-            <Button type="submit">Iniciar sessão</Button>
+            <Button loading={loading} type="submit">
+              Iniciar sessão
+            </Button>
           </Center>
         </Stack>
       </Paper>

@@ -11,7 +11,7 @@ export interface IUser {
   isStudent: boolean;
   genre: IGenre;
 
-  phoneNumber?: number;
+  phoneNumber?: string;
   myClass?: string;
   myCourse?: string;
   myGlade?: 10 | 11 | 12 | 13;

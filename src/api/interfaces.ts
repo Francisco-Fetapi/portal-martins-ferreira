@@ -43,3 +43,7 @@ export interface ApiRegister {
   jwt: string;
   user: IUserLogged;
 }
+export interface ApiLogin {
+  jwt: string;
+  user: IUserLogged;
+}

@@ -19,12 +19,12 @@ import { useSelector } from "react-redux";
 import { strapi } from "../../api/strapi";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { selectSignupData } from "../../store/App.selectors";
-import { setSignUpData } from "../../store/App.store";
+import { IUserFormSigninData, setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
 
-const courses = ["Curso1", "Curso2", "Curso3", "Curso4", "Curso5"];
+export const courses = ["Curso1", "Curso2", "Curso3", "Curso4", "Curso5"];
 
 export function MoreInformationForm() {
   const validate = useValidateFunctions();
@@ -71,7 +71,7 @@ export function MoreInformationForm() {
           setSignUpData({
             ...formSigninData,
             ...values,
-          })
+          } as IUserFormSigninData)
         );
         router.push("/criar-conta/foto-de-perfil");
       }, 2000);

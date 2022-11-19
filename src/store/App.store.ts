@@ -1,7 +1,7 @@
 import { configureStore, PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { IUser, IUserLogged } from "../interfaces/IUser";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
+
 import useStatePersist from "../hooks/useStatePersist";
 import { stateReseted } from "./utils";
 import { strapi } from "../api/strapi";
@@ -18,8 +18,6 @@ export interface IUserFormSigninData extends IUser {
 export interface App extends IDarkMode {
   signupData: Partial<IUserFormSigninData>;
 }
-
-const cookies = parseCookies();
 
 export const initialState: App = {
   darkMode: false,
