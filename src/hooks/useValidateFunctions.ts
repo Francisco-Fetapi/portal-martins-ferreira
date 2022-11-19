@@ -9,7 +9,7 @@ export default function useValidateFunctions() {
     username($value: string) {
       const value = $value.trim();
       if (value.length < 10) return "Nome demasiado curto.";
-      if (value.split(" ").length > 2)
+      if (value.split(" ").length > 3)
         return "Insira apenas o primeiro e último nome.";
     },
     password1(value: string) {

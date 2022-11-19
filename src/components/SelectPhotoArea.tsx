@@ -6,6 +6,7 @@ import {
   FileButton,
   Stack,
   Text,
+  Avatar,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import Image from "next/image";
@@ -20,7 +21,8 @@ import { IUserLogged } from "../interfaces/IUser";
 import { selectSignupData } from "../store/App.selectors";
 import { IUserFormSigninData } from "../store/App.store";
 
-const DEFAULT_PHOTO = "/user.jpg";
+// const DEFAULT_PHOTO = "/user.jpg";
+const DEFAULT_PHOTO = "no-photo";
 
 export default function SelectPhotoArea() {
   const router = useRouter();
@@ -88,13 +90,18 @@ export default function SelectPhotoArea() {
     <Center p={5}>
       <Stack>
         <Container sx={{ height: 64 }}>
-          <Image
+          <Avatar
+            src={photoSrc}
+            style={{ borderRadius: "50%", width: 64, height: 64, fontSize: 60 }}
+            alt="Foto de perfil"
+          />
+          {/* <Image
             src={photoSrc}
             width={64}
             height={64}
             style={{ borderRadius: "50%" }}
             alt="Foto de perfil"
-          />
+          /> */}
         </Container>
         <Center sx={{ flexDirection: "column" }}>
           <Text size="lg" weight={600}>
