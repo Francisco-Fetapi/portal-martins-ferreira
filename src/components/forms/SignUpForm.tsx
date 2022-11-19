@@ -18,15 +18,18 @@ import { useForm } from "@mantine/form";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
+import { strapi } from "../../api/strapi";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { IUser } from "../../interfaces/IUser";
 import { setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
 import { genres } from "./FormProfileEdit";
+import { useState } from "react";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const form = useForm<IUser>({
     initialValues: {
       username: "",
@@ -57,15 +60,39 @@ export function SignUpForm() {
   });
   const router = useRouter();
 
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
-    dispatch(
-      setSignUpData({
-        ...values,
-        password: values.password1,
-      })
-    );
-    router.push("/confirmar-email");
+  const handleSubmit = async (values: typeof form.values) => {
+    setLoading(true);
+    let { data: usernameExists } = await strapi.get("/validation/username", {
+      params: {
+        username: values.username,
+      },
+    });
+
+    let { data: emailExists } = await strapi.get("/validation/email", {
+      params: {
+        email: values.email,
+      },
+    });
+
+    if (usernameExists[1]) {
+      form.setFieldError("username", "Este nome de usuario já existe.");
+    }
+    if (emailExists[1]) {
+      form.setFieldError("email", "Este email já existe.");
+    }
+    setLoading(false);
+    console.log("username", usernameExists);
+    console.log("email", emailExists);
+
+    if (!usernameExists && !emailExists[1]) {
+      dispatch(
+        setSignUpData({
+          ...values,
+          password: values.password1,
+        })
+      );
+      router.push("/confirmar-email");
+    }
   };
 
   return (
@@ -151,7 +178,9 @@ export function SignUpForm() {
             </Link> */}
           </Group>
           <Center>
-            <Button type="submit">Criar conta</Button>
+            <Button loading={loading} type="submit">
+              Criar conta
+            </Button>
           </Center>
         </Stack>
       </Paper>
