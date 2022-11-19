@@ -17,9 +17,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { ApiIsEmailVerified } from "../../api/interfaces";
+import { serverless } from "../../api/serverless";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { selectSignupData } from "../../store/App.selectors";
 import { setSignUpData } from "../../store/App.store";
+import { useState } from "react";
+import { showNotification } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -44,26 +48,40 @@ const useStyles = createStyles((theme) => ({
 export function ConfirmEmailForm() {
   const { classes } = useStyles();
   const validate = useValidateFunctions();
+  const [loading, setLoading] = useState(false);
 
   const formSigninData = useSelector(selectSignupData);
   const form = useForm({
     initialValues: {
       code: "",
     },
-    validate: {
-      code(value) {
-        return validate.code(value);
-      },
-    },
   });
   const router = useRouter();
-  function handleSubmit(values: typeof form.values) {
+  async function handleSubmit(values: typeof form.values) {
     console.log(values);
     console.log(formSigninData);
-    if (formSigninData.isStudent) {
-      router.push("/criar-conta/informacoes-adicionais");
+    setLoading(true);
+    const res = await serverless.get<ApiIsEmailVerified>("/isemailverified", {
+      params: {
+        confirmationCode: values.code,
+      },
+    });
+    setLoading(false);
+    if (res.data.status === "error") {
+      form.setFieldError("code", "Codigo inválido");
     } else {
-      router.push("/criar-conta/foto-de-perfil");
+      showNotification({
+        title: "Código validado",
+        message: "O código foi validado com sucesso!",
+        color: "green",
+      });
+      setTimeout(() => {
+        if (formSigninData.isStudent) {
+          router.push("/criar-conta/informacoes-adicionais");
+        } else {
+          router.push("/criar-conta/foto-de-perfil");
+        }
+      }, 2000);
     }
   }
 
@@ -102,7 +120,7 @@ export function ConfirmEmailForm() {
               </Center>
             </Anchor>
           </Link>
-          <Button type="submit" className={classes.control}>
+          <Button loading={loading} type="submit" className={classes.control}>
             Confirmar email
           </Button>
         </Group>

@@ -31,3 +31,8 @@ export interface ApiUploadDataResponse {
   url: string;
   width: number;
 }
+
+interface withStatus {
+  status: "success" | "error";
+}
+export interface ApiIsEmailVerified extends withStatus {}
