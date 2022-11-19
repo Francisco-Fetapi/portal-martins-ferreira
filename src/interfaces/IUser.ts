@@ -1,3 +1,5 @@
+import { ApiUploadDataResponse } from "../api/interfaces";
+
 export type IGenre = "m" | "f";
 
 export interface IUser {
@@ -16,9 +18,10 @@ export interface IUser {
 }
 
 export interface IUserLogged extends IUser {
+  id: number;
   blocked: boolean;
   confirmed: boolean;
-  photo_url: string;
   createdAt?: string;
   updatedAt?: string;
+  photo: ApiUploadDataResponse | null;
 }

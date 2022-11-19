@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { ApiUploadDataResponse } from "../api/interfaces";
+import { ApiRegister, ApiUploadDataResponse } from "../api/interfaces";
 import { PHOTO_URL_MAIN, strapi } from "../api/strapi";
 import usePhotoPreview from "../hooks/usePhotoPreview";
 import { IUserLogged } from "../interfaces/IUser";
@@ -35,36 +35,34 @@ export default function SelectPhotoArea() {
   async function handleDone() {
     // await salvar foto no servidor
     // pegar o nome da foto
-    const allData: IUserLogged = {
+    const allData = {
       ...signupData,
-      photo_url: PHOTO_URL_MAIN,
       confirmed: true,
       blocked: false,
     };
 
-    console.log("signup", signupData);
+    console.log("signup", allData);
 
     try {
+      let { data: registerInfo } = await strapi.post<ApiRegister>(
+        "/auth/local/register",
+        allData
+      );
       if (file) {
         const form = new FormData();
+        form.append("ref", "plugin::users-permissions.user");
+        form.append("refId", String(registerInfo.user.id));
+        form.append("field", "photo");
         form.append("files", file);
         setLoading(true);
-        let { data } = await strapi.post<ApiUploadDataResponse[]>(
-          "/upload",
-          form
-        );
-        const photoUploaded = data[0];
-        allData.photo_url = photoUploaded.hash + photoUploaded.ext;
+        let { data: photosUploaded } = await strapi.post<
+          ApiUploadDataResponse[]
+        >("/upload", form);
+        registerInfo.user.photo = photosUploaded[0];
       }
-      let { data } = await strapi.post<IUserLogged>("/users", allData);
-      if (data.username) {
-        const res = await strapi.post("/auth/local", {
-          identifier: data.email,
-          password: data.password1,
-        });
 
-        console.log("data logged", res.data);
-      }
+      console.log("data logged", registerInfo);
+      router.replace("/");
     } catch (e: any) {
       console.log(e);
       showNotification({

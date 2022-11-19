@@ -1,3 +1,5 @@
+import { IUserLogged } from "../interfaces/IUser";
+
 export interface ApiImageUploadedInfo {
   ext: string;
   hash: string;
@@ -36,3 +38,8 @@ interface withStatus {
   status: "success" | "error";
 }
 export interface ApiIsEmailVerified extends withStatus {}
+
+export interface ApiRegister {
+  jwt: string;
+  user: IUserLogged;
+}
