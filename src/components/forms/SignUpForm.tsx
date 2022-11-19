@@ -11,6 +11,7 @@ import {
   Box,
   Center,
   Stack,
+  Select,
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
@@ -21,7 +22,7 @@ import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { IUser } from "../../interfaces/IUser";
 import { setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
-import { InputGenre } from "../InputGenre";
+import { genres } from "./FormProfileEdit";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();
@@ -128,29 +129,19 @@ export function SignUpForm() {
             required
             {...form.getInputProps("birthday")}
           />
-          <Stack
-            align="center"
-            sx={{
-              flexDirection: "column",
-              // flexDirection: "row",
-              // justifyContent: "space-between",
-            }}
-          >
-            <Text variant="text" size="md">
-              Gênero
-            </Text>
-            <Box mt={-10} sx={{ zoom: 0.85 }}>
-              <InputGenre
-                genre={form.values.genre}
-                setGenre={(value) => form.setFieldValue("genre", value)}
-              />
-            </Box>
-          </Stack>
+          <Select
+            style={{ zIndex: 2 }}
+            data={genres}
+            {...form.getInputProps("genre")}
+            // placeholder=""
+            label="Selecione seu genero"
+            required
+          />
           <Group position="apart">
             <Checkbox
               label={
                 <p>
-                  Sou um(a) aluno(a) do <b>Obadias Malaquias</b>
+                  Sou aluno(a) do <b>Obadias Malaquias</b>
                 </p>
               }
               {...form.getInputProps("isStudent")}
