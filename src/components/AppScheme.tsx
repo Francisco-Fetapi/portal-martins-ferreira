@@ -4,7 +4,6 @@ import Footer from "./Footer";
 import NavBar from "./NavBar";
 import Aside from "./Aside";
 import Header from "./Header";
-import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
 
 interface AppSchemeProps {
@@ -14,21 +13,7 @@ interface AppSchemeProps {
 export default function AppScheme({ children }: AppSchemeProps) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const { userLogged } = useUser();
   const router = useRouter();
-
-  if (userLogged.isLoading) {
-    return <div>Carregando...</div>;
-  }
-
-  if (userLogged.isIdle) {
-    return (
-      <div>
-        <h1>Nenhuma sessão iniciada!</h1>
-      </div>
-    );
-    // router.replace("/iniciar-sessao");
-  }
 
   return (
     <AppShell

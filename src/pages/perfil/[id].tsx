@@ -3,15 +3,22 @@ import { UserInfo } from "../../components/UserInfo";
 import { Text, Box, Title } from "@mantine/core";
 import PostArea from "../../components/PostArea";
 import ArticlesList from "../../components/ArticlesList";
+import { redirectIfNoUser } from "../../helpers/redirectIfNoUser";
+import { IUserLogged } from "../../interfaces/IUser";
+
+interface PageProps {
+  user: IUserLogged;
+  otherUser: IUserLogged;
+}
 
 export default function ProfileUserPage() {
   return (
     <AppScheme>
       <UserInfo
         user={{
-          name: "Nome do Usuario",
+          username: "Nome do Usuario",
           phoneNumber: 934312217,
-          photo: "/user.jpg",
+          photo: null,
           email: "emaildousuario@gmail.com",
           genre: "m",
           myCourse: "Nome do Curso",
@@ -36,3 +43,5 @@ export default function ProfileUserPage() {
     </AppScheme>
   );
 }
+
+export const getServerSideProps = redirectIfNoUser;

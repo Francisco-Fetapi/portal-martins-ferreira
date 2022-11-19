@@ -46,7 +46,7 @@ export function UserButton({
 }: UserButtonProps) {
   const { classes } = useStyles();
   const {
-    userLogged: { data: user },
+    userLogged: { data: user, ...userLogged },
   } = useUser();
 
   return (

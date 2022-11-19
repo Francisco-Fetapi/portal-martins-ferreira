@@ -5,6 +5,12 @@ import PostArea from "../../components/PostArea";
 import ArticlesList from "../../components/ArticlesList";
 import { useSelector } from "react-redux";
 import useUser from "../../hooks/useUser";
+import { IUserLogged } from "../../interfaces/IUser";
+import { redirectIfNoUser } from "../../helpers/redirectIfNoUser";
+
+interface PageProps {
+  user: IUserLogged;
+}
 
 export default function ProfilePage() {
   const { userLogged } = useUser();
@@ -35,3 +41,5 @@ export default function ProfilePage() {
     </AppScheme>
   );
 }
+
+export const getServerSideProps = redirectIfNoUser;

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { parseCookies, setCookie } from "nookies";
-import { USER_COOKIE_KEY } from "../store/App.store";
 
 const token = parseCookies().token;
 export const STRAPI_URL = "http://localhost:1337";
@@ -30,13 +29,6 @@ strapi.interceptors.response.use(
         maxAge: 30 * 24 * 60 * 60,
         path: "/",
       });
-
-      if (response.data.user) {
-        setCookie(null, USER_COOKIE_KEY, JSON.stringify(response.data.user), {
-          maxAge: 30 * 24 * 60 * 60,
-          path: "/",
-        });
-      }
     }
 
     return response;

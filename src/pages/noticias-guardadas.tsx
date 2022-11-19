@@ -1,8 +1,14 @@
 import AppScheme from "../components/AppScheme";
 import { Box, Title, Text } from "@mantine/core";
 import ArticlesList from "../components/ArticlesList";
+import { IUserLogged } from "../interfaces/IUser";
+import { redirectIfNoUser } from "../helpers/redirectIfNoUser";
 
-export default function IndexPage() {
+interface PageProps {
+  user: IUserLogged;
+}
+
+export default function IndexPage({ user }: PageProps) {
   return (
     <AppScheme>
       <Title order={1}>Guardadas</Title>
@@ -17,3 +23,5 @@ export default function IndexPage() {
     </AppScheme>
   );
 }
+
+export const getServerSideProps = redirectIfNoUser;

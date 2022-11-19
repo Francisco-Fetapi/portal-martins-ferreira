@@ -3,6 +3,12 @@ import { useRouter } from "next/router";
 import React from "react";
 import AppScheme from "../../components/AppScheme";
 import FormProfileEdit from "../../components/forms/FormProfileEdit";
+import { redirectIfNoUser } from "../../helpers/redirectIfNoUser";
+import { IUserLogged } from "../../interfaces/IUser";
+
+interface PageProps {
+  user: IUserLogged;
+}
 
 export default function ProfileEdit() {
   const router = useRouter();
@@ -21,3 +27,5 @@ export default function ProfileEdit() {
     </AppScheme>
   );
 }
+
+export const getServerSideProps = redirectIfNoUser;

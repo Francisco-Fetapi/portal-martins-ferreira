@@ -1,8 +1,14 @@
 import { Box, Text, Title } from "@mantine/core";
 import AppScheme from "../components/AppScheme";
 import ArticlesList from "../components/ArticlesList";
+import { redirectIfNoUser } from "../helpers/redirectIfNoUser";
+import { IUserLogged } from "../interfaces/IUser";
 
-export default function IndexPage() {
+interface PageProps {
+  user: IUserLogged;
+}
+
+export default function IndexPage({ user }: PageProps) {
   return (
     <AppScheme>
       <Box mb={30}>
@@ -10,8 +16,11 @@ export default function IndexPage() {
         <Text size="sm" color="dimmed" mt={5}>
           Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira mão.
         </Text>
+        {user.username}
       </Box>
       <ArticlesList />
     </AppScheme>
   );
 }
+
+export const getServerSideProps = redirectIfNoUser;
