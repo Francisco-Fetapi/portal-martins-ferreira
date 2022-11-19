@@ -79,7 +79,7 @@ export function ConfirmEmailForm() {
         if (formSigninData.isStudent) {
           router.push("/criar-conta/informacoes-adicionais");
         } else {
-          router.push("/criar-conta/foto-de-perfil");
+          router.replace("/criar-conta/foto-de-perfil");
         }
       }, 2000);
     }

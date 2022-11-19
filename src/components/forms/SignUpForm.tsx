@@ -85,20 +85,21 @@ export function SignUpForm() {
     console.log("username", usernameExists);
     console.log("email", emailExists);
 
-    showNotification({
-      title: "Dados validados",
-      message: "Todos os dados foram validados com sucesso!",
-      color: "green",
-    });
-
     if (!usernameExists[1] && !emailExists[1]) {
-      dispatch(
-        setSignUpData({
-          ...values,
-          password: values.password1,
-        })
-      );
-      router.push("/confirmar-email");
+      showNotification({
+        title: "Dados validados",
+        message: "Todos os dados foram validados com sucesso!",
+        color: "green",
+      });
+      setTimeout(() => {
+        dispatch(
+          setSignUpData({
+            ...values,
+            password: values.password1,
+          })
+        );
+        router.replace("/confirmar-email");
+      }, 2000);
     }
   };
 
