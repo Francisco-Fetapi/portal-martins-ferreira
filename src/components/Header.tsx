@@ -14,7 +14,8 @@ import { IconSun, IconMoonStars, IconLogout } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../store/App.store";
+import { destroyCookie } from "nookies";
+import { strapi } from "../api/strapi";
 
 interface HeaderProps {
   opened: boolean;
@@ -44,7 +45,6 @@ export default function Header({ opened, setOpened }: HeaderProps) {
   const { classes } = useStyles();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   function handleLogout() {
     openConfirmModal({
@@ -53,7 +53,8 @@ export default function Header({ opened, setOpened }: HeaderProps) {
       labels: { confirm: "Sim", cancel: "Não" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => {
-        dispatch(logout());
+        destroyCookie(null, "token");
+        strapi.defaults.headers.Authorization = null;
         router.push("/iniciar-sessao");
       },
     });

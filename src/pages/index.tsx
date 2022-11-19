@@ -19,7 +19,6 @@ export default function IndexPage({ user }: PageProps) {
             Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira
             mão.
           </Text>
-          {user.username}
         </Box>
         <ArticlesList />
       </AppScheme>

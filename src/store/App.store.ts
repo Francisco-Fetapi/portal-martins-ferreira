@@ -54,13 +54,6 @@ export function sliceCreator(initialState: App) {
         );
         save(state.signupData);
       },
-      logout(state) {
-        // state.userLoggedData = {} as IUserLogged;
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        // destroyCookie(null, USER_COOKIE_KEY);
-        // destroyCookie(null, "token");
-        strapi.defaults.headers.Authorization = null;
-      },
       resetAllState(state, action: PayloadAction<boolean>) {
         if (action.payload) {
           Object.assign(state, initialState);
@@ -90,7 +83,7 @@ export const store = configureStore({
 
 export default store;
 
-export const { toggleTheme, logout, resetAllState, setSignUpData, setTheme } =
+export const { toggleTheme, resetAllState, setSignUpData, setTheme } =
   app.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
