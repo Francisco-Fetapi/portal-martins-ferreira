@@ -7,38 +7,39 @@ import { useSelector } from "react-redux";
 import useUser from "../../hooks/useUser";
 import { IUserLogged } from "../../interfaces/IUser";
 import { redirectIfNoUser } from "../../helpers/redirectIfNoUser";
+import UserProvider from "../../context/UserProvider";
 
 interface PageProps {
   user: IUserLogged;
 }
 
-export default function ProfilePage() {
-  const { userLogged } = useUser();
-
+export default function ProfilePage({ user }: PageProps) {
   return (
-    <AppScheme>
-      <UserInfo user={userLogged.data!} />
-      <Box
-        mt={30}
-        sx={{
-          maxWidth: 550,
-        }}
-      >
-        <PostArea />
-      </Box>
+    <UserProvider user={user}>
+      <AppScheme>
+        <UserInfo user={user} />
+        <Box
+          mt={30}
+          sx={{
+            maxWidth: 550,
+          }}
+        >
+          <PostArea />
+        </Box>
 
-      <Box mt={30}>
-        <Title order={2}>Publicados por mim</Title>
-        <Text color="dimmed" size="xs" mt={5}>
-          Todas as noticias publicadas por você são exibidas nesta seção desde a
-          mais recente à mais antiga.
-        </Text>
-      </Box>
+        <Box mt={30}>
+          <Title order={2}>Publicados por mim</Title>
+          <Text color="dimmed" size="xs" mt={5}>
+            Todas as noticias publicadas por você são exibidas nesta seção desde
+            a mais recente à mais antiga.
+          </Text>
+        </Box>
 
-      <Box mt={30}>
-        <ArticlesList />
-      </Box>
-    </AppScheme>
+        <Box mt={30}>
+          <ArticlesList />
+        </Box>
+      </AppScheme>
+    </UserProvider>
   );
 }
 

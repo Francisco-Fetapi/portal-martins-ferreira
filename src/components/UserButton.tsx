@@ -45,9 +45,7 @@ export function UserButton({
   ...others
 }: UserButtonProps) {
   const { classes } = useStyles();
-  const {
-    userLogged: { data: user, ...userLogged },
-  } = useUser();
+  const { user } = useUser();
 
   return (
     <UnstyledButton className={classes.user} {...others}>
