@@ -21,6 +21,13 @@ export const genres = [
   { value: "f", label: "Feminino" },
 ];
 
+export const glades = [
+  { value: 10, label: "10ª" },
+  { value: 11, label: "11ª" },
+  { value: 12, label: "12ª" },
+  { value: 13, label: "13ª" },
+];
+
 export default function FormProfileEdit() {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
@@ -167,6 +174,14 @@ export default function FormProfileEdit() {
                   {...form.getInputProps("myCourse")}
                   placeholder="Escolha um curso"
                   label="Selecione seu curso"
+                  required
+                />
+                <Select
+                  style={{ zIndex: 2 }}
+                  data={glades}
+                  {...form.getInputProps("myGlade")}
+                  placeholder="Escolha sua classe"
+                  label="Selecione sua classe"
                   required
                 />
               </Stack>
