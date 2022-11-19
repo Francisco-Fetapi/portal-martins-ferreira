@@ -60,9 +60,17 @@ export default function SelectPhotoArea() {
         >("/upload", form);
         registerInfo.user.photo = photosUploaded[0];
       }
+      showNotification({
+        title: "Conta criada",
+        message: "A sua conta foi criada com sucesso!",
+        color: "green",
+      });
 
+      setTimeout(() => {
+        router.replace("/");
+      }, 2000);
       console.log("data logged", registerInfo);
-      router.replace("/");
+      dispatch(setUserLoggedData(registerInfo.user));
     } catch (e: any) {
       console.log(e);
       showNotification({
