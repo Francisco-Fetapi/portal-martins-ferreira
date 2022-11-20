@@ -17,6 +17,7 @@ interface UserProviderProps {
 
 export default function UserProvider({ user, children }: UserProviderProps) {
   const [photoPreviewURL, setPhotoPreviewURL] = useState("");
+
   return (
     <UserContext.Provider value={{ user, photoPreviewURL, setPhotoPreviewURL }}>
       {children}

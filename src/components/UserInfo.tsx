@@ -19,7 +19,11 @@ import Link from "next/link";
 import getPhoto from "../helpers/getPhoto";
 import usePhotoPreview from "../hooks/usePhotoPreview";
 import { UserContext } from "../context/UserProvider";
-import { useContext, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
+import { ApiUploadDataResponse } from "../api/interfaces";
+import { strapi } from "../api/strapi";
+import { showNotification } from "@mantine/notifications";
+import { useRouter } from "next/router";
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -43,9 +47,43 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
   const { clearFile, file, photoSrc, resetRef, setFile } =
     usePhotoPreview(DEFAULT_PHOTO);
   const { setPhotoPreviewURL } = useContext(UserContext)!;
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  function changeProfilePhoto() {
+  useEffect(() => {
+    clearFile();
+  }, [DEFAULT_PHOTO]);
+
+  async function changeProfilePhoto() {
     console.log("mudal foto de perfil.");
+    if (file) {
+      try {
+        const form = new FormData();
+        form.append("ref", "plugin::users-permissions.user");
+        form.append("refId", String(user.id));
+        form.append("field", "photo");
+        form.append("files", file);
+        setLoading(true);
+        let { data: photosUploaded } = await strapi.post<
+          ApiUploadDataResponse[]
+        >("/upload", form);
+        router.push("/perfil");
+      } catch (e: any) {
+        showNotification({
+          title: "Erro ao alterar foto",
+          message:
+            "Houve um erro ao tentar alterar a sua foto de perfil. Tente mais tarde.",
+          color: "red",
+        });
+      } finally {
+        setLoading(false);
+        try {
+          await strapi.delete("/upload/files/" + user.photo?.id);
+        } catch (e: any) {
+          console.log("Erro ao apagar a foto antiga.");
+        }
+      }
+    }
   }
 
   useEffect(() => {
@@ -181,6 +219,7 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
                   size="xs"
                   variant="light"
                   onClick={changeProfilePhoto}
+                  loading={loading}
                 >
                   Concluido
                 </Button>
