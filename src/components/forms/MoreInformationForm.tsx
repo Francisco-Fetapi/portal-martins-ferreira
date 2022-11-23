@@ -24,7 +24,20 @@ import FormHeader from "../FormHeader";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
 
-export const courses = ["Curso1", "Curso2", "Curso3", "Curso4", "Curso5"];
+export const courses = [
+  "Ensino Primário",
+  "Primeiro Ciclo",
+  "Informática de Gestão",
+  "Enfermagem Geral",
+  "Estomatologia",
+];
+
+export const glades = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(
+  (item) => ({
+    value: item,
+    label: item ? `${item}ª classe` : "Pré classe",
+  })
+);
 
 export function MoreInformationForm() {
   const validate = useValidateFunctions();
@@ -118,7 +131,6 @@ export function MoreInformationForm() {
             required
           />
           <Select
-            style={{ zIndex: 2 }}
             data={courses}
             {...form.getInputProps("myCourse")}
             placeholder="Escolha um curso"
@@ -126,25 +138,13 @@ export function MoreInformationForm() {
             required
           />
 
-          <Container my={10}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 20,
-              }}
-            >
-              {[10, 11, 12, 13].map((glade) => (
-                <Radio
-                  key={glade}
-                  value={`${glade}`}
-                  label={`${glade}ª classe`}
-                  checked={glade == form.values.myGlade}
-                  onChange={() => form.setFieldValue("myGlade", glade)}
-                />
-              ))}
-            </div>
-          </Container>
+          <Select
+            data={glades}
+            {...form.getInputProps("myGlade")}
+            placeholder="Escolha sua classe"
+            label="Selecione sua classe"
+            required
+          />
 
           <Center>
             <Button loading={loading} type="submit">

@@ -14,18 +14,11 @@ import React, { useState } from "react";
 import { strapi } from "../../api/strapi";
 import useUser from "../../hooks/useUser";
 import { IGenre, IUserLogged } from "../../interfaces/IUser";
-import { courses } from "./MoreInformationForm";
+import { courses, glades } from "./MoreInformationForm";
 
 export const genres = [
   { value: "m", label: "Masculino" },
   { value: "f", label: "Feminino" },
-];
-
-export const glades = [
-  { value: 10, label: "10ª" },
-  { value: 11, label: "11ª" },
-  { value: 12, label: "12ª" },
-  { value: 13, label: "13ª" },
 ];
 
 export default function FormProfileEdit() {
@@ -169,7 +162,6 @@ export default function FormProfileEdit() {
                   required
                 />
                 <Select
-                  style={{ zIndex: 2 }}
                   data={courses}
                   {...form.getInputProps("myCourse")}
                   placeholder="Escolha um curso"
@@ -177,7 +169,6 @@ export default function FormProfileEdit() {
                   required
                 />
                 <Select
-                  style={{ zIndex: 2 }}
                   data={glades}
                   {...form.getInputProps("myGlade")}
                   placeholder="Escolha sua classe"
