@@ -2,7 +2,15 @@ import axios from "axios";
 import { parseCookies, setCookie } from "nookies";
 
 const token = parseCookies().token;
-export const STRAPI_URL = "http://localhost:1337";
+const environment = {
+  production:"https://portal-obadias-backend-strapi-production.up.railway.app",
+  development:"http://localhost:1337"
+}
+
+export const STRAPI_URL = environment[process.env.NODE_ENV];
+// export const STRAPI_URL = environment.production;
+
+console.log("STRAPI_URL",STRAPI_URL);
 
 const strapi = axios.create({
   baseURL: `${STRAPI_URL}/api`,
