@@ -2,13 +2,13 @@ import { createContext } from "react";
 import { IUserLogged } from "../interfaces/IUser";
 import { useState } from "react";
 
-interface IUserContext {
-  user: IUserLogged;
-  photoPreviewURL: string;
-  setPhotoPreviewURL: React.Dispatch<React.SetStateAction<string>>;
+export interface IUserContext {
+  user?: IUserLogged;
+  photoPreviewURL?: string;
+  setPhotoPreviewURL?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const UserContext = createContext<IUserContext | null>(null);
+export const UserContext = createContext<IUserContext>({});
 
 interface UserProviderProps {
   user: IUserLogged;
