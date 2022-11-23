@@ -3,14 +3,15 @@ import { parseCookies, setCookie } from "nookies";
 
 const token = parseCookies().token;
 const environment = {
-  production:"https://portal-obadias-backend-strapi-production.up.railway.app",
-  development:"http://localhost:1337"
-}
+  production: "https://portal-obadias-backend-strapi-production.up.railway.app",
+  development: "http://localhost:1337",
+};
 
-export const STRAPI_URL = environment[process.env.NODE_ENV];
+export const STRAPI_URL =
+  environment[process.env.NODE_ENV as keyof typeof environment];
 // export const STRAPI_URL = environment.production;
 
-console.log("STRAPI_URL",STRAPI_URL);
+console.log("STRAPI_URL", STRAPI_URL);
 
 const strapi = axios.create({
   baseURL: `${STRAPI_URL}/api`,
