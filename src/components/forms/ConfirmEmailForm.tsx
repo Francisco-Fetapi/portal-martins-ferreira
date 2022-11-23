@@ -16,14 +16,13 @@ import { IconArrowLeft } from "@tabler/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { ApiIsEmailVerified } from "../../api/interfaces";
-import { serverless } from "../../api/serverless";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { selectSignupData } from "../../store/App.selectors";
-import { setSignUpData } from "../../store/App.store";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
+import { strapi } from "../../api/strapi";
+import { useRef, useEffect } from "react";
+import { sleep } from "../../helpers/sleep";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -45,10 +44,16 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+interface IConfirmationEmail {
+  status: "success";
+  code: string;
+}
+
 export function ConfirmEmailForm() {
   const { classes } = useStyles();
   const validate = useValidateFunctions();
   const [loading, setLoading] = useState(false);
+  const codeConfirmation = useRef<string | null>(null);
 
   const formSigninData = useSelector(selectSignupData);
   const form = useForm({
@@ -57,17 +62,27 @@ export function ConfirmEmailForm() {
     },
   });
   const router = useRouter();
+
+  async function sendCodeConfirmation() {
+    const { data } = await strapi.post<IConfirmationEmail>("/confirm-email", {
+      email: formSigninData.email,
+    });
+
+    codeConfirmation.current = data.code;
+    console.log("code", codeConfirmation.current);
+  }
+
+  useEffect(() => {
+    sendCodeConfirmation();
+  }, []);
+
   async function handleSubmit(values: typeof form.values) {
     console.log(values);
     console.log(formSigninData);
     setLoading(true);
-    const res = await serverless.get<ApiIsEmailVerified>("/isemailverified", {
-      params: {
-        confirmationCode: values.code,
-      },
-    });
+    await sleep(1.5);
     setLoading(false);
-    if (res.data.status === "error") {
+    if (values.code !== codeConfirmation.current) {
       form.setFieldError("code", "Codigo inválido");
     } else {
       showNotification({
