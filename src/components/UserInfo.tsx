@@ -18,7 +18,7 @@ import { IUser, IUserLogged } from "../interfaces/IUser";
 import Link from "next/link";
 import getPhoto from "../helpers/getPhoto";
 import usePhotoPreview from "../hooks/usePhotoPreview";
-import { UserContext } from "../context/UserProvider";
+import { IUserContext, UserContext } from "../context/UserProvider";
 import { useContext, useState, useEffect } from "react";
 import { ApiUploadDataResponse } from "../api/interfaces";
 import { strapi } from "../api/strapi";
@@ -46,7 +46,9 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
   const DEFAULT_PHOTO = getPhoto(user.photo!, "medium");
   const { clearFile, file, photoSrc, resetRef, setFile } =
     usePhotoPreview(DEFAULT_PHOTO);
-  const { setPhotoPreviewURL } = useContext(UserContext)!;
+  const { setPhotoPreviewURL } = useContext(
+    UserContext
+  ) as Required<IUserContext>;
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 

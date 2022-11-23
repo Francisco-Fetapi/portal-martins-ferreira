@@ -10,7 +10,7 @@ import {
 import { IconChevronRight } from "@tabler/icons";
 import Link from "next/link";
 import { useQuery } from "react-query";
-import { UserContext } from "../context/UserProvider";
+import { IUserContext, UserContext } from "../context/UserProvider";
 import getPhoto from "../helpers/getPhoto";
 import useUser from "../hooks/useUser";
 import { useContext } from "react";
@@ -47,7 +47,7 @@ export function UserButton({
 }: UserButtonProps) {
   const { classes } = useStyles();
   const { user } = useUser();
-  const { photoPreviewURL } = useContext(UserContext)!;
+  const { photoPreviewURL } = useContext(UserContext) as Required<IUserContext>;
 
   return (
     <UnstyledButton className={classes.user} {...others}>
