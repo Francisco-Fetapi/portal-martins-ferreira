@@ -17,7 +17,7 @@ export default function ProfileUserPage() {
       <UserInfo
         user={{
           username: "Nome do Usuario",
-          phoneNumber: 934312217,
+          phoneNumber: "934312217",
           photo: null,
           email: "emaildousuario@gmail.com",
           genre: "m",
