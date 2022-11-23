@@ -1,10 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { App, middlewares, sliceCreator,IUserLoggedData } from "../store/App.store";
+import { App, middlewares, sliceCreator } from "../store/App.store";
 
 const initialState: App = {
   darkMode: false,
   signupData: {},
-  userLoggedData: {} as IUserLoggedData,
 };
 
 const app = sliceCreator(initialState);
