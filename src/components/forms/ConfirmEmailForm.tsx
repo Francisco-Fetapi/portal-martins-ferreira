@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface IConfirmationEmail {
+export interface IConfirmationEmail {
   status: "success";
   code: string;
 }

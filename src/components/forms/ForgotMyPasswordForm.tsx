@@ -15,7 +15,10 @@ import { useForm } from "@mantine/form";
 import { IconArrowLeft } from "@tabler/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { strapi } from "../../api/strapi";
 import useValidateFunctions from "../../hooks/useValidateFunctions";
+import { IUserLogged } from "../../interfaces/IUser";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -40,6 +43,7 @@ const useStyles = createStyles((theme) => ({
 export function ForgotMyPasswordForm() {
   const { classes } = useStyles();
   const validate = useValidateFunctions();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: "",
@@ -52,10 +56,35 @@ export function ForgotMyPasswordForm() {
   });
 
   const router = useRouter();
-  function handleSubmit(values: typeof form.values) {
+  async function handleSubmit(values: typeof form.values) {
     console.log(values);
     // ir para redefinir senha
-    router.push("/alterar-senha");
+    setLoading(true);
+    try {
+      let { data: user } = await strapi.get<[IUserLogged[], number]>(
+        "/validation/email",
+        {
+          params: {
+            email: values.email,
+          },
+        }
+      );
+
+      if (user[1] < 1) {
+        form.setFieldError(
+          "email",
+          "Não existe nenhum usuário com este email cadastrado."
+        );
+      } else {
+        const userId = user[0][0].id;
+        console.log("Tudo ok", userId);
+        router.push(`/alterar-senha?email=${values.email}&id=${userId}`);
+      }
+    } catch (e: any) {
+      console.log(e.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -93,7 +122,7 @@ export function ForgotMyPasswordForm() {
               </Center>
             </Anchor>
           </Link>
-          <Button type="submit" className={classes.control}>
+          <Button loading={loading} type="submit" className={classes.control}>
             Redefinir senha
           </Button>
         </Group>

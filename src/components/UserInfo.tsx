@@ -41,6 +41,8 @@ interface UserInfoIconsProps {
   isMine?: boolean;
 }
 
+const emptyText = "Não informado";
+
 export function UserInfo({ user, isMine }: UserInfoIconsProps) {
   const { classes } = useStyles();
   const DEFAULT_PHOTO = getPhoto(user.photo!, "medium");
@@ -142,7 +144,7 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
                     className={classes.icon}
                   />
                 ),
-                text: user.phoneNumber,
+                text: user.phoneNumber || emptyText,
               }}
             />
             <UserGroupInfo
@@ -176,7 +178,7 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
                     className={classes.icon}
                   />
                 ),
-                text: user.myClass,
+                text: user.myClass || emptyText,
               }}
               item2={{
                 icon: (
@@ -186,7 +188,7 @@ export function UserInfo({ user, isMine }: UserInfoIconsProps) {
                     className={classes.icon}
                   />
                 ),
-                text: `${user.myGlade}ª classe`,
+                text: user.myGlade ? `${user.myGlade}ª classe` : emptyText,
               }}
             />
           </Group>

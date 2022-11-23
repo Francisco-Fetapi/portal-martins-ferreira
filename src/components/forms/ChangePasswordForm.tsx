@@ -3,6 +3,7 @@ import {
   PasswordInput,
   Anchor,
   Paper,
+  Avatar,
   Title,
   Text,
   Group,
@@ -17,9 +18,23 @@ import useValidateFunctions from "../../hooks/useValidateFunctions";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import FormHeader from "../FormHeader";
+import { IUserLogged } from "../../interfaces/IUser";
+import getPhoto from "../../helpers/getPhoto";
+import { useState, useRef, useEffect } from "react";
+import { strapi } from "../../api/strapi";
+import { IConfirmationEmail } from "./ConfirmEmailForm";
+import { showNotification } from "@mantine/notifications";
+import { sleep } from "../../helpers/sleep";
 
-export function ChangePasswordForm() {
+interface ChangePasswordFormProps {
+  user: IUserLogged;
+}
+
+export function ChangePasswordForm({ user }: ChangePasswordFormProps) {
   const validate = useValidateFunctions();
+  const codeConfirmation = useRef<string | null>(null);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       code: "",
@@ -33,24 +48,77 @@ export function ChangePasswordForm() {
       password2(password2, { password1 }) {
         return validate.password2(password2, password1);
       },
-      code(code) {
-        return validate.code(code);
-      },
     },
   });
-  const router = useRouter();
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
-    // router.push("/");
+
+  const codeNotMatch = codeConfirmation.current !== form.values.code;
+
+  async function sendCodeConfirmation() {
+    const { email } = router.query;
+    const { data } = await strapi.post<IConfirmationEmail>("/confirm-email", {
+      email,
+    });
+
+    codeConfirmation.current = data.code;
+    console.log("code", codeConfirmation.current);
+  }
+
+  useEffect(() => {
+    sendCodeConfirmation();
+  }, []);
+
+  const handleSubmit = async (values: typeof form.values) => {
+    try {
+      setLoading(true);
+      const { id, email } = router.query;
+      let res = await strapi.put("/users/" + id, {
+        password: values.password1,
+      });
+
+      console.log("put", res.data);
+
+      const { data: user } = await strapi.post("/auth/local", {
+        identifier: email,
+        password: values.password1,
+      });
+
+      console.log("user auth", user);
+      showNotification({
+        title: "Senha alterada",
+        message: "A sua senha foi alterada com sucesso.",
+        color: "green",
+      });
+      await sleep(2);
+      router.push("/");
+    } catch (e: any) {
+      showNotification({
+        title: "Erro ao alterar senha",
+        message: "Houve um erro ao tentar altera a senha. Tente mais tarde",
+        color: "red",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Stack my={50}>
       <FormHeader title="Redefinição da Senha">
-        Ainda não tens uma conta?{" "}
-        <Link href="/criar-conta">
-          <Anchor<"a"> size="sm">Criar conta</Anchor>
-        </Link>
+        <br />
+        <Center>
+          <Group spacing={8}>
+            <Avatar
+              src={getPhoto(user.photo!, "small")}
+              alt="Foto do usuario"
+              sx={{
+                width: 25,
+                height: 25,
+                borderRadius: "50%",
+              }}
+            />
+            <Text>{user.username}</Text>
+          </Group>
+        </Center>
       </FormHeader>
       <Paper
         component="form"
@@ -81,21 +149,26 @@ export function ChangePasswordForm() {
             description="Insira o código que foi enviado para o seu email neste campo."
             required
             {...form.getInputProps("code")}
+            disabled={!codeNotMatch}
           />
           <PasswordInput
-            label="Senha"
+            label="Nova Senha"
             placeholder="6 digitos no minimo"
             required
             {...form.getInputProps("password1")}
+            disabled={codeNotMatch}
           />
           <PasswordInput
             label="Confirmar senha"
             placeholder="Deve ser igual ao campo anterior"
             required
             {...form.getInputProps("password2")}
+            disabled={codeNotMatch}
           />
           <Center>
-            <Button type="submit">Concluido</Button>
+            <Button loading={loading} disabled={codeNotMatch} type="submit">
+              Concluido
+            </Button>
           </Center>
         </Stack>
       </Paper>
