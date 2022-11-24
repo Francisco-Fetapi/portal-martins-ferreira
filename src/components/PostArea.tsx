@@ -10,11 +10,18 @@ export default function PostArea({ buttonText }: PostAreaProps) {
     <div>
       <Textarea
         label="Escreva alguma notícia"
-        placeholder="O que há de novo?"
+        placeholder="O que tem a comunicar?"
         autosize
         minRows={4}
         maxRows={9}
         required
+        description={
+          <>
+            A primeira linha da noticia será fixada como o titulo.
+            <br /> Depois de publicada, a noticia precisa da{" "}
+            <b>aprovação do administrador.</b>
+          </>
+        }
       />
       <div
         style={{
