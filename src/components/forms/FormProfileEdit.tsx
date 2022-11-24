@@ -12,9 +12,9 @@ import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { strapi } from "../../api/strapi";
+import { courses, glades } from "../../helpers/ObadiasFakeDatabase";
 import useUser from "../../hooks/useUser";
 import { IGenre, IUserLogged } from "../../interfaces/IUser";
-import { courses, glades } from "./MoreInformationForm";
 
 export const genres = [
   { value: "m", label: "Masculino" },

@@ -62,7 +62,7 @@ export function ConfirmEmailForm() {
     },
   });
   const router = useRouter();
-  const haveNotEmail = !formSigninData.email;
+  const noEmail = !formSigninData.email;
 
   async function sendCodeConfirmation() {
     const { data } = await strapi.post<IConfirmationEmail>("/confirm-email", {
@@ -89,6 +89,9 @@ export function ConfirmEmailForm() {
   }
 
   async function handleSubmit(values: typeof form.values) {
+    if (noEmail) {
+      return;
+    }
     console.log(values);
     console.log(formSigninData);
     setLoading(true);
@@ -136,7 +139,7 @@ export function ConfirmEmailForm() {
           label="Código de confirmação"
           placeholder="xxx-xxx"
           required
-          disabled={haveNotEmail}
+          disabled={noEmail}
         />
         <Group position="apart" mt="lg" className={classes.controls}>
           <Link href="/criar-conta">
@@ -148,7 +151,7 @@ export function ConfirmEmailForm() {
             </Anchor>
           </Link>
           <Button
-            disabled={haveNotEmail}
+            disabled={noEmail}
             loading={loading}
             type="submit"
             className={classes.control}
@@ -158,7 +161,7 @@ export function ConfirmEmailForm() {
         </Group>
       </Paper>
 
-      {!haveNotEmail ? (
+      {!noEmail ? (
         <>
           <Text mt={10} color="yellow" size="sm">
             Procure o email na <b>Caixa de Spam</b> caso não o encontre na caixa
@@ -172,7 +175,7 @@ export function ConfirmEmailForm() {
         </>
       ) : (
         <Text mt={10} color="yellow" size="sm">
-          Preencha o formulário base antes de confirmar o email. Clique em{" "}
+          Preencha o formulário base antes de confirmar o email.{" "}
           <Link href="/criar-conta">
             <Anchor<"a">>Criar conta.</Anchor>
           </Link>

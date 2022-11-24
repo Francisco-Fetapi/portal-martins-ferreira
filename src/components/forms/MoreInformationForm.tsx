@@ -8,8 +8,7 @@ import {
   Center,
   Stack,
   Select,
-  Radio,
-  Container,
+  Anchor,
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
@@ -23,27 +22,17 @@ import { IUserFormSigninData, setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-
-export const courses = [
-  "Ensino Primário",
-  "Primeiro Ciclo",
-  "Informática de Gestão",
-  "Enfermagem Geral",
-  "Estomatologia",
-];
-
-export const glades = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(
-  (item) => ({
-    value: item,
-    label: item ? `${item}ª classe` : "Pré classe",
-  })
-);
+import Link from "next/link";
+import { courses, glades } from "../../helpers/ObadiasFakeDatabase";
 
 export function MoreInformationForm() {
   const validate = useValidateFunctions();
   const formSigninData = useSelector(selectSignupData);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const noEmail = !!formSigninData.email;
+  // const noEmail = !formSigninData.email;
   const form = useForm({
     initialValues: {
       myClass: "",
@@ -60,8 +49,10 @@ export function MoreInformationForm() {
       },
     },
   });
-  const router = useRouter();
   const handleSubmit = async (values: typeof form.values) => {
+    if (noEmail) {
+      return;
+    }
     console.log(values);
     setLoading(true);
     let res = await strapi.get("/validation/phonenumber", {
@@ -123,19 +114,14 @@ export function MoreInformationForm() {
             placeholder="+244 9xx-xxx-xxx"
             required
             {...form.getInputProps("phoneNumber")}
+            disabled={noEmail}
           />
           <TextInput
             label="Minha turma/sala"
             placeholder="Turma 1, sala B...."
             {...form.getInputProps("myClass")}
             required
-          />
-          <Select
-            data={courses}
-            {...form.getInputProps("myCourse")}
-            placeholder="Escolha um curso"
-            label="Selecione seu curso"
-            required
+            disabled={noEmail}
           />
 
           <Select
@@ -144,15 +130,34 @@ export function MoreInformationForm() {
             placeholder="Escolha sua classe"
             label="Selecione sua classe"
             required
+            disabled={noEmail}
+          />
+
+          <Select
+            data={courses}
+            {...form.getInputProps("myCourse")}
+            placeholder="Escolha um curso"
+            label="Selecione seu curso"
+            required
+            disabled={noEmail}
           />
 
           <Center>
-            <Button loading={loading} type="submit">
+            <Button disabled={noEmail} loading={loading} type="submit">
               Concluir
             </Button>
           </Center>
         </Stack>
       </Paper>
+
+      {noEmail && (
+        <Text mt={10} color="yellow" size="sm">
+          Preencha o formulário base antes de inserir mais informações.{" "}
+          <Link href="/criar-conta">
+            <Anchor<"a">>Criar conta.</Anchor>
+          </Link>
+        </Text>
+      )}
     </Stack>
   );
 }
