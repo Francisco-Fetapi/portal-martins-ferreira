@@ -38,8 +38,7 @@ export function MoreInformationForm() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const noEmail = !!formSigninData.email;
-  // const noEmail = !formSigninData.email;
+  const noEmail = !formSigninData.email;
   const form = useForm({
     initialValues: {
       myClass: "",
