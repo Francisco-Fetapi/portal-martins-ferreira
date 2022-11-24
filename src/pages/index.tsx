@@ -3,6 +3,7 @@ import AppScheme from "../components/AppScheme";
 import ArticlesList from "../components/ArticlesList";
 import UserProvider from "../context/UserProvider";
 import { redirectIfNoUser } from "../helpers/redirectIfNoUser";
+import usePost from "../hooks/usePost";
 import { IUserLogged } from "../interfaces/IUser";
 
 interface PageProps {
@@ -10,6 +11,8 @@ interface PageProps {
 }
 
 export default function IndexPage({ user }: PageProps) {
+  const { posts } = usePost();
+
   return (
     <UserProvider user={user}>
       <AppScheme>
@@ -20,7 +23,8 @@ export default function IndexPage({ user }: PageProps) {
             mão.
           </Text>
         </Box>
-        <ArticlesList />
+
+        <ArticlesList posts={posts.data} />
       </AppScheme>
     </UserProvider>
   );

@@ -22,9 +22,13 @@ import {
   IconEdit,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
+import { ApiPost } from "../api/interfaces";
 import { NO_PHOTO } from "../helpers/constants";
 import dateDistance from "../helpers/dateDistance";
+import getPhoto from "../helpers/getPhoto";
 import useGlobalStyles from "../hooks/useGlobalStyles";
+import { useMemo } from "react";
+import useUser from "../hooks/useUser";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -45,30 +49,13 @@ const useStyles = createStyles((theme) => ({
 
 interface ArticleCardFooterProps {
   long?: boolean;
-  post: {
-    id: number;
-    title: string;
-    content: string;
-    image?: string;
-    created_at: Date;
-    comments: number;
-    likes: number;
-    disLikes: number;
-    isMine: boolean;
-  };
-  user: {
-    name: string;
-    image: string;
-  };
+  post: ApiPost;
 }
 
-export function ArticleCardFooter({
-  user,
-  post,
-  long,
-}: ArticleCardFooterProps) {
+export function ArticleCardFooter({ post, long }: ArticleCardFooterProps) {
   const { classes, theme } = useStyles();
   const router = useRouter();
+  const { user } = useUser();
 
   function handleDelete() {
     openConfirmModal({
@@ -81,11 +68,24 @@ export function ArticleCardFooter({
     });
   }
 
+  const isMyPost = user.id === post.user.id;
+
+  const likes = useMemo(() => {
+    return post.post_reacts.filter((react) => react.type === 1).length;
+  }, [post]);
+  const dislikes = useMemo(() => {
+    return post.post_reacts.filter((react) => react.type === 0).length;
+  }, [post]);
+
   return (
     <Card withBorder p="lg" radius="md" className={classes.card}>
-      {post.image && (
+      {post.photo && (
         <Card.Section mb="sm">
-          <Image src={post.image} alt={post.title} height={250} />
+          <Image
+            src={getPhoto(post.photo, "large")}
+            alt={post.title}
+            height={250}
+          />
         </Card.Section>
       )}
 
@@ -96,13 +96,13 @@ export function ArticleCardFooter({
         <Text color="dimmed" size="xs">
           <Group spacing={1}>
             <IconThumbUp size={18} />
-            <div>{post.likes} pessoas</div>
+            <div>{likes} pessoas</div>
           </Group>
         </Text>
         <Text color="dimmed" size="xs">
           <Group spacing={1}>
             <IconThumbDown size={18} />
-            <div>{post.disLikes} pessoas</div>
+            <div>{dislikes} pessoas</div>
           </Group>
         </Text>
       </Group>
@@ -123,14 +123,14 @@ export function ArticleCardFooter({
 
       <Group mt="lg">
         <Avatar
-          src={user.image || NO_PHOTO}
+          src={getPhoto(post.user.photo!) || NO_PHOTO}
           alt="Foto do usuario"
           style={{ borderRadius: "50%", width: 40, height: 40 }}
         />
         <div>
-          <Text weight={500}>{user.name}</Text>
+          <Text weight={500}>{post.user.username}</Text>
           <Text size="xs" color="dimmed">
-            {dateDistance(post.created_at)}
+            {dateDistance(new Date(post.publishedAt))}
           </Text>
         </div>
       </Group>
@@ -140,7 +140,7 @@ export function ArticleCardFooter({
           <Text size="xs" color="dimmed">
             <Group spacing={1}>
               <IconMessage />
-              <div>{post.comments} comentários</div>
+              <div>{post.post_comments.length} comentários</div>
             </Group>
           </Text>
           <Group spacing={10}>
@@ -178,7 +178,7 @@ export function ArticleCardFooter({
                 onClick={() => router.push("/noticia/" + post.id)}
               />
             )}
-            {post.isMine && (
+            {isMyPost && (
               <>
                 <PostIcon
                   icon={

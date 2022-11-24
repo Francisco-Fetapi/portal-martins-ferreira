@@ -61,12 +61,40 @@ export interface ApiResponse<T = any> {
   meta: object;
 }
 
-export interface ApiPost {
-  title: string;
+export interface ApiComment extends ApiWithTimestamps {
+  id: number;
   content: string;
-  approved: boolean;
+}
+export interface ApiReact extends ApiWithTimestamps {
+  id: number;
+  type: number;
+}
+
+export interface ApiWithTimestamps {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+}
+
+export interface ApiPost extends ApiWithTimestamps {
+  id: number;
+  title: string;
+  content: string;
+  approved: boolean;
   user: IUserLogged;
+  photo: ApiUploadDataResponse | null;
+  post_comments: ApiComment[];
+  post_reacts: ApiReact[];
+}
+
+export interface ApiPaginated<T = any> {
+  results: T;
+  pagination: ApiPagination;
+}
+
+export interface ApiPagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
 }
