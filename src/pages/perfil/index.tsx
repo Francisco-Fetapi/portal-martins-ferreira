@@ -105,6 +105,7 @@ function PostAreaProfile({ user }: PostAreaProfileProps) {
         color: "green",
       });
       form.reset();
+      setFile(null);
     } catch (e: any) {
     } finally {
       setLoading(false);
