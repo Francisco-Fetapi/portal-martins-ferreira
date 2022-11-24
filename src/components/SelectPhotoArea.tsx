@@ -9,27 +9,22 @@ import {
   Avatar,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { ApiRegister, ApiUploadDataResponse } from "../api/interfaces";
-import { PHOTO_URL_MAIN, strapi } from "../api/strapi";
+import { strapi } from "../api/strapi";
+import { NO_PHOTO } from "../helpers/constants";
 import usePhotoPreview from "../hooks/usePhotoPreview";
-import { IUserLogged } from "../interfaces/IUser";
 import { selectSignupData } from "../store/App.selectors";
 import { IUserFormSigninData } from "../store/App.store";
 
-// const DEFAULT_PHOTO = "/user.jpg";
-const DEFAULT_PHOTO = "no-photo";
-
 export default function SelectPhotoArea() {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { clearFile, file, photoSrc, resetRef, setFile } =
-    usePhotoPreview(DEFAULT_PHOTO);
+    usePhotoPreview(NO_PHOTO);
   const signupData = useSelector(
     selectSignupData
   ) as Required<IUserFormSigninData>;

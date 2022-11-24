@@ -22,6 +22,7 @@ import {
   IconEdit,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
+import { NO_PHOTO } from "../helpers/constants";
 import dateDistance from "../helpers/dateDistance";
 import useGlobalStyles from "../hooks/useGlobalStyles";
 
@@ -122,7 +123,7 @@ export function ArticleCardFooter({
 
       <Group mt="lg">
         <Avatar
-          src={user.image || "no-photo"}
+          src={user.image || NO_PHOTO}
           alt="Foto do usuario"
           style={{ borderRadius: "50%", width: 40, height: 40 }}
         />
