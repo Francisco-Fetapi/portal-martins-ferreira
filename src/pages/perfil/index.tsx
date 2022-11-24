@@ -19,11 +19,14 @@ import {
 import { strapi } from "../../api/strapi";
 import { AxiosResponse } from "axios";
 import { showNotification } from "@mantine/notifications";
+import usePost from "../../hooks/usePost";
 interface PageProps {
   user: IUserLogged;
 }
 
 export default function ProfilePage({ user }: PageProps) {
+  const { myPosts } = usePost();
+
   return (
     <UserProvider user={user}>
       <AppScheme>
@@ -46,7 +49,7 @@ export default function ProfilePage({ user }: PageProps) {
         </Box>
 
         <Box mt={30}>
-          <ArticlesList />
+          <ArticlesList posts={myPosts.data} user={user} />
         </Box>
       </AppScheme>
     </UserProvider>

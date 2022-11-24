@@ -8,8 +8,12 @@ export default function usePost() {
     let res = await strapi.get<ApiPaginated<ApiPost[]>>("/posts/approved");
     return res.data;
   });
+  const myPosts = useQuery("my_posts", async () => {
+    let res = await strapi.get<ApiPaginated<ApiPost[]>>("/posts/mine");
+    return res.data;
+  });
 
   console.log(posts);
 
-  return { posts };
+  return { posts, myPosts };
 }

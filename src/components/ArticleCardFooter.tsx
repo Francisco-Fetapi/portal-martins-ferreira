@@ -29,6 +29,7 @@ import getPhoto from "../helpers/getPhoto";
 import useGlobalStyles from "../hooks/useGlobalStyles";
 import { useMemo } from "react";
 import useUser from "../hooks/useUser";
+import { IUserLogged } from "../interfaces/IUser";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -50,12 +51,17 @@ const useStyles = createStyles((theme) => ({
 interface ArticleCardFooterProps {
   long?: boolean;
   post: ApiPost;
+  user?: IUserLogged;
 }
 
-export function ArticleCardFooter({ post, long }: ArticleCardFooterProps) {
+export function ArticleCardFooter({
+  post,
+  long,
+  user,
+}: ArticleCardFooterProps) {
   const { classes, theme } = useStyles();
   const router = useRouter();
-  const { user } = useUser();
+  const { user: userLogged } = useUser();
 
   function handleDelete() {
     openConfirmModal({
@@ -68,7 +74,11 @@ export function ArticleCardFooter({ post, long }: ArticleCardFooterProps) {
     });
   }
 
-  const isMyPost = user.id === post.user.id;
+  if (user) {
+    post.user = user;
+  }
+
+  const isMyPost = userLogged.id === post.user.id;
 
   const likes = useMemo(() => {
     return post.post_reacts.filter((react) => react.type === 1).length;
@@ -82,7 +92,7 @@ export function ArticleCardFooter({ post, long }: ArticleCardFooterProps) {
       {post.photo && (
         <Card.Section mb="sm">
           <Image
-            src={getPhoto(post.photo, "large")}
+            src={getPhoto(post.photo, "medium")}
             alt={post.title}
             height={250}
           />
@@ -123,7 +133,7 @@ export function ArticleCardFooter({ post, long }: ArticleCardFooterProps) {
 
       <Group mt="lg">
         <Avatar
-          src={getPhoto(post.user.photo!) || NO_PHOTO}
+          src={getPhoto(post.user.photo!, "small") || NO_PHOTO}
           alt="Foto do usuario"
           style={{ borderRadius: "50%", width: 40, height: 40 }}
         />
