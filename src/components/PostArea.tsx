@@ -1,11 +1,24 @@
-import { Anchor, Textarea, Center, Button } from "@mantine/core";
+import { Anchor, FileButton, Textarea, Center, Button } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
 
 interface PostAreaProps {
   buttonText?: string;
+  file: File | null;
+  setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  handleSubmit: () => void;
+  form: UseFormReturnType<{ content: string }>;
+  isLoading: boolean;
 }
 // 2 componentes estao usando. Agnostico ao lugar que requisitado
 // get the form returned by useForm
-export default function PostArea({ buttonText }: PostAreaProps) {
+export default function PostArea({
+  buttonText,
+  file,
+  setFile,
+  handleSubmit,
+  form,
+  isLoading,
+}: PostAreaProps) {
   return (
     <div>
       <Textarea
@@ -18,10 +31,11 @@ export default function PostArea({ buttonText }: PostAreaProps) {
         description={
           <>
             A primeira linha da noticia será fixada como o titulo.
-            <br /> Depois de publicada, a noticia precisa da{" "}
+            <br /> Depois de publicada/editada, a noticia precisa da{" "}
             <b>aprovação do administrador.</b>
           </>
         }
+        {...form.getInputProps("content")}
       />
       <div
         style={{
@@ -30,10 +44,18 @@ export default function PostArea({ buttonText }: PostAreaProps) {
           marginTop: 5,
         }}
       >
-        <Anchor size="xs">Escolher foto</Anchor>
+        <FileButton onChange={setFile} accept="image/png,image/jpeg">
+          {(props) => (
+            <Anchor size="xs" {...props}>
+              {file ? "Alterar foto" : "Escolher foto"}
+            </Anchor>
+          )}
+        </FileButton>
       </div>
       <Center mt={1}>
-        <Button>{buttonText || "Publicar"}</Button>
+        <Button loading={isLoading} onClick={handleSubmit}>
+          {buttonText || "Publicar"}
+        </Button>
       </Center>
     </div>
   );

@@ -48,3 +48,25 @@ export interface ApiLogin {
   jwt: string;
   user: IUserLogged;
 }
+
+export interface ApiRequest<T = any> {
+  data: T;
+}
+export interface ApiResponse<T = any> {
+  data: {
+    id: string;
+    attributes: T;
+    meta: object;
+  };
+  meta: object;
+}
+
+export interface ApiPost {
+  title: string;
+  content: string;
+  approved: boolean;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  user: IUserLogged;
+}
