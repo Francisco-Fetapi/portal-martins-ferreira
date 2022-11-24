@@ -20,6 +20,7 @@ import {
   IconThumbUp,
   IconTrash,
   IconEdit,
+  IconInfoCircle,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { ApiPost } from "../api/interfaces";
@@ -115,6 +116,14 @@ export function ArticleCardFooter({
             <div>{dislikes} pessoas</div>
           </Group>
         </Text>
+        {!post.approved && (
+          <Text color="red" size="xs">
+            <Group spacing={3} align="flex-end">
+              <IconInfoCircle size={18} />
+              <div>Necessita de aprovação.</div>
+            </Group>
+          </Text>
+        )}
       </Group>
       <Text size="sm">
         {!long ? (
@@ -154,27 +163,31 @@ export function ArticleCardFooter({
             </Group>
           </Text>
           <Group spacing={10}>
-            <PostIcon
-              icon={
-                <IconThumbUp
-                  size={18}
-                  color={theme.colors.blue[6]}
-                  stroke={1.5}
+            {post.approved && (
+              <>
+                <PostIcon
+                  icon={
+                    <IconThumbUp
+                      size={18}
+                      color={theme.colors.blue[6]}
+                      stroke={1.5}
+                    />
+                  }
+                  title="gostar"
                 />
-              }
-              title="gostar"
-            />
 
-            <PostIcon
-              icon={
-                <IconThumbDown
-                  size={18}
-                  color={theme.colors.cyan[6]}
-                  stroke={1.5}
+                <PostIcon
+                  icon={
+                    <IconThumbDown
+                      size={18}
+                      color={theme.colors.cyan[6]}
+                      stroke={1.5}
+                    />
+                  }
+                  title="não gostar"
                 />
-              }
-              title="não gostar"
-            />
+              </>
+            )}
             {!long && (
               <PostIcon
                 icon={
@@ -214,16 +227,18 @@ export function ArticleCardFooter({
                 />
               </>
             )}
-            <PostIcon
-              icon={
-                <IconBookmark
-                  size={18}
-                  color={theme.colors.yellow[6]}
-                  stroke={1.5}
-                />
-              }
-              title="guardar"
-            />
+            {post.approved && (
+              <PostIcon
+                icon={
+                  <IconBookmark
+                    size={18}
+                    color={theme.colors.yellow[6]}
+                    stroke={1.5}
+                  />
+                }
+                title="guardar"
+              />
+            )}
           </Group>
         </Group>
       </Card.Section>
