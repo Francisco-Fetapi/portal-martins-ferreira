@@ -20,10 +20,17 @@ import useValidateFunctions from "../../hooks/useValidateFunctions";
 import { selectSignupData } from "../../store/App.selectors";
 import { IUserFormSigninData, setSignUpData } from "../../store/App.store";
 import FormHeader from "../FormHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { showNotification } from "@mantine/notifications";
 import Link from "next/link";
-import { courses, glades } from "../../helpers/ObadiasFakeDatabase";
+import {
+  courses,
+  getAlternativeCourse,
+  glades,
+  ICourses,
+  IGlades,
+  thisGladeHaveACourse,
+} from "../../helpers/ObadiasFakeDatabase";
 
 export function MoreInformationForm() {
   const validate = useValidateFunctions();
@@ -36,8 +43,8 @@ export function MoreInformationForm() {
   const form = useForm({
     initialValues: {
       myClass: "",
-      myCourse: "",
-      myGlade: 10,
+      myCourse: "" as ICourses,
+      myGlade: 0 as IGlades,
       phoneNumber: "",
     },
     validate: {
@@ -49,11 +56,21 @@ export function MoreInformationForm() {
       },
     },
   });
+  const myGladeHasACourse = thisGladeHaveACourse(form.values.myGlade);
+
+  useEffect(() => {
+    if (!myGladeHasACourse) {
+      form.setFieldValue("myCourse", getAlternativeCourse(form.values.myGlade));
+    }
+  }, [form.values.myGlade, form.values.myClass]);
+
   const handleSubmit = async (values: typeof form.values) => {
     if (noEmail) {
       return;
     }
     console.log(values);
+
+    return;
     setLoading(true);
     let res = await strapi.get("/validation/phonenumber", {
       params: {
@@ -133,14 +150,16 @@ export function MoreInformationForm() {
             disabled={noEmail}
           />
 
-          <Select
-            data={courses}
-            {...form.getInputProps("myCourse")}
-            placeholder="Escolha um curso"
-            label="Selecione seu curso"
-            required
-            disabled={noEmail}
-          />
+          {myGladeHasACourse && (
+            <Select
+              data={courses}
+              {...form.getInputProps("myCourse")}
+              placeholder="Escolha um curso"
+              label="Selecione seu curso"
+              required
+              disabled={noEmail}
+            />
+          )}
 
           <Center>
             <Button disabled={noEmail} loading={loading} type="submit">
