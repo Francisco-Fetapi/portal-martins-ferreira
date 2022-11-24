@@ -10,9 +10,14 @@ import {
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { strapi } from "../../api/strapi";
-import { courses, glades } from "../../helpers/ObadiasFakeDatabase";
+import {
+  courses,
+  getAlternativeCourse,
+  glades,
+  thisGladeHaveACourse,
+} from "../../helpers/ObadiasFakeDatabase";
 import useUser from "../../hooks/useUser";
 import { IGenre, IUserLogged } from "../../interfaces/IUser";
 
@@ -36,7 +41,14 @@ export default function FormProfileEdit() {
       phoneNumber: user.phoneNumber || "",
     },
   });
+  const myGladeHasACourse = thisGladeHaveACourse(form.values.myGlade);
   const router = useRouter();
+
+  useEffect(() => {
+    if (!myGladeHasACourse) {
+      form.setFieldValue("myCourse", getAlternativeCourse(form.values.myGlade));
+    }
+  }, [form.values.myGlade, form.values.myClass]);
 
   async function handleSubmit(values: typeof form.values) {
     try {
@@ -157,15 +169,8 @@ export default function FormProfileEdit() {
                 />
                 <TextInput
                   label="Minha turma/sala"
-                  placeholder="Turma 1, sala B...."
+                  placeholder="Turma 1, Sala B...."
                   {...form.getInputProps("myClass")}
-                  required
-                />
-                <Select
-                  data={courses}
-                  {...form.getInputProps("myCourse")}
-                  placeholder="Escolha um curso"
-                  label="Selecione seu curso"
                   required
                 />
                 <Select
@@ -175,6 +180,15 @@ export default function FormProfileEdit() {
                   label="Selecione sua classe"
                   required
                 />
+                {myGladeHasACourse && (
+                  <Select
+                    data={courses}
+                    {...form.getInputProps("myCourse")}
+                    placeholder="Escolha um curso"
+                    label="Selecione seu curso"
+                    required
+                  />
+                )}
               </Stack>
             </div>
           )}

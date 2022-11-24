@@ -68,8 +68,6 @@ export function MoreInformationForm() {
       return;
     }
     console.log(values);
-
-    return;
     setLoading(true);
     let res = await strapi.get("/validation/phonenumber", {
       params: {
