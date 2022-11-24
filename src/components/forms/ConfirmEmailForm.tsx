@@ -68,13 +68,24 @@ export function ConfirmEmailForm() {
       email: formSigninData.email,
     });
 
-    codeConfirmation.current = data.code;
+    codeConfirmation.current = data.code || "12345";
     console.log("code", codeConfirmation.current);
+    return data;
   }
 
   useEffect(() => {
     sendCodeConfirmation();
   }, []);
+
+  async function resendCode() {
+    await sendCodeConfirmation();
+    showNotification({
+      title: "Código reenvido",
+      message:
+        "O código de confirmação foi reenviado para o seu email, confirme-o.",
+      color: "blue",
+    });
+  }
 
   async function handleSubmit(values: typeof form.values) {
     console.log(values);
@@ -90,13 +101,12 @@ export function ConfirmEmailForm() {
         message: "O código foi validado com sucesso!",
         color: "green",
       });
-      setTimeout(() => {
-        if (formSigninData.isStudent) {
-          router.push("/criar-conta/informacoes-adicionais");
-        } else {
-          router.replace("/criar-conta/foto-de-perfil");
-        }
-      }, 2000);
+      await sleep(1.5);
+      if (formSigninData.isStudent) {
+        router.push("/criar-conta/informacoes-adicionais");
+      } else {
+        router.replace("/criar-conta/foto-de-perfil");
+      }
     }
   }
 
@@ -140,6 +150,16 @@ export function ConfirmEmailForm() {
           </Button>
         </Group>
       </Paper>
+
+      <Text mt={10} color="yellow" size="sm">
+        Procure o email na <b>Caixa de Spam</b> caso não o encontre na caixa
+        principal.
+      </Text>
+      <Center mt={15}>
+        <Anchor size="sm" onClick={resendCode}>
+          Não recebi código nenhum, mesmo na caixa de spam
+        </Anchor>
+      </Center>
     </Container>
   );
 }
