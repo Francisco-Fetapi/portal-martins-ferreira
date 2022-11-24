@@ -62,6 +62,7 @@ export function ConfirmEmailForm() {
     },
   });
   const router = useRouter();
+  const haveNotEmail = !formSigninData.email;
 
   async function sendCodeConfirmation() {
     const { data } = await strapi.post<IConfirmationEmail>("/confirm-email", {
@@ -135,6 +136,7 @@ export function ConfirmEmailForm() {
           label="Código de confirmação"
           placeholder="xxx-xxx"
           required
+          disabled={haveNotEmail}
         />
         <Group position="apart" mt="lg" className={classes.controls}>
           <Link href="/criar-conta">
@@ -145,21 +147,37 @@ export function ConfirmEmailForm() {
               </Center>
             </Anchor>
           </Link>
-          <Button loading={loading} type="submit" className={classes.control}>
+          <Button
+            disabled={haveNotEmail}
+            loading={loading}
+            type="submit"
+            className={classes.control}
+          >
             Confirmar email
           </Button>
         </Group>
       </Paper>
 
-      <Text mt={10} color="yellow" size="sm">
-        Procure o email na <b>Caixa de Spam</b> caso não o encontre na caixa
-        principal.
-      </Text>
-      <Center mt={15}>
-        <Anchor size="sm" onClick={resendCode}>
-          Não recebi código nenhum, mesmo na caixa de spam
-        </Anchor>
-      </Center>
+      {!haveNotEmail ? (
+        <>
+          <Text mt={10} color="yellow" size="sm">
+            Procure o email na <b>Caixa de Spam</b> caso não o encontre na caixa
+            principal.
+          </Text>
+          <Center mt={15}>
+            <Anchor size="sm" onClick={resendCode}>
+              Não recebi código nenhum, mesmo na caixa de spam
+            </Anchor>
+          </Center>
+        </>
+      ) : (
+        <Text mt={10} color="yellow" size="sm">
+          Preencha o formulário base antes de confirmar o email. Clique em{" "}
+          <Link href="/criar-conta">
+            <Anchor<"a">>Criar conta.</Anchor>
+          </Link>
+        </Text>
+      )}
     </Container>
   );
 }
