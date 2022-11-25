@@ -1,6 +1,6 @@
 import AppScheme from "../../components/AppScheme";
 import { UserInfo } from "../../components/UserInfo";
-import { Text, Box, Title } from "@mantine/core";
+import { Text, Box, Title, Skeleton } from "@mantine/core";
 import PostArea from "../../components/PostArea";
 import ArticlesList from "../../components/ArticlesList";
 import { useSelector } from "react-redux";
@@ -41,15 +41,13 @@ export default function ProfilePage({ user }: PageProps) {
         </Box>
 
         <Box mt={30}>
-          <Title order={2}>Publicados por mim</Title>
-          <Text color="dimmed" size="xs" mt={5}>
-            Todas as noticias publicadas por você são exibidas nesta seção desde
-            a mais recente à mais antiga.
-          </Text>
-        </Box>
-
-        <Box mt={30}>
-          <ArticlesList posts={myPosts.data} user={user} />
+          <ArticlesList
+            title="Publicados por mim"
+            text="Todas as noticias publicadas por você são exibidas nesta seção desde
+            a mais recente à mais antiga."
+            posts={myPosts.data}
+            user={user}
+          />
         </Box>
       </AppScheme>
     </UserProvider>

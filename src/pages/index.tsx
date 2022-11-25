@@ -16,15 +16,12 @@ export default function IndexPage({ user }: PageProps) {
   return (
     <UserProvider user={user}>
       <AppScheme>
-        <Box mb={30}>
-          <Title order={1}>Noticias</Title>
-          <Text size="sm" color="dimmed" mt={5}>
-            Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira
-            mão.
-          </Text>
-        </Box>
-
-        <ArticlesList posts={posts.data} />
+        <ArticlesList
+          posts={posts.data}
+          title="Noticias"
+          text="Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira
+        mão."
+        />
       </AppScheme>
     </UserProvider>
   );
