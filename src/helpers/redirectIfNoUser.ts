@@ -1,11 +1,23 @@
-import { GetServerSideProps } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  PreviewData,
+} from "next";
 import { strapi } from "../api/strapi";
 import { IUserLogged } from "../interfaces/IUser";
 import nookies from "nookies";
+import { ParsedUrlQuery } from "querystring";
 
-export const redirectIfNoUser: GetServerSideProps = async (ctx) => {
+export function getToken(
+  ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
+) {
   const cookies = nookies.get(ctx);
   const token = cookies.token;
+  return token;
+}
+
+export const redirectIfNoUser: GetServerSideProps = async (ctx) => {
+  const token = getToken(ctx);
   const isNotLogged = !token;
 
   const redirectToLogin = {

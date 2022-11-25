@@ -54,11 +54,15 @@ export interface ApiRequest<T = any> {
 }
 export interface ApiResponse<T = any> {
   data: {
-    id: string;
+    id: number;
     attributes: T;
     meta: object;
   };
   meta: object;
+}
+
+interface ApiResponseDataOnly<T = any> {
+  data: T;
 }
 
 export interface ApiComment extends ApiWithTimestamps {
@@ -76,15 +80,41 @@ export interface ApiWithTimestamps {
   publishedAt: string;
 }
 
-export interface ApiPost extends ApiWithTimestamps {
-  id: number;
+interface IPost {
   title: string;
   content: string;
   approved: boolean;
+}
+
+export interface ApiPost extends ApiWithTimestamps, IPost {
+  id: number;
   user: IUserLogged;
   photo: ApiUploadDataResponse | null;
   post_comments: ApiComment[];
   post_reacts: ApiReact[];
+}
+export interface ApiSinglePost extends IPost {
+  user: ApiResponseData<IUserLogged>;
+  photo: ApiResponseData<ApiUploadDataResponse> | null;
+  post_comments: ApiResponseDataOnly<
+    {
+      id: number;
+      attributes: ApiComment;
+    }[]
+  >;
+  post_reacts: ApiResponseDataOnly<
+    {
+      id: number;
+      attributes: ApiReact;
+    }[]
+  >;
+}
+
+export interface ApiResponseData<T = any> {
+  data: {
+    id: number;
+    attributes: Omit<T, "id">;
+  };
 }
 
 export interface ApiPaginated<T = any> {

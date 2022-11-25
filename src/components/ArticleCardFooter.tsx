@@ -78,6 +78,8 @@ export function ArticleCardFooter({
   if (user) {
     post.user = user;
   }
+  console.log(userLogged);
+  console.log(post);
 
   const isMyPost = userLogged.id === post.user.id;
 
