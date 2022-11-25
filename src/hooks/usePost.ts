@@ -13,7 +13,5 @@ export default function usePost() {
     return res.data;
   });
 
-  console.log(posts);
-
   return { posts, myPosts };
 }

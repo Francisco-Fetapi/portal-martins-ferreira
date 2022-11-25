@@ -20,6 +20,7 @@ import { strapi } from "../../api/strapi";
 import { AxiosResponse } from "axios";
 import { showNotification } from "@mantine/notifications";
 import usePost from "../../hooks/usePost";
+import parsePost from "../../helpers/parsePost";
 interface PageProps {
   user: IUserLogged;
 }
@@ -68,8 +69,7 @@ function PostAreaProfile({ user }: PostAreaProfileProps) {
   const [loading, setLoading] = useState(false);
 
   const handlePost = useCallback(async () => {
-    const [title, ...other] = form.values.content.split("\n");
-    const content = other.join("\n");
+    const { title, content } = parsePost(form.values.content);
 
     try {
       setLoading(true);
