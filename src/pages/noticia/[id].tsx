@@ -26,9 +26,9 @@ interface PageProps {
   post: ApiResponse<ApiSinglePost>;
 }
 
-export default function Noticia({ user, post }: PageProps) {
-  const router = useRouter();
+// get also all comments
 
+export default function Noticia({ user, post }: PageProps) {
   console.log(post);
 
   const postParsed = {
@@ -93,7 +93,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const isNotLogged = !token;
 
   if (isNotLogged) {
-    console.log("Caiu aqui");
     return redirectIfNoUser(ctx);
   }
 

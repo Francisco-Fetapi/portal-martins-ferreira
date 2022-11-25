@@ -16,8 +16,12 @@ export default function IndexPage({ user }: PageProps) {
         <Box mt={10}>
           <ArticlesList
             title="Guardadas"
-            text="Veja as noticias que você guardou ordenadas da mais recente à mais
-          antiga."
+            text={
+              <>
+                Veja as noticias que você guardou ordenadas da mais recente à
+                mais antiga.
+              </>
+            }
           />
         </Box>
       </AppScheme>

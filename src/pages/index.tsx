@@ -19,8 +19,12 @@ export default function IndexPage({ user }: PageProps) {
         <ArticlesList
           posts={posts.data}
           title="Noticias"
-          text="Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira
-        mão."
+          text={
+            <>
+              Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira
+              mão.
+            </>
+          }
         />
       </AppScheme>
     </UserProvider>

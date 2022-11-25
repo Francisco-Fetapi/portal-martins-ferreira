@@ -7,8 +7,8 @@ import { ArticleCardFooter } from "./ArticleCardFooter";
 interface ArticlesListProps {
   posts?: ApiPaginated<ApiPost[]>;
   user?: IUserLogged;
-  title?: string;
-  text?: string;
+  title?: React.ReactNode;
+  text?: React.ReactNode;
 }
 
 export default function ArticlesList({

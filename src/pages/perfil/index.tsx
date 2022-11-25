@@ -44,8 +44,12 @@ export default function ProfilePage({ user }: PageProps) {
         <Box mt={30}>
           <ArticlesList
             title="Publicados por mim"
-            text="Todas as noticias publicadas por você são exibidas nesta seção desde
-            a mais recente à mais antiga."
+            text={
+              <>
+                Todas as noticias publicadas por você são exibidas nesta seção
+                desde a mais recente à mais antiga.
+              </>
+            }
             posts={myPosts.data}
             user={user}
           />
