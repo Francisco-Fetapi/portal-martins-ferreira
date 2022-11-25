@@ -1,5 +1,5 @@
 import { Box, Group, Skeleton, Space, Stack, Text, Title } from "@mantine/core";
-import React from "react";
+import React, { useMemo } from "react";
 import { ApiPaginated, ApiPost } from "../api/interfaces";
 import { IUserLogged } from "../interfaces/IUser";
 import { ArticleCardFooter } from "./ArticleCardFooter";
@@ -17,6 +17,18 @@ export default function ArticlesList({
   title,
   text,
 }: ArticlesListProps) {
+  const listPosts = useMemo(() => {
+    return (
+      <>
+        {posts?.results.map((post) => (
+          <Box key={post.id} mb={30}>
+            <ArticleCardFooter post={post} user={user} />
+          </Box>
+        ))}
+      </>
+    );
+  }, [posts]);
+
   if (!posts) {
     return (
       <Stack>
@@ -29,6 +41,12 @@ export default function ArticlesList({
     );
   }
 
+  const NoPostFound = (
+    <Text color="dimmed" size="xs" align="center">
+      Nenhuma noticia encontrada
+    </Text>
+  );
+
   return (
     <Box mt={30}>
       {title && text && (
@@ -39,11 +57,7 @@ export default function ArticlesList({
           </Text>
         </Box>
       )}
-      {posts.results.map((post) => (
-        <Box key={post.id} mb={30}>
-          <ArticleCardFooter post={post} user={user} />
-        </Box>
-      ))}
+      {posts.results.length === 0 ? NoPostFound : listPosts}
     </Box>
   );
 }
