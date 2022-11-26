@@ -8,6 +8,8 @@ import { IUserLogged } from "../../interfaces/IUser";
 import { GetServerSideProps } from "next";
 import { strapi } from "../../api/strapi";
 import UserProvider from "../../context/UserProvider";
+import usePost from "../../hooks/usePost";
+import { useEffect } from "react";
 
 interface PageProps {
   user: IUserLogged;
@@ -15,6 +17,8 @@ interface PageProps {
 }
 
 export default function ProfileUserPage({ otherUser, user }: PageProps) {
+  const { othersPosts } = usePost();
+
   return (
     <UserProvider user={user}>
       <AppScheme>
@@ -31,7 +35,7 @@ export default function ProfileUserPage({ otherUser, user }: PageProps) {
             </Box>
 
             <Box mt={30}>
-              <ArticlesList />
+              <ArticlesList posts={othersPosts.data} />
             </Box>
           </>
         ) : (
