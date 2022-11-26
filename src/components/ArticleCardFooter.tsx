@@ -1,6 +1,7 @@
 import {
   createStyles,
   Tooltip,
+  Anchor,
   Card,
   Image,
   ActionIcon,
@@ -31,6 +32,7 @@ import useGlobalStyles from "../hooks/useGlobalStyles";
 import { useMemo } from "react";
 import useUser from "../hooks/useUser";
 import { IUserLogged } from "../interfaces/IUser";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -78,8 +80,6 @@ export function ArticleCardFooter({
   if (user) {
     post.user = user;
   }
-  console.log(userLogged);
-  console.log(post);
 
   const isMyPost = userLogged.id === post.user.id;
 
@@ -142,14 +142,19 @@ export function ArticleCardFooter({
         )}
       </Text>
 
-      <Group mt="lg">
+      <Group mt="xl" spacing={10}>
         <Avatar
           src={getPhoto(post.user.photo!, "small") || NO_PHOTO}
           alt="Foto do usuario"
-          style={{ borderRadius: "50%", width: 40, height: 40 }}
+          style={{ borderRadius: "50%", width: 40, height: 40, zoom: 0.9 }}
         />
         <div>
-          <Text weight={500}>{post.user.username}</Text>
+          <Link href={isMyPost ? "/perfil" : `/perfil/${post.user.id}`}>
+            <Anchor size="xs" weight={500}>
+              {post.user.username}
+            </Anchor>
+          </Link>
+
           <Text size="xs" color="dimmed">
             {dateDistance(new Date(post.publishedAt))}
           </Text>
