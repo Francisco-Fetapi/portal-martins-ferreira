@@ -14,6 +14,10 @@ import { IconEdit, IconTrash, IconThumbUp, IconThumbDown } from "@tabler/icons";
 import dateDistance from "../helpers/dateDistance";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import Link from "next/link";
+import { ApiComment } from "../api/interfaces";
+import getPhoto from "../helpers/getPhoto";
+import useUser from "../hooks/useUser";
+import { useMemo } from "react";
 
 const useStyles = createStyles((theme) => ({
   body: {
@@ -24,30 +28,33 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface CommentSimpleProps {
-  created_at: Date;
-  body: string;
-  likes: number;
-  liked: boolean;
-  dislikes: number;
-  disliked: boolean;
-  isMine: boolean;
-  author: {
-    name: string;
-    image: string;
-  };
+  comment: ApiComment;
 }
 
-export function CommentSimple({
-  created_at,
-  body,
-  author,
-  likes,
-  dislikes,
-  liked,
-  disliked,
-  isMine,
-}: CommentSimpleProps) {
+export function CommentSimple({ comment }: CommentSimpleProps) {
   const { classes } = useStyles();
+  const author = comment.user;
+  const { user } = useUser();
+  const isMyComment = author.id === user.id;
+
+  const likes = useMemo(() => {
+    return comment.comment_reacts.filter((react) => react.type === 1).length;
+  }, [comment]);
+  const dislikes = useMemo(() => {
+    return comment.comment_reacts.filter((react) => react.type === -1).length;
+  }, [comment]);
+
+  const liked = useMemo(() => {
+    return comment.comment_reacts.some((react) => {
+      return react.user.id === user.id && react.type === 1;
+    });
+  }, [comment.comment_reacts]);
+
+  const disliked = useMemo(() => {
+    return comment.comment_reacts.some((react) => {
+      return react.user.id === user.id && react.type === -1;
+    });
+  }, [comment.comment_reacts]);
 
   return (
     <div>
@@ -57,26 +64,30 @@ export function CommentSimple({
         }}
       >
         <Group>
-          <Avatar src={author.image} alt={author.name} radius="xl" />
+          <Avatar
+            src={getPhoto(author.photo!, "small")}
+            alt={author.username}
+            radius="xl"
+          />
           <div>
-            <Link href="/perfil/2">
-              <Anchor size="sm">{author.name}</Anchor>
+            <Link href={isMyComment ? "/perfil" : `/perfil/${author.id}`}>
+              <Anchor size="sm">{author.username}</Anchor>
             </Link>
             <Text size="xs" color="dimmed">
-              {dateDistance(created_at)}
+              {dateDistance(new Date(comment.createdAt))}
             </Text>
           </div>
         </Group>
         <div>
-          {isMine && (
-            <MenuComment comment={body} id={2}>
+          {isMyComment && (
+            <MenuComment comment={comment.content} id={2}>
               <UnstyledButton color="gray">...</UnstyledButton>
             </MenuComment>
           )}
         </div>
       </Group>
       <Text className={classes.body} size="sm">
-        {body}
+        {comment.content}
       </Text>
       <div
         style={{

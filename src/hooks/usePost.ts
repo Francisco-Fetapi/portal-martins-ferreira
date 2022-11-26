@@ -1,14 +1,20 @@
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { ApiPaginated, ApiPost, ApiSavedPost } from "../api/interfaces";
+import {
+  ApiComment,
+  ApiPaginated,
+  ApiPost,
+  ApiSavedPost,
+} from "../api/interfaces";
 import { strapi } from "../api/strapi";
 
 export default function usePost() {
   const router = useRouter();
-  const otherUserId = router.query.id;
-  const iAmAtOtherProfilePage =
-    router.pathname.includes("perfil") && !!otherUserId;
+  const queryId = router.query.id;
+  const iAmAtOtherProfilePage = router.pathname.includes("perfil") && !!queryId;
   const iAmAtSavedPostsPage = router.pathname.includes("noticias-guardadas");
+
+  const iAmAtSomePost = router.pathname.includes("noticia") && !!queryId;
 
   // paginate
   const posts = useQuery("all_posts", async () => {
@@ -23,7 +29,7 @@ export default function usePost() {
     "others_posts",
     async () => {
       let res = await strapi.get<ApiPost[]>(
-        `/posts/approved?user_id=${otherUserId}`
+        `/posts/approved?user_id=${queryId}`
       );
       return res.data;
     },
@@ -45,6 +51,19 @@ export default function usePost() {
       enabled: iAmAtSavedPostsPage,
     }
   );
+  const postComments = useQuery(
+    "post_comments",
+    async () => {
+      let res = await strapi.get<ApiComment[]>(
+        `/post/comments?post_id=${queryId}`
+      );
+      console.log(res.data);
+      return res.data;
+    },
+    {
+      enabled: iAmAtSomePost,
+    }
+  );
 
-  return { posts, myPosts, othersPosts, mySavedPosts };
+  return { posts, myPosts, postComments, othersPosts, mySavedPosts };
 }

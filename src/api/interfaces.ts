@@ -68,10 +68,13 @@ interface ApiResponseDataOnly<T = any> {
 export interface ApiComment extends ApiWithTimestamps {
   id: number;
   content: string;
+  user: IUserLogged;
+  comment_reacts: ApiReact[];
 }
 export interface ApiReact extends ApiWithTimestamps {
   id: number;
   type: number;
+  user: IUserLogged;
 }
 
 export interface ApiWithTimestamps {

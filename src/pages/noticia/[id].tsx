@@ -20,6 +20,7 @@ import { getToken, redirectIfNoUser } from "../../helpers/redirectIfNoUser";
 import { IUserLogged } from "../../interfaces/IUser";
 import { strapi } from "../../api/strapi";
 import parserResponse, { ResponseType } from "../../helpers/parserResponse";
+import usePost from "../../hooks/usePost";
 
 interface PageProps {
   user: IUserLogged;
@@ -30,6 +31,8 @@ interface PageProps {
 
 export default function Noticia({ user, post }: PageProps) {
   console.log(post);
+
+  const { postComments } = usePost();
 
   const postParsed = {
     ...parserResponse<ApiSinglePost>(post),
@@ -60,22 +63,9 @@ export default function Noticia({ user, post }: PageProps) {
               placeholder="Escreva um comentário"
             />
             <Box mt={30}>
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <Box key={item} mb={30}>
-                  <CommentSimple
-                    key={item}
-                    liked={item % 2 === 0}
-                    disliked={item % 2 !== 0}
-                    isMine={item % 2 !== 0}
-                    likes={item * 2}
-                    dislikes={item}
-                    author={{
-                      image: item > 3 ? "/user.jpg" : `/user${item}.jpg`,
-                      name: `Nome do Usuario ${item}`,
-                    }}
-                    body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit mollitia, repudiandae libero, voluptatum nostrum provident magni at quisquam dolor fuga ad assumenda ut rerum excepturi animi aspernatur aut alias doloremque!"
-                    created_at={new Date(2022, 10, item)}
-                  />
+              {postComments.data?.map((comment) => (
+                <Box key={comment.id} mb={30}>
+                  <CommentSimple comment={comment} />
                 </Box>
               ))}
             </Box>
