@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   ApiComment,
   ApiPaginated,
@@ -7,6 +7,13 @@ import {
   ApiSavedPost,
 } from "../api/interfaces";
 import { strapi } from "../api/strapi";
+import { sleep } from "../helpers/sleep";
+import { IUserLogged } from "../interfaces/IUser";
+import { useEffect } from "react";
+
+interface ISavePostParams {
+  post: ApiPost;
+}
 
 export default function usePost() {
   const router = useRouter();
@@ -15,6 +22,7 @@ export default function usePost() {
   const iAmAtSavedPostsPage = router.pathname.includes("noticias-guardadas");
 
   const iAmAtSomePost = router.pathname.includes("noticia") && !!queryId;
+  const queryClient = useQueryClient();
 
   // paginate
   const posts = useQuery("all_posts", async () => {
@@ -48,7 +56,8 @@ export default function usePost() {
       return res.data;
     },
     {
-      enabled: iAmAtSavedPostsPage,
+      // enabled: iAmAtSavedPostsPage,
+      refetchOnMount: false,
     }
   );
   const postComments = useQuery(
@@ -65,5 +74,63 @@ export default function usePost() {
     }
   );
 
-  return { posts, myPosts, postComments, othersPosts, mySavedPosts };
+  const savePostToggle = useMutation<unknown, unknown, ISavePostParams>(
+    ({ post }) => {
+      return sleep(1);
+    },
+    {
+      onSuccess(data, props, context) {
+        queryClient.setQueryData<ApiSavedPost | undefined>(
+          "my_saved_posts",
+          (prev) => {
+            if (prev) {
+              const alreadySaved = isSaved(props.post);
+              const now = new Date().toString();
+              if (!alreadySaved) {
+                return {
+                  ...prev,
+                  post_saveds: [
+                    ...prev.post_saveds,
+                    {
+                      createdAt: now,
+                      updatedAt: now,
+                      publishedAt: now,
+                      post: props.post,
+                      id: 2,
+                    },
+                  ],
+                };
+              } else {
+                const post_saveds = prev.post_saveds.filter(
+                  (post) => post.id !== props.post.id
+                );
+                return { ...prev, post_saveds };
+              }
+            }
+            return prev;
+          }
+        );
+      },
+    }
+  );
+
+  function isSaved(post: ApiPost) {
+    const post_saveds = mySavedPosts.data?.post_saveds;
+    return post_saveds?.some((post_saved) => post_saved.post.id === post.id);
+  }
+
+  useEffect(() => {
+    console.log("Saved posts");
+    console.log(mySavedPosts.data?.post_saveds);
+  }, [mySavedPosts.data]);
+
+  return {
+    posts,
+    myPosts,
+    savePostToggle,
+    postComments,
+    othersPosts,
+    mySavedPosts,
+    isSaved,
+  };
 }

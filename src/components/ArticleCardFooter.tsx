@@ -33,6 +33,7 @@ import { useMemo } from "react";
 import useUser from "../hooks/useUser";
 import { IUserLogged } from "../interfaces/IUser";
 import Link from "next/link";
+import usePost from "../hooks/usePost";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -65,6 +66,9 @@ export function ArticleCardFooter({
   const { classes, theme } = useStyles();
   const router = useRouter();
   const { user: userLogged } = useUser();
+  const { savePostToggle, isSaved } = usePost();
+
+  const thisPostIsSaved = isSaved(post);
 
   function handleDelete() {
     openConfirmModal({
@@ -243,7 +247,8 @@ export function ArticleCardFooter({
                     stroke={1.5}
                   />
                 }
-                title="guardar"
+                title={thisPostIsSaved ? "guardado" : "guardar"}
+                onClick={() => savePostToggle.mutate({ post })}
               />
             )}
           </Group>
