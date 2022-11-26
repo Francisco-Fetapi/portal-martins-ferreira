@@ -93,6 +93,14 @@ export interface ApiPost extends ApiWithTimestamps, IPost {
   post_comments: ApiComment[];
   post_reacts: ApiReact[];
 }
+
+export interface ApiSavedPost extends IUserLogged {
+  post_saveds: ({
+    id: number;
+    post: ApiPost;
+  } & ApiWithTimestamps)[];
+}
+
 export interface ApiSinglePost extends IPost {
   user: ApiResponseData<IUserLogged>;
   photo: ApiResponseData<ApiUploadDataResponse> | null;

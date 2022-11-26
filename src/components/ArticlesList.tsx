@@ -5,7 +5,8 @@ import { IUserLogged } from "../interfaces/IUser";
 import { ArticleCardFooter } from "./ArticleCardFooter";
 
 interface ArticlesListProps {
-  posts?: ApiPaginated<ApiPost[]>;
+  // posts?: ApiPaginated<ApiPost[]>;
+  posts?: ApiPost[];
   user?: IUserLogged;
   title?: React.ReactNode;
   text?: React.ReactNode;
@@ -20,7 +21,7 @@ export default function ArticlesList({
   const listPosts = useMemo(() => {
     return (
       <>
-        {posts?.results.map((post) => (
+        {posts?.map((post) => (
           <Box key={post.id} mb={30}>
             <ArticleCardFooter post={post} user={user} />
           </Box>
@@ -57,7 +58,7 @@ export default function ArticlesList({
           </Text>
         </Box>
       )}
-      {posts.results.length === 0 ? NoPostFound : listPosts}
+      {posts.length === 0 ? NoPostFound : listPosts}
     </Box>
   );
 }

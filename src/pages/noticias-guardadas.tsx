@@ -4,12 +4,15 @@ import ArticlesList from "../components/ArticlesList";
 import { IUserLogged } from "../interfaces/IUser";
 import { redirectIfNoUser } from "../helpers/redirectIfNoUser";
 import UserProvider from "../context/UserProvider";
+import usePost from "../hooks/usePost";
 
 interface PageProps {
   user: IUserLogged;
 }
 
 export default function IndexPage({ user }: PageProps) {
+  const { mySavedPosts } = usePost();
+
   return (
     <UserProvider user={user}>
       <AppScheme>
@@ -22,6 +25,7 @@ export default function IndexPage({ user }: PageProps) {
                 mais antiga.
               </>
             }
+            posts={mySavedPosts.data?.post_saveds.map((saved) => saved.post)}
           />
         </Box>
       </AppScheme>
