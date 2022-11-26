@@ -11,7 +11,7 @@ import { sleep } from "../helpers/sleep";
 import { IUserLogged } from "../interfaces/IUser";
 import { useEffect } from "react";
 
-interface ISavePostParams {
+interface IWithPost {
   post: ApiPost;
 }
 
@@ -19,14 +19,14 @@ export default function usePost() {
   const router = useRouter();
   const queryId = router.query.id;
   const iAmAtOtherProfilePage = router.pathname.includes("perfil") && !!queryId;
-  const iAmAtSavedPostsPage = router.pathname.includes("noticias-guardadas");
+  // const iAmAtSavedPostsPage = router.pathname.includes("noticias-guardadas");
 
   const iAmAtSomePost = router.pathname.includes("noticia") && !!queryId;
   const queryClient = useQueryClient();
 
   // paginate
   const posts = useQuery("all_posts", async () => {
-    let res = await strapi.get<ApiPaginated<ApiPost[]>>("/posts/approved");
+    let res = await strapi.get<ApiPost[]>("/posts/approved");
     return res.data;
   });
   const myPosts = useQuery("my_posts", async () => {
@@ -74,7 +74,7 @@ export default function usePost() {
     }
   );
 
-  const savePostToggle = useMutation<unknown, unknown, ISavePostParams>(
+  const savePostToggle = useMutation<unknown, unknown, IWithPost>(
     ({ post }) => {
       return sleep(1);
     },

@@ -19,6 +19,7 @@ export default function ArticlesList({
   text,
 }: ArticlesListProps) {
   const listPosts = useMemo(() => {
+    console.log("posts", posts);
     return (
       <>
         {posts?.map((post) => (
