@@ -21,6 +21,7 @@ import { IUserLogged } from "../../interfaces/IUser";
 import { strapi } from "../../api/strapi";
 import parserResponse, { ResponseType } from "../../helpers/parserResponse";
 import usePost from "../../hooks/usePost";
+import { Text } from "@mantine/core";
 
 interface PageProps {
   user: IUserLogged;
@@ -62,7 +63,15 @@ export default function Noticia({ user, post }: PageProps) {
               onClick={() => console.log("Ola Mundo")}
               placeholder="Escreva um comentário"
             />
-            <Box mt={30}>
+
+            <Box mt={50}>
+              {postComments.isLoading && (
+                <Box mb={20}>
+                  <Text size="xs" color="dimmed" align="center">
+                    Carregando comentários...
+                  </Text>
+                </Box>
+              )}
               {postComments.data?.map((comment) => (
                 <Box key={comment.id} mb={30}>
                   <CommentSimple comment={comment} />

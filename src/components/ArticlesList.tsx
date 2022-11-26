@@ -42,15 +42,17 @@ export default function ArticlesList({
     );
   }
 
+  const hasPosts = posts?.length > 0;
+
   const NoPostFound = (
-    <Text color="dimmed" size="xs" align="center">
+    <Text mt={50} color="dimmed" size="xs" align="center">
       Nenhuma noticia encontrada
     </Text>
   );
 
   return (
     <Box mt={30}>
-      {title && text && (
+      {title && text && hasPosts && (
         <Box mb={30}>
           <Title order={2}>{title}</Title>
           <Text color="dimmed" size="xs" mt={5}>
@@ -58,7 +60,7 @@ export default function ArticlesList({
           </Text>
         </Box>
       )}
-      {posts.length === 0 ? NoPostFound : listPosts}
+      {!hasPosts ? NoPostFound : listPosts}
     </Box>
   );
 }

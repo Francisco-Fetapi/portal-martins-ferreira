@@ -27,15 +27,16 @@ export default function ProfileUserPage({ otherUser, user }: PageProps) {
             <UserInfo user={otherUser} isMine={false} />
 
             <Box mt={30}>
-              <Title order={2}>Noticias</Title>
-              <Text color="dimmed" size="xs" mt={5}>
-                Todas as noticias publicadas por <b>Nome do Usuario</b> são
-                exibidas nesta seção desde a mais recente à mais antiga.
-              </Text>
-            </Box>
-
-            <Box mt={30}>
-              <ArticlesList posts={othersPosts.data} />
+              <ArticlesList
+                title={"Noticias"}
+                text={
+                  <>
+                    Todas as noticias publicadas por <b>{otherUser.username}</b>{" "}
+                    são exibidas nesta seção desde a mais recente à mais antiga.
+                  </>
+                }
+                posts={othersPosts.data}
+              />
             </Box>
           </>
         ) : (
