@@ -11,8 +11,6 @@ export const STRAPI_URL =
   environment[process.env.NODE_ENV as keyof typeof environment];
 // export const STRAPI_URL = environment.production;
 
-console.log("STRAPI_URL", STRAPI_URL);
-
 const strapi = axios.create({
   baseURL: `${STRAPI_URL}/api`,
   headers: {

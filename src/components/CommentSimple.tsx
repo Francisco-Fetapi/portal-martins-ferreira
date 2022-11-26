@@ -18,6 +18,7 @@ import { ApiComment } from "../api/interfaces";
 import getPhoto from "../helpers/getPhoto";
 import useUser from "../hooks/useUser";
 import { useMemo } from "react";
+import { DISLIKED, LIKED } from "../helpers/constants";
 
 const useStyles = createStyles((theme) => ({
   body: {
@@ -38,21 +39,23 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
   const isMyComment = author.id === user.id;
 
   const likes = useMemo(() => {
-    return comment.comment_reacts.filter((react) => react.type === 1).length;
+    return comment.comment_reacts.filter((react) => react.type === LIKED)
+      .length;
   }, [comment]);
   const dislikes = useMemo(() => {
-    return comment.comment_reacts.filter((react) => react.type === -1).length;
+    return comment.comment_reacts.filter((react) => react.type === DISLIKED)
+      .length;
   }, [comment]);
 
   const liked = useMemo(() => {
     return comment.comment_reacts.some((react) => {
-      return react.user.id === user.id && react.type === 1;
+      return react.user.id === user.id && react.type === LIKED;
     });
   }, [comment.comment_reacts]);
 
   const disliked = useMemo(() => {
     return comment.comment_reacts.some((react) => {
-      return react.user.id === user.id && react.type === -1;
+      return react.user.id === user.id && react.type === DISLIKED;
     });
   }, [comment.comment_reacts]);
 

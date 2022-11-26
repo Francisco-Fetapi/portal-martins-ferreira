@@ -25,7 +25,7 @@ import {
 } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { ApiPost } from "../api/interfaces";
-import { NO_PHOTO } from "../helpers/constants";
+import { DISLIKED, LIKED, NO_PHOTO } from "../helpers/constants";
 import dateDistance from "../helpers/dateDistance";
 import getPhoto from "../helpers/getPhoto";
 import useGlobalStyles from "../hooks/useGlobalStyles";
@@ -84,10 +84,10 @@ export function ArticleCardFooter({
   const isMyPost = userLogged.id === post.user.id;
 
   const likes = useMemo(() => {
-    return post.post_reacts.filter((react) => react.type === 1).length;
+    return post.post_reacts.filter((react) => react.type === LIKED).length;
   }, [post]);
   const dislikes = useMemo(() => {
-    return post.post_reacts.filter((react) => react.type === 0).length;
+    return post.post_reacts.filter((react) => react.type === DISLIKED).length;
   }, [post]);
 
   return (
