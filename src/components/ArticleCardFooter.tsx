@@ -70,7 +70,8 @@ export function ArticleCardFooter({
   const { classes, theme } = useStyles();
   const router = useRouter();
   const { user: userLogged } = useUser();
-  const { savePostToggle, isSaved } = usePost();
+  const { savePostToggle, isSaved, likePost, dislikePost, deleteReact } =
+    usePost();
 
   const thisPostIsSaved = isSaved(post);
 
@@ -90,7 +91,11 @@ export function ArticleCardFooter({
   }
 
   const isMyPost = userLogged.id === post.user.id;
-  const isLoading = savePostToggle.isLoading;
+  const isLoading =
+    savePostToggle.isLoading ||
+    deleteReact.isLoading ||
+    likePost.isLoading ||
+    dislikePost.isLoading;
 
   const likes = useMemo(() => {
     return post.post_reacts.filter((react) => react.type === LIKED).length;
@@ -115,6 +120,28 @@ export function ArticleCardFooter({
     console.log("Post mudou");
     console.log(post);
   }, [post]);
+
+  function handleLike() {
+    if (liked) {
+      deleteReact.mutate({ post });
+    } else {
+      if (disliked) {
+        deleteReact.mutate({ post });
+      }
+      likePost.mutate({ post });
+    }
+  }
+
+  function handleDislike() {
+    if (disliked) {
+      deleteReact.mutate({ post });
+    } else {
+      if (liked) {
+        deleteReact.mutate({ post });
+      }
+      dislikePost.mutate({ post });
+    }
+  }
 
   return (
     <Card withBorder p="lg" radius="md" className={classes.card}>
@@ -206,32 +233,30 @@ export function ArticleCardFooter({
           <Group spacing={10}>
             {post.approved && (
               <>
-                {!disliked && (
-                  <PostIcon
-                    icon={
-                      <IconThumbUp
-                        size={18}
-                        color={liked ? "black" : theme.colors.blue[6]}
-                        stroke={1.5}
-                      />
-                    }
-                    title="gostar"
-                    color={liked ? theme.colors.blue[6] : undefined}
-                  />
-                )}
-                {!liked && (
-                  <PostIcon
-                    icon={
-                      <IconThumbDown
-                        size={18}
-                        color={disliked ? "black" : theme.colors.cyan[6]}
-                        stroke={1.5}
-                      />
-                    }
-                    title="não gostar"
-                    color={disliked ? theme.colors.cyan[6] : undefined}
-                  />
-                )}
+                <PostIcon
+                  icon={
+                    <IconThumbUp
+                      size={18}
+                      color={liked ? "black" : theme.colors.blue[6]}
+                      stroke={1.5}
+                    />
+                  }
+                  title={liked ? `retirar 'gostar'` : "gostar"}
+                  color={liked ? theme.colors.blue[6] : undefined}
+                  onClick={handleLike}
+                />
+                <PostIcon
+                  icon={
+                    <IconThumbDown
+                      size={18}
+                      color={disliked ? "black" : theme.colors.cyan[6]}
+                      stroke={1.5}
+                    />
+                  }
+                  title={disliked ? `retirar 'não gostar'` : "não gostar"}
+                  color={disliked ? theme.colors.cyan[6] : undefined}
+                  onClick={handleDislike}
+                />
               </>
             )}
             {!long && (

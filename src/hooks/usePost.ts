@@ -11,7 +11,7 @@ import { sleep } from "../helpers/sleep";
 import { IUserLogged } from "../interfaces/IUser";
 import { useEffect } from "react";
 import useUser from "./useUser";
-import { LIKED } from "../helpers/constants";
+import { DISLIKED, LIKED } from "../helpers/constants";
 
 interface IWithPost {
   post: ApiPost;
@@ -105,6 +105,52 @@ export default function usePost() {
     }
   );
 
+  const likePost = useMutation<unknown, unknown, IWithPost>(
+    ({ post }) => {
+      return strapi.post("/post-reacts", {
+        data: {
+          post,
+          user,
+          type: LIKED,
+        },
+      });
+    },
+    {
+      onSuccess(data, variables, context) {
+        updateAllPosts();
+      },
+    }
+  );
+  const dislikePost = useMutation<unknown, unknown, IWithPost>(
+    ({ post }) => {
+      return strapi.post("/post-reacts", {
+        data: {
+          post,
+          user,
+          type: DISLIKED,
+        },
+      });
+    },
+    {
+      onSuccess(data, variables, context) {
+        updateAllPosts();
+      },
+    }
+  );
+  const deleteReact = useMutation<unknown, unknown, IWithPost>(
+    ({ post }) => {
+      const post_react = post.post_reacts.find((post_react) => {
+        return post_react.user.id === user.id;
+      });
+      return strapi.delete("/post-reacts/" + post_react?.id);
+    },
+    {
+      onSuccess(data, variables, context) {
+        updateAllPosts();
+      },
+    }
+  );
+
   function isSaved(post: ApiPost) {
     const post_saveds = mySavedPosts.data?.post_saveds;
     return post_saveds?.some((post_saved) => post_saved.post.id === post.id);
@@ -121,6 +167,9 @@ export default function usePost() {
     postFound = findOne(posts.data);
     if (!postFound) {
       postFound = findOne(myPosts.data);
+      if (postFound) {
+        postFound.user = user;
+      }
     }
     if (!postFound) {
       postFound = findOne(
@@ -151,5 +200,8 @@ export default function usePost() {
     mySavedPosts,
     isSaved,
     getPostById,
+    likePost,
+    dislikePost,
+    deleteReact,
   };
 }
