@@ -211,11 +211,12 @@ export function ArticleCardFooter({
                     icon={
                       <IconThumbUp
                         size={18}
-                        color={theme.colors.blue[6]}
+                        color={liked ? "black" : theme.colors.blue[6]}
                         stroke={1.5}
                       />
                     }
                     title="gostar"
+                    color={liked ? theme.colors.blue[6] : undefined}
                   />
                 )}
                 {!liked && (
@@ -223,11 +224,12 @@ export function ArticleCardFooter({
                     icon={
                       <IconThumbDown
                         size={18}
-                        color={theme.colors.cyan[6]}
+                        color={disliked ? "black" : theme.colors.cyan[6]}
                         stroke={1.5}
                       />
                     }
                     title="não gostar"
+                    color={disliked ? theme.colors.cyan[6] : undefined}
                   />
                 )}
               </>
@@ -276,12 +278,13 @@ export function ArticleCardFooter({
                 icon={
                   <IconBookmark
                     size={18}
-                    color={theme.colors.yellow[6]}
+                    color={thisPostIsSaved ? "black" : theme.colors.yellow[6]}
                     stroke={1.5}
                   />
                 }
                 title={thisPostIsSaved ? "guardado" : "guardar"}
                 onClick={() => savePostToggle.mutate({ post })}
+                color={thisPostIsSaved ? theme.colors.yellow[6] : undefined}
               />
             )}
           </Group>
@@ -295,13 +298,20 @@ interface PostIconProps {
   icon: React.ReactNode;
   title: string;
   onClick?: () => void;
+  color?: string;
 }
 
-function PostIcon({ icon, title, onClick }: PostIconProps) {
+function PostIcon({ icon, color, title, onClick }: PostIconProps) {
   const { classes } = useGlobalStyles();
   return (
     <Tooltip label={title}>
-      <ActionIcon className={classes.background} onClick={onClick}>
+      <ActionIcon
+        className={classes.background}
+        onClick={onClick}
+        style={{
+          background: color,
+        }}
+      >
         {icon}
       </ActionIcon>
     </Tooltip>
