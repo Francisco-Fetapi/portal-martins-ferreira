@@ -29,7 +29,7 @@ import { DISLIKED, LIKED, NO_PHOTO } from "../helpers/constants";
 import dateDistance from "../helpers/dateDistance";
 import getPhoto from "../helpers/getPhoto";
 import useGlobalStyles from "../hooks/useGlobalStyles";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import useUser from "../hooks/useUser";
 import { IUserLogged } from "../interfaces/IUser";
 import Link from "next/link";
@@ -66,7 +66,7 @@ export function ArticleCardFooter({
   const { classes, theme } = useStyles();
   const router = useRouter();
   const { user: userLogged } = useUser();
-  const { savePostToggle, isSaved } = usePost();
+  const { savePostToggle, isSaved, reactPostToggle } = usePost();
 
   const thisPostIsSaved = isSaved(post);
 
@@ -92,6 +92,23 @@ export function ArticleCardFooter({
   }, [post]);
   const dislikes = useMemo(() => {
     return post.post_reacts.filter((react) => react.type === DISLIKED).length;
+  }, [post]);
+
+  const liked = useMemo(() => {
+    return post?.post_reacts.some((react) => {
+      return react.user.id === userLogged.id && react.type === LIKED;
+    });
+  }, [post]);
+
+  const disliked = useMemo(() => {
+    return post?.post_reacts.some((react) => {
+      return react.user.id === userLogged.id && react.type === DISLIKED;
+    });
+  }, [post]);
+
+  useEffect(() => {
+    console.log("Post mudou");
+    console.log(post);
   }, [post]);
 
   return (
@@ -176,27 +193,32 @@ export function ArticleCardFooter({
           <Group spacing={10}>
             {post.approved && (
               <>
-                <PostIcon
-                  icon={
-                    <IconThumbUp
-                      size={18}
-                      color={theme.colors.blue[6]}
-                      stroke={1.5}
-                    />
-                  }
-                  title="gostar"
-                />
-
-                <PostIcon
-                  icon={
-                    <IconThumbDown
-                      size={18}
-                      color={theme.colors.cyan[6]}
-                      stroke={1.5}
-                    />
-                  }
-                  title="não gostar"
-                />
+                {!disliked && (
+                  <PostIcon
+                    icon={
+                      <IconThumbUp
+                        size={18}
+                        color={theme.colors.blue[6]}
+                        stroke={1.5}
+                      />
+                    }
+                    title="gostar"
+                    onClick={() => reactPostToggle(liked, LIKED, post)}
+                  />
+                )}
+                {!liked && (
+                  <PostIcon
+                    icon={
+                      <IconThumbDown
+                        size={18}
+                        color={theme.colors.cyan[6]}
+                        stroke={1.5}
+                      />
+                    }
+                    title="não gostar"
+                    onClick={() => reactPostToggle(disliked, DISLIKED, post)}
+                  />
+                )}
               </>
             )}
             {!long && (

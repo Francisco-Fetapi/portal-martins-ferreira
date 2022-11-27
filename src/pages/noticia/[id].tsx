@@ -26,10 +26,8 @@ import { useMemo } from "react";
 
 interface PageProps {
   user: IUserLogged;
-  post: ApiResponse<ApiSinglePost>;
+  // post: ApiResponse<ApiSinglePost>;
 }
-
-// get also all comments
 
 export default function Noticia({ user }: PageProps) {
   const { postComments, getPostById } = usePost();

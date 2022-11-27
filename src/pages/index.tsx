@@ -13,6 +13,8 @@ interface PageProps {
 export default function IndexPage({ user }: PageProps) {
   const { posts } = usePost();
 
+  console.log("post list", posts.data);
+
   return (
     <UserProvider user={user}>
       <AppScheme>
