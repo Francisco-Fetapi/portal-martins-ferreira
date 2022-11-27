@@ -22,6 +22,7 @@ import { strapi } from "../../api/strapi";
 import parserResponse, { ResponseType } from "../../helpers/parserResponse";
 import usePost from "../../hooks/usePost";
 import { Text } from "@mantine/core";
+import { useMemo } from "react";
 
 interface PageProps {
   user: IUserLogged;
@@ -30,26 +31,13 @@ interface PageProps {
 
 // get also all comments
 
-export default function Noticia({ user, post }: PageProps) {
+export default function Noticia({ user }: PageProps) {
+  const { postComments, getPostById } = usePost();
+  const router = useRouter();
+  const postId = router.query.id as string | undefined;
+  const post = getPostById(postId ? +postId : undefined);
+
   console.log(post);
-
-  const { postComments } = usePost();
-
-  const postParsed = {
-    ...parserResponse<ApiSinglePost>(post),
-    photo: parserResponse<ApiUploadDataResponse>(post.data.attributes.photo!),
-    user: parserResponse<IUserLogged>(post.data.attributes.user),
-    post_comments: post.data.attributes.post_comments.data.map((comment) =>
-      parserResponse<ApiComment>({ data: comment })
-    ),
-    post_reacts: post.data.attributes.post_reacts.data.map((comment) =>
-      parserResponse<ApiReact>({ data: comment })
-    ),
-  };
-
-  console.log(postParsed);
-
-  // return <pre>{JSON.stringify(postParsed, null, 2)}</pre>;
 
   return (
     <UserProvider user={user}>
@@ -57,7 +45,7 @@ export default function Noticia({ user, post }: PageProps) {
         {post ? (
           <>
             <Box mb={30}>
-              <ArticleCardFooter long post={postParsed as ApiPost} />
+              <ArticleCardFooter long post={post} />
             </Box>
             <InputWithButton
               onClick={() => console.log("Ola Mundo")}
@@ -80,53 +68,11 @@ export default function Noticia({ user, post }: PageProps) {
             </Box>
           </>
         ) : (
-          <p>Postagem não encontrada</p>
+          <p>Noticia não encontrada</p>
         )}
       </AppScheme>
     </UserProvider>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const token = getToken(ctx);
-  const isNotLogged = !token;
-
-  if (isNotLogged) {
-    return redirectIfNoUser(ctx);
-  }
-
-  try {
-    const postId = ctx.query.id;
-    const { data } = await strapi.get<ApiResponse<ApiSinglePost>>(
-      `/posts/${postId}?populate=*`,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-
-    const { data: user } = await strapi.get<IUserLogged>(
-      "/users/me?populate=photo",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-
-    return {
-      props: {
-        post: data,
-        user,
-      },
-    };
-  } catch (e: any) {
-    console.error(e.message);
-    return {
-      props: {
-        post: undefined,
-      },
-    };
-  }
-};
+export const getServerSideProps = redirectIfNoUser;

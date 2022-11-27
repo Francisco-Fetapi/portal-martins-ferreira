@@ -61,12 +61,12 @@ export default function usePost() {
     }
   );
   const postComments = useQuery(
-    "post_comments",
+    ["post_comments", queryId],
     async () => {
       let res = await strapi.get<ApiComment[]>(
         `/post/comments?post_id=${queryId}`
       );
-      console.log(res.data);
+      console.log("comments", res.data);
       return res.data;
     },
     {
@@ -119,6 +119,38 @@ export default function usePost() {
     return post_saveds?.some((post_saved) => post_saved.post.id === post.id);
   }
 
+  // const likeAPost = useMutation(
+  //   ({ post }: IWithPost) => {
+  //     return sleep(2);
+  //   },
+  //   {
+  //     onSuccess(data, props, context) {},
+  //   }
+  // );
+
+  function getPostById(postId?: number) {
+    // return queryClient.getQueryData("all_posts")!
+    if (!postId) return undefined;
+
+    function findOne(posts?: ApiPost[]) {
+      return posts?.find((post) => post.id === postId);
+    }
+    let postFound: ApiPost | undefined;
+    postFound = findOne(posts.data);
+    if (!postFound) {
+      postFound = findOne(myPosts.data);
+    }
+    if (!postFound) {
+      postFound = findOne(
+        mySavedPosts.data?.post_saveds.map((post_saved) => post_saved.post)
+      );
+    }
+    if (!postFound) {
+      postFound = findOne(othersPosts.data);
+    }
+    return postFound;
+  }
+
   useEffect(() => {
     console.log("Saved posts");
     console.log(mySavedPosts.data?.post_saveds);
@@ -132,5 +164,6 @@ export default function usePost() {
     othersPosts,
     mySavedPosts,
     isSaved,
+    getPostById,
   };
 }
