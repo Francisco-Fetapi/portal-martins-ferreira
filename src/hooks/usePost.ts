@@ -53,7 +53,7 @@ export default function usePost() {
     "my_saved_posts",
     async () => {
       let res = await strapi.get<ApiSavedPost>(
-        `/users/me?populate=post_saveds.post.post_reacts,post_saveds.post.post_comments,post_saveds.post.photo,post_saveds.post.user.photo`
+        `/users/me?populate=post_saveds.post.post_reacts.user,post_saveds.post.post_comments,post_saveds.post.photo,post_saveds.post.user.photo`
       );
       console.log(res.data);
       return res.data;
@@ -79,7 +79,28 @@ export default function usePost() {
 
   const savePostToggle = useMutation<unknown, unknown, IWithPost>(
     ({ post }) => {
-      return sleep(1);
+      if (isSaved(post)) {
+        const post_saved = mySavedPosts.data?.post_saveds.find(
+          (post_saveds) => {
+            return post_saveds.post.id === post.id;
+          }
+        );
+        if (post_saved) {
+          return strapi.delete("/post-saveds/" + post_saved.id);
+        }
+      }
+      return strapi.post("/post-saveds", {
+        data: {
+          post,
+          user,
+        },
+      });
+    },
+    {
+      onSuccess(data, props, context) {
+        // updateAllPosts();
+        queryClient.refetchQueries(["my_saved_posts"]);
+      },
     }
   );
 
