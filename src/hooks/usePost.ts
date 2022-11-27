@@ -80,40 +80,6 @@ export default function usePost() {
   const savePostToggle = useMutation<unknown, unknown, IWithPost>(
     ({ post }) => {
       return sleep(1);
-    },
-    {
-      onSuccess(data, props, context) {
-        queryClient.setQueryData<ApiSavedPost | undefined>(
-          "my_saved_posts",
-          (prev) => {
-            if (prev) {
-              const alreadySaved = isSaved(props.post);
-              const now = new Date().toString();
-              if (!alreadySaved) {
-                return {
-                  ...prev,
-                  post_saveds: [
-                    ...prev.post_saveds,
-                    {
-                      createdAt: now,
-                      updatedAt: now,
-                      publishedAt: now,
-                      post: props.post,
-                      id: 2,
-                    },
-                  ],
-                };
-              } else {
-                const post_saveds = prev.post_saveds.filter(
-                  (post) => post.id !== props.post.id
-                );
-                return { ...prev, post_saveds };
-              }
-            }
-            return prev;
-          }
-        );
-      },
     }
   );
 
@@ -150,63 +116,8 @@ export default function usePost() {
     console.log(mySavedPosts.data?.post_saveds);
   }, [mySavedPosts.data]);
 
-  function updateAllPost(postId: number, post: ApiPost) {
-    updatePost("all_posts", postId, post);
-    updatePost("my_posts", postId, post);
-    updatePost("others_posts", postId, post);
-    updatePost("my_saved_posts", postId, post);
-  }
-
-  function updatePost(where: string, postId: number, newPost: ApiPost) {
-    queryClient.setQueryData<ApiPost[] | ApiSavedPost | undefined>(
-      where,
-      (posts) => {
-        if (!posts) return;
-
-        const isArray = "map" in posts;
-        if (isArray) {
-          const allNewPosts = posts?.map((post) => {
-            if (post.id === postId) {
-              return newPost;
-            }
-            return post;
-          });
-          return allNewPosts;
-        }
-        if (!isArray) {
-          // allPosts = posts.post_saveds.map((post_saved) => post_saved.post);
-          const newSavedPosts = posts.post_saveds.map((post_saved) => {
-            if (post_saved.post.id === postId) {
-              return { ...post_saved, post: newPost };
-            }
-            return post_saved;
-          });
-          return { ...posts, post_saveds: newSavedPosts } as ApiSavedPost;
-        }
-      }
-    );
-  }
-
-  function reactPostToggle(reacted: boolean, type: 1 | -1, post: ApiPost) {
-    if (reacted) {
-      const newPostReact = post.post_reacts.filter((post_react) => {
-        return post_react.user.id !== user.id;
-      });
-      post.post_reacts = newPostReact;
-      updateAllPost(post.id, post);
-    } else {
-      const now = new Date().toString();
-      // const lastReact = post.post_reacts[post.post_reacts.length - 1];
-      post.post_reacts.push({
-        createdAt: now,
-        updatedAt: now,
-        publishedAt: now,
-        type,
-        user,
-        id: Math.random(),
-      });
-      updateAllPost(post.id, post);
-    }
+  function updateAllPosts() {
+    queryClient.refetchQueries();
   }
 
   return {
@@ -218,7 +129,5 @@ export default function usePost() {
     mySavedPosts,
     isSaved,
     getPostById,
-    updateAllPost,
-    reactPostToggle,
   };
 }

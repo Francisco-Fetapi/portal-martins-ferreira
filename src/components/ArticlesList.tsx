@@ -18,28 +18,18 @@ export default function ArticlesList({
   title,
   text,
 }: ArticlesListProps) {
-  // const listPosts = useMemo(() => {
-  //   console.log("posts", posts);
-  //   return (
-  //     <>
-  //       {posts?.map((post) => (
-  //         <Box key={post.id} mb={30}>
-  //           <ArticleCardFooter post={post} user={user} />
-  //         </Box>
-  //       ))}
-  //     </>
-  //   );
-  // }, [posts]);
-
-  const listPosts = (
-    <>
-      {posts?.map((post) => (
-        <Box key={post.id} mb={30}>
-          <ArticleCardFooter post={post} user={user} />
-        </Box>
-      ))}
-    </>
-  );
+  const listPosts = useMemo(() => {
+    console.log("posts", posts);
+    return (
+      <>
+        {posts?.map((post) => (
+          <Box key={post.id} mb={30}>
+            <ArticleCardFooter post={post} user={user} />
+          </Box>
+        ))}
+      </>
+    );
+  }, [posts]);
 
   if (!posts) {
     return (

@@ -66,7 +66,7 @@ export function ArticleCardFooter({
   const { classes, theme } = useStyles();
   const router = useRouter();
   const { user: userLogged } = useUser();
-  const { savePostToggle, isSaved, reactPostToggle } = usePost();
+  const { savePostToggle, isSaved } = usePost();
 
   const thisPostIsSaved = isSaved(post);
 
@@ -203,7 +203,6 @@ export function ArticleCardFooter({
                       />
                     }
                     title="gostar"
-                    onClick={() => reactPostToggle(liked, LIKED, post)}
                   />
                 )}
                 {!liked && (
@@ -216,7 +215,6 @@ export function ArticleCardFooter({
                       />
                     }
                     title="não gostar"
-                    onClick={() => reactPostToggle(disliked, DISLIKED, post)}
                   />
                 )}
               </>

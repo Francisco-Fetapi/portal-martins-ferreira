@@ -58,6 +58,14 @@ export default function Noticia({ user }: PageProps) {
                   </Text>
                 </Box>
               )}
+              {postComments.data?.length === 0 && (
+                <Box mb={20}>
+                  <Text size="xs" color="dimmed" align="center">
+                    Nenhum comentário encontrado. <br />
+                    Seja o primeiro a comentar.
+                  </Text>
+                </Box>
+              )}
               {postComments.data?.map((comment) => (
                 <Box key={comment.id} mb={30}>
                   <CommentSimple comment={comment} />
