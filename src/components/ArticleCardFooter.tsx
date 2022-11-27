@@ -8,6 +8,7 @@ import {
   Group,
   Text,
   Title,
+  LoadingOverlay,
   Avatar,
   Badge,
   Spoiler,
@@ -34,6 +35,7 @@ import useUser from "../hooks/useUser";
 import { IUserLogged } from "../interfaces/IUser";
 import Link from "next/link";
 import usePost from "../hooks/usePost";
+import { customLoader } from "./CustomLoader";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -41,7 +43,9 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
   },
 
-  title: {},
+  title: {
+    position: "relative",
+  },
 
   footer: {
     padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
@@ -86,6 +90,7 @@ export function ArticleCardFooter({
   }
 
   const isMyPost = userLogged.id === post.user.id;
+  const isLoading = savePostToggle.isLoading;
 
   const likes = useMemo(() => {
     return post.post_reacts.filter((react) => react.type === LIKED).length;
@@ -183,6 +188,14 @@ export function ArticleCardFooter({
       </Group>
 
       <Card.Section className={classes.footer}>
+        <LoadingOverlay
+          visible={isLoading}
+          overlayBlur={2}
+          loaderProps={{ size: "sm", color: "blue", variant: "bars" }}
+          overlayOpacity={0.5}
+          loader={customLoader}
+          zIndex={2}
+        />
         <Group position="apart">
           <Text size="xs" color="dimmed">
             <Group spacing={1}>
