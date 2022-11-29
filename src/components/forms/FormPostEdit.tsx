@@ -13,6 +13,7 @@ import { AxiosResponse } from "axios";
 import { strapi } from "../../api/strapi";
 import parsePost from "../../helpers/parsePost";
 import { useRouter } from "next/router";
+import { showNotification } from "@mantine/notifications";
 
 interface FormPostEditProps {
   post: ApiPost;
@@ -40,9 +41,9 @@ export default function FormPostEdit({ post }: FormPostEditProps) {
         data: {
           title,
           content,
+          approved: false,
         },
       });
-      console.log(res);
       if (file) {
         if (post.photo) {
           await strapi.delete("/upload/files/" + post.photo.id);
@@ -53,13 +54,19 @@ export default function FormPostEdit({ post }: FormPostEditProps) {
         form.append("field", "photo");
         form.append("files", file);
 
-        let { data: photosUploaded } = await strapi.post<
-          ApiUploadDataResponse[]
-        >("/upload", form);
+        await strapi.post<ApiUploadDataResponse[]>("/upload", form);
       }
       setLoading(false);
       router.back();
-    } catch (e: any) {}
+    } catch (e: any) {
+      showNotification({
+        title: "Erro ao editar noticia",
+        message: "Houve um erro ao editar a noticia.",
+        color: "red",
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
