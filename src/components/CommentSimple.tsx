@@ -1,5 +1,6 @@
 import {
   createStyles,
+  LoadingOverlay,
   Text,
   Anchor,
   Avatar,
@@ -19,6 +20,8 @@ import getPhoto from "../helpers/getPhoto";
 import useUser from "../hooks/useUser";
 import { useMemo } from "react";
 import { DISLIKED, LIKED } from "../helpers/constants";
+import usePost from "../hooks/usePost";
+import { customLoader } from "./CustomLoader";
 
 const useStyles = createStyles((theme) => ({
   body: {
@@ -37,6 +40,12 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
   const author = comment.user;
   const { user } = useUser();
   const isMyComment = author.id === user.id;
+  const { likeComment, dislikeComment, deleteReactComment } = usePost();
+
+  const isLoading =
+    likeComment.isLoading ||
+    dislikeComment.isLoading ||
+    deleteReactComment.isLoading;
 
   const likes = useMemo(() => {
     return comment.comment_reacts.filter((react) => react.type === LIKED)
@@ -59,13 +68,48 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
     });
   }, [comment.comment_reacts]);
 
+  function handleLike() {
+    if (liked) {
+      deleteReactComment.mutate({ comment });
+    } else {
+      if (disliked) {
+        deleteReactComment.mutate({ comment });
+      }
+      likeComment.mutate({ comment });
+    }
+  }
+
+  function handleDislike() {
+    if (disliked) {
+      deleteReactComment.mutate({ comment });
+    } else {
+      if (liked) {
+        deleteReactComment.mutate({ comment });
+      }
+      dislikeComment.mutate({ comment });
+    }
+  }
+
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+        padding: "20px auto",
+      }}
+    >
       <Group
         style={{
           justifyContent: "space-between",
         }}
       >
+        <LoadingOverlay
+          visible={isLoading}
+          overlayBlur={2}
+          loaderProps={{ size: "sm", color: "blue", variant: "bars" }}
+          overlayOpacity={0.5}
+          loader={customLoader}
+          zIndex={2}
+        />
         <Group>
           <Avatar
             src={getPhoto(author.photo!, "small")}
@@ -104,6 +148,7 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
             size="xs"
             variant="light"
             leftIcon={<IconThumbUp size={15} />}
+            onClick={handleLike}
           >
             {likes}
           </Button>
@@ -113,11 +158,13 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
             size="xs"
             variant="light"
             leftIcon={<IconThumbDown size={15} />}
+            onClick={handleDislike}
           >
             {dislikes}
           </Button>
         </Group>
       </div>
+      <br />
     </div>
   );
 }

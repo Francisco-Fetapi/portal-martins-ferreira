@@ -59,9 +59,7 @@ export default function Noticia({ user }: PageProps) {
                     </Box>
                   )}
                   {postComments.data?.map((comment) => (
-                    <Box key={comment.id} mb={30}>
-                      <CommentSimple comment={comment} />
-                    </Box>
+                    <CommentSimple comment={comment} key={comment.id} />
                   ))}
                 </Box>
               </>

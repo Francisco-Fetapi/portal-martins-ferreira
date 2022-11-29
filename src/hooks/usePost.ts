@@ -16,6 +16,9 @@ import { DISLIKED, LIKED } from "../helpers/constants";
 interface IWithPost {
   post: ApiPost;
 }
+interface IWithComment {
+  comment: ApiComment;
+}
 interface IPostComment {
   post: ApiPost;
   comment: string;
@@ -155,6 +158,52 @@ export default function usePost() {
     }
   );
 
+  const likeComment = useMutation<unknown, unknown, IWithComment>(
+    ({ comment }) => {
+      return strapi.post("/comment-reacts", {
+        data: {
+          comment,
+          user,
+          type: LIKED,
+        },
+      });
+    },
+    {
+      onSuccess(data, props, context) {
+        updateComments();
+      },
+    }
+  );
+  const dislikeComment = useMutation<unknown, unknown, IWithComment>(
+    ({ comment }) => {
+      return strapi.post("/comment-reacts", {
+        data: {
+          comment,
+          user,
+          type: DISLIKED,
+        },
+      });
+    },
+    {
+      onSuccess(data, props, context) {
+        updateComments();
+      },
+    }
+  );
+  const deleteReactComment = useMutation<unknown, unknown, IWithComment>(
+    ({ comment }) => {
+      const post_react = comment.comment_reacts.find((post_react) => {
+        return post_react.user.id === user.id;
+      });
+      return strapi.delete("/comment-reacts/" + post_react?.id);
+    },
+    {
+      onSuccess(data, props, context) {
+        updateComments();
+      },
+    }
+  );
+
   const postComment = useMutation<unknown, unknown, IPostComment>(
     (props) => {
       return strapi.post("/post/comment", {
@@ -163,8 +212,8 @@ export default function usePost() {
       });
     },
     {
-      onSuccess(data, variables, context) {
-        queryClient.refetchQueries(["post_comments"]);
+      onSuccess(data, props, context) {
+        updateComments();
       },
     }
   );
@@ -207,6 +256,9 @@ export default function usePost() {
   function updateAllPosts() {
     queryClient.refetchQueries();
   }
+  function updateComments() {
+    queryClient.refetchQueries("post_comments");
+  }
 
   return {
     posts,
@@ -221,5 +273,8 @@ export default function usePost() {
     dislikePost,
     deleteReact,
     postComment,
+    likeComment,
+    dislikeComment,
+    deleteReactComment,
   };
 }
