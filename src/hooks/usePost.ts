@@ -70,6 +70,7 @@ export default function usePost() {
       refetchOnMount: false,
     }
   );
+
   const postComments = useQuery(
     ["post_comments", queryId],
     async () => {

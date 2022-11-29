@@ -21,6 +21,7 @@ import { AxiosResponse } from "axios";
 import { showNotification } from "@mantine/notifications";
 import usePost from "../../hooks/usePost";
 import parsePost from "../../helpers/parsePost";
+import { useQueryClient } from "react-query";
 interface PageProps {
   user: IUserLogged;
 }
@@ -71,6 +72,7 @@ function PostAreaProfile({ user }: PostAreaProfileProps) {
   });
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const handlePost = useCallback(async () => {
     const { title, content } = parsePost(form.values.content);
@@ -111,6 +113,7 @@ function PostAreaProfile({ user }: PostAreaProfileProps) {
       });
       form.reset();
       setFile(null);
+      queryClient.refetchQueries(["my_posts"]);
     } catch (e: any) {
     } finally {
       setLoading(false);
