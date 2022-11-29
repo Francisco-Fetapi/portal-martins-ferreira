@@ -23,6 +23,9 @@ interface IPostComment {
   post: ApiPost;
   comment: string;
 }
+interface IEditComment extends IWithComment {
+  content: string;
+}
 
 export default function usePost() {
   const router = useRouter();
@@ -235,6 +238,30 @@ export default function usePost() {
       },
     }
   );
+  const editComment = useMutation<unknown, unknown, IEditComment>(
+    ({ comment, content }) => {
+      return strapi.put("/post-comments/" + comment.id, {
+        data: {
+          content,
+        },
+      });
+    },
+    {
+      onSuccess(data, props, context) {
+        updateComments();
+      },
+    }
+  );
+  const deleteComment = useMutation<unknown, unknown, IWithComment>(
+    ({ comment }) => {
+      return strapi.delete("/post-comments/" + comment.id);
+    },
+    {
+      onSuccess(data, props, context) {
+        updateComments();
+      },
+    }
+  );
 
   function isSaved(post: ApiPost) {
     const post_saveds = mySavedPosts.data?.post_saveds;
@@ -295,5 +322,7 @@ export default function usePost() {
     dislikeComment,
     deleteReactComment,
     deletePost,
+    editComment,
+    deleteComment,
   };
 }

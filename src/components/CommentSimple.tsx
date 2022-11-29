@@ -22,6 +22,7 @@ import { useMemo } from "react";
 import { DISLIKED, LIKED } from "../helpers/constants";
 import usePost from "../hooks/usePost";
 import { customLoader } from "./CustomLoader";
+import FormEditComment from "./forms/FormEditComment";
 
 const useStyles = createStyles((theme) => ({
   body: {
@@ -40,12 +41,20 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
   const author = comment.user;
   const { user } = useUser();
   const isMyComment = author.id === user.id;
-  const { likeComment, dislikeComment, deleteReactComment } = usePost();
+  const {
+    editComment,
+    deleteComment,
+    likeComment,
+    dislikeComment,
+    deleteReactComment,
+  } = usePost();
 
   const isLoading =
     likeComment.isLoading ||
     dislikeComment.isLoading ||
-    deleteReactComment.isLoading;
+    deleteReactComment.isLoading ||
+    deleteComment.isLoading ||
+    editComment.isLoading;
 
   const likes = useMemo(() => {
     return comment.comment_reacts.filter((react) => react.type === LIKED)
@@ -90,6 +99,24 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
     }
   }
 
+  function handleDelete() {
+    openConfirmModal({
+      title: "Tem certeza",
+      children: "Você está prestes a apagar este comentário.",
+      labels: { confirm: "Confirmar", cancel: "Cancelar" },
+      onConfirm() {
+        deleteComment.mutate({ comment });
+      },
+    });
+  }
+
+  function handleEdit() {
+    openModal({
+      title: "Editar comentário",
+      children: <FormEditComment comment={comment} />,
+    });
+  }
+
   return (
     <div
       style={{
@@ -127,7 +154,12 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
         </Group>
         <div>
           {isMyComment && (
-            <MenuComment comment={comment.content} id={2}>
+            <MenuComment
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+              comment={comment.content}
+              id={2}
+            >
               <UnstyledButton color="gray">...</UnstyledButton>
             </MenuComment>
           )}
@@ -173,43 +205,17 @@ interface MenuCommentProps {
   children: React.ReactNode;
   comment: string;
   id: number;
+  handleDelete: () => void;
+  handleEdit: () => void;
 }
 
-function MenuComment({ children, comment, id }: MenuCommentProps) {
-  function handleDelete() {
-    openConfirmModal({
-      title: "Tem certeza",
-      children: "Você está prestes a apagar este comentário.",
-      labels: { confirm: "Confirmar", cancel: "Cancelar" },
-      onConfirm() {
-        console.log("Comentario apagado.");
-      },
-    });
-  }
-
-  function handleEdit() {
-    openModal({
-      title: "Editar comentário",
-      children: (
-        <>
-          <Textarea
-            label="Comentário"
-            placeholder="Escreva um comentário"
-            autosize
-            minRows={4}
-            maxRows={7}
-            value={comment}
-          />
-          <Center>
-            <Button onClick={() => closeAllModals()} mt="md">
-              Concluido
-            </Button>
-          </Center>
-        </>
-      ),
-    });
-  }
-
+function MenuComment({
+  children,
+  handleDelete,
+  handleEdit,
+  comment,
+  id,
+}: MenuCommentProps) {
   return (
     <Menu withArrow shadow="md" width={200}>
       <Menu.Target>{children}</Menu.Target>
