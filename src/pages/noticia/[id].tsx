@@ -19,46 +19,58 @@ interface PageProps {
 }
 
 export default function Noticia({ user }: PageProps) {
-  const { postComments, getPostById } = usePost();
+  const { postComments, getPostById, posts, myPosts } = usePost();
   const router = useRouter();
   const postId = router.query.id as string | undefined;
   const post = getPostById(postId ? +postId : undefined);
 
+  const isLoading = posts.isLoading || myPosts.isLoading;
+
   return (
     <UserProvider user={user}>
       <AppScheme>
-        {post ? (
-          <>
-            <Box mb={30}>
-              <ArticleCardFooter long post={post} />
-            </Box>
-            <FormComment post={post} />
-
-            <Box mt={50}>
-              {postComments.isLoading && (
-                <Box mb={20}>
-                  <Text size="xs" color="dimmed" align="center">
-                    Carregando comentários...
-                  </Text>
-                </Box>
-              )}
-              {postComments.data?.length === 0 && (
-                <Box mb={20}>
-                  <Text size="xs" color="dimmed" align="center">
-                    Nenhum comentário encontrado. <br />
-                    Seja o primeiro a comentar.
-                  </Text>
-                </Box>
-              )}
-              {postComments.data?.map((comment) => (
-                <Box key={comment.id} mb={30}>
-                  <CommentSimple comment={comment} />
-                </Box>
-              ))}
-            </Box>
-          </>
+        {isLoading ? (
+          <Text color="dimmed" mt={20} size="xs" align="center">
+            Carregando dados da noticia...
+          </Text>
         ) : (
-          <p>Noticia não encontrada</p>
+          <>
+            {post ? (
+              <>
+                <Box mb={30}>
+                  <ArticleCardFooter long post={post} />
+                </Box>
+                <FormComment post={post} />
+
+                <Box mt={50}>
+                  {postComments.isLoading && (
+                    <Box mb={20}>
+                      <Text size="xs" color="dimmed" align="center">
+                        Carregando comentários...
+                      </Text>
+                    </Box>
+                  )}
+                  {postComments.data?.length === 0 && (
+                    <Box mb={20}>
+                      <Text size="xs" color="dimmed" align="center">
+                        Nenhum comentário encontrado. <br />
+                        Seja o primeiro a comentar.
+                      </Text>
+                    </Box>
+                  )}
+                  {postComments.data?.map((comment) => (
+                    <Box key={comment.id} mb={30}>
+                      <CommentSimple comment={comment} />
+                    </Box>
+                  ))}
+                </Box>
+              </>
+            ) : (
+              <Text color="dimmed" mt={20} size="xs" align="center">
+                Noticia não encontrada.
+              </Text>
+            )}
+          </>
         )}
       </AppScheme>
     </UserProvider>
