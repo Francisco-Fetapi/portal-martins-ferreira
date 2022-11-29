@@ -36,6 +36,7 @@ import { IUserLogged } from "../interfaces/IUser";
 import Link from "next/link";
 import usePost from "../hooks/usePost";
 import { customLoader } from "./CustomLoader";
+import { showNotification } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -70,8 +71,14 @@ export function ArticleCardFooter({
   const { classes, theme } = useStyles();
   const router = useRouter();
   const { user: userLogged } = useUser();
-  const { savePostToggle, isSaved, likePost, dislikePost, deleteReact } =
-    usePost();
+  const {
+    deletePost,
+    savePostToggle,
+    isSaved,
+    likePost,
+    dislikePost,
+    deleteReact,
+  } = usePost();
 
   const thisPostIsSaved = isSaved(post);
 
@@ -81,7 +88,18 @@ export function ArticleCardFooter({
       children: "Você está prestes a apagar esta noticia.",
       labels: { confirm: "Confirmar", cancel: "Cancelar" },
       onConfirm() {
-        console.log("Notica apagado.");
+        deletePost.mutate(
+          { post },
+          {
+            onSuccess() {
+              showNotification({
+                title: "Noticia apagada",
+                message: "A noticia foi apagada com sucesso!",
+                color: "green",
+              });
+            },
+          }
+        );
       },
     });
   }
@@ -95,7 +113,8 @@ export function ArticleCardFooter({
     savePostToggle.isLoading ||
     deleteReact.isLoading ||
     likePost.isLoading ||
-    dislikePost.isLoading;
+    dislikePost.isLoading ||
+    deletePost.isLoading;
 
   const likes = useMemo(() => {
     return post.post_reacts.filter((react) => react.type === LIKED).length;

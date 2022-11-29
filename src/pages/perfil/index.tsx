@@ -92,8 +92,6 @@ function PostAreaProfile({ user }: PostAreaProfileProps) {
 
       const post = res.data.data.attributes;
       const postId = res.data.data.id;
-      console.log("post", post);
-      console.log("postId", postId);
 
       if (file) {
         const form = new FormData();

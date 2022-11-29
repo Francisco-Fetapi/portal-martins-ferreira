@@ -67,7 +67,7 @@ export default function usePost() {
     },
     {
       // enabled: iAmAtSavedPostsPage,
-      refetchOnMount: false,
+      // refetchOnMount: false,
     }
   );
 
@@ -85,18 +85,18 @@ export default function usePost() {
     }
   );
 
+  function deleteFromSaveds(post: ApiPost) {
+    const post_saved = mySavedPosts.data?.post_saveds.find((post_saveds) => {
+      return post_saveds.post.id === post.id;
+    })!;
+    return strapi.delete("/post-saveds/" + post_saved.id);
+  }
+
   const savePostToggle = useMutation<unknown, unknown, IWithPost>(
     ({ post }) => {
       // return sleep(10);
       if (isSaved(post)) {
-        const post_saved = mySavedPosts.data?.post_saveds.find(
-          (post_saveds) => {
-            return post_saveds.post.id === post.id;
-          }
-        );
-        if (post_saved) {
-          return strapi.delete("/post-saveds/" + post_saved.id);
-        }
+        return deleteFromSaveds(post);
       }
       return strapi.post("/post-saveds", {
         data: {
@@ -109,6 +109,23 @@ export default function usePost() {
       onSuccess(data, props, context) {
         // updateAllPosts();
         queryClient.refetchQueries(["my_saved_posts"]);
+      },
+    }
+  );
+
+  const deletePost = useMutation<unknown, unknown, IWithPost>(
+    async ({ post }) => {
+      if (post.photo) {
+        await strapi.delete("/upload/files/" + post.photo.id);
+      }
+      if (isSaved(post)) {
+        await deleteFromSaveds(post);
+      }
+      return strapi.delete("/posts/" + post.id);
+    },
+    {
+      onSuccess(data, variables, context) {
+        updateAllPosts();
       },
     }
   );
@@ -277,5 +294,6 @@ export default function usePost() {
     likeComment,
     dislikeComment,
     deleteReactComment,
+    deletePost,
   };
 }
