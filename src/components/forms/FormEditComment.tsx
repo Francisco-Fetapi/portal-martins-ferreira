@@ -13,14 +13,16 @@ export default function FormEditComment({ comment }: FormEditCommentProps) {
   const { editComment } = usePost();
 
   function handleUpdate() {
-    editComment.mutate(
-      { content, comment },
-      {
-        onSuccess() {
-          closeAllModals();
-        },
-      }
-    );
+    if (content) {
+      editComment.mutate(
+        { content, comment },
+        {
+          onSuccess() {
+            closeAllModals();
+          },
+        }
+      );
+    }
   }
 
   return (

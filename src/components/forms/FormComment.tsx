@@ -13,7 +13,9 @@ export default function FormComment({ post }: FormCommentProps) {
   const { postComment } = usePost();
 
   function sendComment() {
-    postComment.mutate({ comment, post });
+    if (comment) {
+      postComment.mutate({ comment, post });
+    }
   }
 
   useEffect(() => {
