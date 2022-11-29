@@ -241,7 +241,7 @@ export function ArticleCardFooter({
                       stroke={1.5}
                     />
                   }
-                  title={liked ? `retirar 'gostar'` : "gostar"}
+                  title={liked ? "gostado" : "gostar"}
                   color={liked ? theme.colors.blue[6] : undefined}
                   onClick={handleLike}
                 />
@@ -253,7 +253,7 @@ export function ArticleCardFooter({
                       stroke={1.5}
                     />
                   }
-                  title={disliked ? `retirar 'não gostar'` : "não gostar"}
+                  title={disliked ? "não gostado" : "não gostar"}
                   color={disliked ? theme.colors.cyan[6] : undefined}
                   onClick={handleDislike}
                 />
