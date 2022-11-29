@@ -185,9 +185,6 @@ export default function usePost() {
     postFound = findOne(posts.data);
     if (!postFound) {
       postFound = findOne(myPosts.data);
-      if (postFound) {
-        postFound.user = user;
-      }
     }
     if (!postFound) {
       postFound = findOne(
@@ -197,6 +194,13 @@ export default function usePost() {
     if (!postFound) {
       postFound = findOne(othersPosts.data);
     }
+
+    // if (postFound) {
+    //   if (postFound.user === undefined) {
+    //     postFound.user = user;
+    //   }
+    // }
+    console.log(postFound);
     return postFound;
   }
 
