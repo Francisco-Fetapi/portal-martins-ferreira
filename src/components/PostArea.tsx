@@ -51,6 +51,11 @@ export default function PostArea({
             </Anchor>
           )}
         </FileButton>
+        {file && (
+          <Anchor pl={10} size="xs" onClick={() => setFile(null)}>
+            Cancelar
+          </Anchor>
+        )}
       </div>
       <Center mt={1}>
         <Button loading={isLoading} onClick={handleSubmit}>

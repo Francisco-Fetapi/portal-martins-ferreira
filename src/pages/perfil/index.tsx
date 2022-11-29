@@ -84,8 +84,8 @@ function PostAreaProfile({ user }: PostAreaProfileProps) {
         AxiosResponse<ApiResponse<ApiPost>>
       >("/posts", {
         data: {
-          title: title.trim(),
-          content: content.trim(),
+          title,
+          content,
           user,
         },
       });

@@ -7,7 +7,7 @@ export default function parsePost(postText: string) {
   }
 
   return {
-    content,
-    title,
+    content: content.trim(),
+    title: title.trim(),
   };
 }

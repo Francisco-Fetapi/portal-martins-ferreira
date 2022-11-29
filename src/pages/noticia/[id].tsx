@@ -23,7 +23,6 @@ export default function Noticia({ user }: PageProps) {
   const router = useRouter();
   const postId = router.query.id as string | undefined;
   const post = getPostById(postId ? +postId : undefined);
-
   const isLoading = posts.isLoading || myPosts.isLoading;
 
   return (
