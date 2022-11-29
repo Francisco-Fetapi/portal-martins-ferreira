@@ -32,7 +32,7 @@ export default function Noticia({ user }: PageProps) {
             <Box mb={30}>
               <ArticleCardFooter long post={post} />
             </Box>
-            <FormComment />
+            <FormComment post={post} />
 
             <Box mt={50}>
               {postComments.isLoading && (

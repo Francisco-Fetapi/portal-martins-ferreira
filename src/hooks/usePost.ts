@@ -16,6 +16,10 @@ import { DISLIKED, LIKED } from "../helpers/constants";
 interface IWithPost {
   post: ApiPost;
 }
+interface IPostComment {
+  post: ApiPost;
+  comment: string;
+}
 
 export default function usePost() {
   const router = useRouter();
@@ -151,6 +155,20 @@ export default function usePost() {
     }
   );
 
+  const postComment = useMutation<unknown, unknown, IPostComment>(
+    (props) => {
+      return strapi.post("/post/comment", {
+        content: props.comment,
+        post: props.post,
+      });
+    },
+    {
+      onSuccess(data, variables, context) {
+        queryClient.refetchQueries(["post_comments"]);
+      },
+    }
+  );
+
   function isSaved(post: ApiPost) {
     const post_saveds = mySavedPosts.data?.post_saveds;
     return post_saveds?.some((post_saved) => post_saved.post.id === post.id);
@@ -182,11 +200,6 @@ export default function usePost() {
     return postFound;
   }
 
-  useEffect(() => {
-    console.log("Saved posts");
-    console.log(mySavedPosts.data?.post_saveds);
-  }, [mySavedPosts.data]);
-
   function updateAllPosts() {
     queryClient.refetchQueries();
   }
@@ -203,5 +216,6 @@ export default function usePost() {
     likePost,
     dislikePost,
     deleteReact,
+    postComment,
   };
 }

@@ -8,9 +8,14 @@ import { IconArrowRight, IconArrowLeft, IconMessage } from "@tabler/icons";
 
 interface InputWithButtonProps extends TextInputProps {
   onClick: () => void;
+  loading: boolean;
 }
 
-export function InputWithButton({ onClick, ...props }: InputWithButtonProps) {
+export function InputWithButton({
+  onClick,
+  loading,
+  ...props
+}: InputWithButtonProps) {
   const theme = useMantineTheme();
 
   return (
@@ -20,13 +25,14 @@ export function InputWithButton({ onClick, ...props }: InputWithButtonProps) {
       size="md"
       rightSection={
         <ActionIcon
-          onClick={onClick}
+          onClick={loading ? undefined : onClick}
           size={32}
           radius="xl"
           //   color={theme.primaryColor}
           variant="filled"
+          loading={loading}
         >
-          {theme.dir === "ltr" ? (
+          {!loading && theme.dir === "ltr" ? (
             <IconArrowRight size={18} stroke={1.5} />
           ) : (
             <IconArrowLeft size={18} stroke={1.5} />
