@@ -37,6 +37,8 @@ import Link from "next/link";
 import usePost from "../hooks/usePost";
 import { customLoader } from "./CustomLoader";
 import { showNotification } from "@mantine/notifications";
+import { useDisclosure } from "@mantine/hooks";
+import ModalAllReacts from "./ModalAllReacts";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -81,6 +83,12 @@ export function ArticleCardFooter({
   } = usePost();
 
   const thisPostIsSaved = isSaved(post);
+  const modalReacts = useDisclosure(false);
+  const modalReactsActions = modalReacts[1];
+
+  function showModalAllReacts() {
+    modalReactsActions.open();
+  }
 
   function handleDelete() {
     openConfirmModal({
@@ -135,11 +143,6 @@ export function ArticleCardFooter({
     });
   }, [post]);
 
-  useEffect(() => {
-    console.log("Post mudou");
-    console.log(post);
-  }, [post]);
-
   function handleLike() {
     if (liked) {
       deleteReact.mutate({ post });
@@ -177,6 +180,7 @@ export function ArticleCardFooter({
       <Title order={4} className={classes.title} mt="xs">
         {post.title}
       </Title>
+      <ModalAllReacts post={post} modal={modalReacts} />
       <Group spacing={10} my={3} mb={15}>
         <Text color="dimmed" size="xs">
           <Group spacing={1}>
@@ -190,6 +194,11 @@ export function ArticleCardFooter({
             <div>{dislikes} pessoas</div>
           </Group>
         </Text>
+        {post.post_reacts.length > 0 && (
+          <Anchor size="xs" onClick={showModalAllReacts}>
+            (Ver todas)
+          </Anchor>
+        )}
         {!post.approved && (
           <Text color="red" size="xs">
             <Group spacing={3} align="flex-end">
