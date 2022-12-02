@@ -8,7 +8,7 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
-import { ApiPost, ApiReact } from "../api/interfaces";
+import { ApiComment, ApiPost, ApiReact } from "../api/interfaces";
 import { useEffect } from "react";
 import { LIKED, NO_PHOTO } from "../helpers/constants";
 import { IconThumbDown, IconThumbUp } from "@tabler/icons";
@@ -19,18 +19,19 @@ import getPhoto from "../helpers/getPhoto";
 
 interface ModalAllReactsProps {
   modal: ReturnType<typeof useDisclosure>;
-  post: ApiPost;
+  post?: ApiPost;
+  comment?: ApiComment;
 }
 
-export default function ModalAllReacts({ modal, post }: ModalAllReactsProps) {
+export default function ModalAllReacts({
+  modal,
+  post,
+  comment,
+}: ModalAllReactsProps) {
   const [opened, { close }] = modal;
   const theme = useMantineTheme();
 
-  useEffect(() => {
-    if (opened) {
-      console.log("post_reacts", post.post_reacts);
-    }
-  }, [opened]);
+  const reacts = (post ? post?.post_reacts : comment?.comment_reacts)!;
 
   return (
     <Modal
@@ -45,47 +46,47 @@ export default function ModalAllReacts({ modal, post }: ModalAllReactsProps) {
       overlayOpacity={0.55}
       overlayBlur={3}
       centered={false}
-      title={<Title order={4}>Reações ({post.post_reacts.length})</Title>}
+      title={<Title order={4}>Reações ({reacts.length})</Title>}
       transition="slide-down"
       transitionDuration={200}
       transitionTimingFunction="ease-in-out"
     >
-      {post.post_reacts.map((post_react) => (
-        <ReactItem post_react={post_react} key={post_react.id} />
+      {reacts.map((react) => (
+        <ReactItem react={react} key={react.id} />
       ))}
     </Modal>
   );
 }
 
 interface ReactItemProps {
-  post_react: ApiReact;
+  react: ApiReact;
 }
 
-function ReactItem({ post_react }: ReactItemProps) {
+function ReactItem({ react }: ReactItemProps) {
   const iconSize = 20;
   const { user } = useUser();
-  const isMine = user.id === post_react.user.id;
+  const isMine = user.id === react.user.id;
 
   return (
     <Grid align="center" grow gutter="md" m={0} p={0}>
       <Grid.Col span={1}>
         <Avatar
-          src={getPhoto(post_react.user.photo!, "small") || NO_PHOTO}
+          src={getPhoto(react.user.photo!, "small") || NO_PHOTO}
           sx={{
             borderRadius: "50%",
           }}
         />
       </Grid.Col>
       <Grid.Col span={9}>
-        <Link href={isMine ? "/perfil" : `/perfil/${post_react.user.id}`}>
-          <Anchor>{post_react.user.username}</Anchor>
+        <Link href={isMine ? "/perfil" : `/perfil/${react.user.id}`}>
+          <Anchor>{react.user.username}</Anchor>
         </Link>
         <Text size="xs" color="dimmed">
-          {dateDistance(new Date(post_react.createdAt))}
+          {dateDistance(new Date(react.createdAt))}
         </Text>
       </Grid.Col>
       <Grid.Col span={1}>
-        {post_react.type === LIKED ? (
+        {react.type === LIKED ? (
           <IconThumbUp size={iconSize} />
         ) : (
           <IconThumbDown size={iconSize} />
