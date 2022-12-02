@@ -65,7 +65,10 @@ export default function usePost() {
       let res = await strapi.get<ApiSavedPost>(
         `/users/me?populate=post_saveds.post.post_reacts.user,post_saveds.post.post_comments,post_saveds.post.photo,post_saveds.post.user.photo`
       );
-      console.log(res.data);
+      const validPostSaveds = res.data.post_saveds.filter((post_saveds) => {
+        return post_saveds.post;
+      });
+      res.data.post_saveds = validPostSaveds;
       return res.data;
     },
     {
