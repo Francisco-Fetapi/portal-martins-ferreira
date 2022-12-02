@@ -1,4 +1,4 @@
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   Text,
   Anchor,
@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import { LIKED } from "../helpers/constants";
 import { IconThumbDown, IconThumbUp } from "@tabler/icons";
 import dateDistance from "../helpers/dateDistance";
+import Link from "next/link";
+import useUser from "../hooks/useUser";
 
 interface ModalAllReactsProps {
   modal: ReturnType<typeof useDisclosure>;
@@ -32,7 +34,7 @@ export default function ModalAllReacts({ modal, post }: ModalAllReactsProps) {
     <Modal
       opened={opened}
       onClose={close}
-      size="xs"
+      size="md"
       overlayColor={
         theme.colorScheme === "dark"
           ? theme.colors.dark[9]
@@ -56,10 +58,15 @@ interface ReactItemProps {
 
 function ReactItem({ post_react }: ReactItemProps) {
   const iconSize = 20;
+  const { user } = useUser();
+  const isMine = user.id === post_react.user.id;
+
   return (
-    <Grid align="center">
-      <Grid.Col span={11}>
-        <Anchor>{post_react.user.username}</Anchor>
+    <Grid align="center" grow gutter="md" m={0} p={0}>
+      <Grid.Col span={10}>
+        <Link href={isMine ? "/perfil" : `/perfil/${post_react.user.id}`}>
+          <Anchor>{post_react.user.username}</Anchor>
+        </Link>
         <Text size="xs" color="dimmed">
           {dateDistance(new Date(post_react.createdAt))}
         </Text>
