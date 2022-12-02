@@ -19,7 +19,7 @@ import { ApiComment } from "../api/interfaces";
 import getPhoto from "../helpers/getPhoto";
 import useUser from "../hooks/useUser";
 import { useMemo } from "react";
-import { DISLIKED, LIKED } from "../helpers/constants";
+import { DISLIKED, LIKED, NO_PHOTO } from "../helpers/constants";
 import usePost from "../hooks/usePost";
 import { customLoader } from "./CustomLoader";
 import FormEditComment from "./forms/FormEditComment";
@@ -139,7 +139,7 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
         />
         <Group>
           <Avatar
-            src={getPhoto(author.photo!, "small")}
+            src={getPhoto(author.photo!, "small") || NO_PHOTO}
             alt={author.username}
             radius="xl"
           />

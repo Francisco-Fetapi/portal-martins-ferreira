@@ -2,6 +2,7 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   Text,
   Anchor,
+  Avatar,
   Grid,
   Modal,
   Title,
@@ -9,11 +10,12 @@ import {
 } from "@mantine/core";
 import { ApiPost, ApiReact } from "../api/interfaces";
 import { useEffect } from "react";
-import { LIKED } from "../helpers/constants";
+import { LIKED, NO_PHOTO } from "../helpers/constants";
 import { IconThumbDown, IconThumbUp } from "@tabler/icons";
 import dateDistance from "../helpers/dateDistance";
 import Link from "next/link";
 import useUser from "../hooks/useUser";
+import getPhoto from "../helpers/getPhoto";
 
 interface ModalAllReactsProps {
   modal: ReturnType<typeof useDisclosure>;
@@ -44,6 +46,9 @@ export default function ModalAllReacts({ modal, post }: ModalAllReactsProps) {
       overlayBlur={3}
       centered={false}
       title={<Title order={4}>Reações ({post.post_reacts.length})</Title>}
+      transition="slide-down"
+      transitionDuration={200}
+      transitionTimingFunction="ease-in-out"
     >
       {post.post_reacts.map((post_react) => (
         <ReactItem post_react={post_react} key={post_react.id} />
@@ -63,7 +68,15 @@ function ReactItem({ post_react }: ReactItemProps) {
 
   return (
     <Grid align="center" grow gutter="md" m={0} p={0}>
-      <Grid.Col span={10}>
+      <Grid.Col span={1}>
+        <Avatar
+          src={getPhoto(post_react.user.photo!, "small") || NO_PHOTO}
+          sx={{
+            borderRadius: "50%",
+          }}
+        />
+      </Grid.Col>
+      <Grid.Col span={9}>
         <Link href={isMine ? "/perfil" : `/perfil/${post_react.user.id}`}>
           <Anchor>{post_react.user.username}</Anchor>
         </Link>

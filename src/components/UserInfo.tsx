@@ -24,6 +24,7 @@ import { ApiUploadDataResponse } from "../api/interfaces";
 import { strapi } from "../api/strapi";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
+import { NO_PHOTO } from "../helpers/constants";
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -45,7 +46,7 @@ const emptyText = "Não informado";
 
 export function UserInfo({ user, isMine }: UserInfoIconsProps) {
   const { classes } = useStyles();
-  const DEFAULT_PHOTO = getPhoto(user.photo!, "medium");
+  const DEFAULT_PHOTO = getPhoto(user.photo!, "small") || NO_PHOTO;
   const { clearFile, file, photoSrc, resetRef, setFile } =
     usePhotoPreview(DEFAULT_PHOTO);
   const { setPhotoPreviewURL } = useContext(

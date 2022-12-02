@@ -14,6 +14,7 @@ import { IUserContext, UserContext } from "../context/UserProvider";
 import getPhoto from "../helpers/getPhoto";
 import useUser from "../hooks/useUser";
 import { useContext } from "react";
+import { NO_PHOTO } from "../helpers/constants";
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -53,7 +54,10 @@ export function UserButton({
     <UnstyledButton className={classes.user} {...others}>
       <Link href="/perfil">
         <Group>
-          <Avatar src={photoPreviewURL || getPhoto(user?.photo!)} radius="xl" />
+          <Avatar
+            src={photoPreviewURL || getPhoto(user?.photo!) || NO_PHOTO}
+            radius="xl"
+          />
 
           <div style={{ flex: 1 }}>
             <Text size="sm" weight={500}>

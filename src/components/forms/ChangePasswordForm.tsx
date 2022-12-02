@@ -25,6 +25,7 @@ import { strapi } from "../../api/strapi";
 import { IConfirmationEmail } from "./ConfirmEmailForm";
 import { showNotification } from "@mantine/notifications";
 import { sleep } from "../../helpers/sleep";
+import { NO_PHOTO } from "../../helpers/constants";
 
 interface ChangePasswordFormProps {
   user: IUserLogged;
@@ -108,11 +109,11 @@ export function ChangePasswordForm({ user }: ChangePasswordFormProps) {
         <Center>
           <Group spacing={8}>
             <Avatar
-              src={getPhoto(user.photo!, "small")}
+              src={getPhoto(user.photo!, "small") || NO_PHOTO}
               alt="Foto do usuario"
               sx={{
-                width: 25,
-                height: 25,
+                width: 35,
+                height: 35,
                 borderRadius: "50%",
               }}
             />
