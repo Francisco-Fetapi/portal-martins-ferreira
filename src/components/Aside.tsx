@@ -18,8 +18,6 @@ export default function Aside() {
     return <div />;
   }
 
-  console.log(feauturedPosts);
-
   return (
     <MediaQuery smallerThan="md" styles={{ display: "none" }}>
       <AsideMantine hiddenBreakpoint="md" width={{ lg: 350, sm: 270 }}>
