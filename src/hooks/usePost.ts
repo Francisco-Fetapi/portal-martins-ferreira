@@ -12,6 +12,7 @@ import { IUserLogged } from "../interfaces/IUser";
 import { useEffect } from "react";
 import useUser from "./useUser";
 import { DISLIKED, LIKED } from "../helpers/constants";
+import { useMemo } from "react";
 
 interface IWithPost {
   post: ApiPost;
@@ -26,6 +27,8 @@ interface IPostComment {
 interface IEditComment extends IWithComment {
   content: string;
 }
+
+const MAX_FEATURED_POSTS = 5;
 
 export default function usePost() {
   const router = useRouter();
@@ -46,6 +49,25 @@ export default function usePost() {
     let res = await strapi.get<ApiPost[]>("/posts/mine");
     return res.data;
   });
+  const feauturedPosts = useMemo(() => {
+    const parsedPosts = posts.data?.map((post) => {
+      return {
+        ...post,
+        relevant: post.post_comments.length + post.post_reacts.length,
+      };
+    });
+    let sortedPosts = parsedPosts?.sort((a, b) => {
+      if (a.relevant > b.relevant) return -1;
+      if (a.relevant < b.relevant) return 1;
+      return 0;
+    });
+
+    sortedPosts = sortedPosts?.slice(0, MAX_FEATURED_POSTS);
+    console.log(sortedPosts);
+
+    return sortedPosts;
+  }, [posts.data, myPosts.data]);
+
   const othersPosts = useQuery(
     "others_posts",
     async () => {
@@ -293,12 +315,6 @@ export default function usePost() {
       postFound = findOne(othersPosts.data);
     }
 
-    // if (postFound) {
-    //   if (postFound.user === undefined) {
-    //     postFound.user = user;
-    //   }
-    // }
-    console.log(postFound);
     return postFound;
   }
 
@@ -328,5 +344,6 @@ export default function usePost() {
     deletePost,
     editComment,
     deleteComment,
+    feauturedPosts,
   };
 }

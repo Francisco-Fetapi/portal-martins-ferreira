@@ -1,36 +1,47 @@
 import {
   MediaQuery,
+  Text,
   Aside as AsideMantine,
   Title,
   ScrollArea,
   Box,
 } from "@mantine/core";
 import React from "react";
+import usePost from "../hooks/usePost";
 import FeaturedNew from "./FeaturedNew";
 
 export default function Aside() {
+  const { feauturedPosts, posts } = usePost();
+  const isLoading = posts.isLoading;
+
+  if (isLoading) {
+    return <div />;
+  }
+
+  console.log(feauturedPosts);
+
   return (
     <MediaQuery smallerThan="md" styles={{ display: "none" }}>
       <AsideMantine hiddenBreakpoint="md" width={{ lg: 350, sm: 270 }}>
-        <Title order={3} mb={10} p="xs">
-          Em Destaque
-        </Title>
-        <ScrollArea>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <Box key={item} mb={5}>
-              <FeaturedNew
-                title={`Titulo da Noticia ${item + 1}`}
-                time={`há ${item + 2} horas`}
-                author={`Autor ${item + 1}`}
-              >
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa
-                assumenda est libero facere eveniet, modi, dolore voluptatem vel
-                fugiat adipisci cupiditate obcaecati molestias illo vero aliquam
-                laudantium culpa quo quidem.
-              </FeaturedNew>
-            </Box>
-          ))}
-        </ScrollArea>
+        <Box p="xs">
+          <Title order={3}>Em Destaque</Title>
+          <Text mt={2} size="xs" color="dimmed" mb={10}>
+            Lista das noticias com o maior número de comentários e reações.
+          </Text>
+        </Box>
+        {feauturedPosts ? (
+          <ScrollArea>
+            {feauturedPosts.map((post) => (
+              <Box key={post.id} mb={5}>
+                <FeaturedNew post={post} />
+              </Box>
+            ))}
+          </ScrollArea>
+        ) : (
+          <Text color="dimmed" size="xs" align="center">
+            Nenhuma noticia para ser exibida aqui
+          </Text>
+        )}
       </AsideMantine>
     </MediaQuery>
   );

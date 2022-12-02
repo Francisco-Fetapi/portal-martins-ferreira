@@ -1,38 +1,59 @@
-import { Box, Text, UnstyledButton } from "@mantine/core";
+import { Avatar, Box, Grid, Text, UnstyledButton } from "@mantine/core";
+import { useRouter } from "next/router";
 import React from "react";
+import { ApiPost } from "../api/interfaces";
+import { NO_PHOTO } from "../helpers/constants";
+import dateDistance from "../helpers/dateDistance";
+import getPhoto from "../helpers/getPhoto";
 import getShortText from "../helpers/getShortText";
 import useGlobalStyles from "../hooks/useGlobalStyles";
 
 interface FeaturedNewProps {
-  title: React.ReactNode;
-  children: string;
-  time: React.ReactNode;
-  author: string;
+  post: ApiPost;
 }
 
-export default function FeaturedNew({
-  title,
-  children,
-  time,
-  author,
-}: FeaturedNewProps) {
+export default function FeaturedNew({ post }: FeaturedNewProps) {
   const { classes } = useGlobalStyles();
-  const content = getShortText(children, 15);
+  const content = getShortText(post.content, 15);
+  const router = useRouter();
+  const author = post.user;
+
+  function goToNew() {
+    router.push("/noticia/" + post.id);
+  }
 
   return (
-    <UnstyledButton className={classes.buttonHovered} p="xs">
-      <Text size="md" weight={700} color="cyan">
-        {title}
-      </Text>
-      <Text size="xs" color="dimmed" mt={-1}>
-        {author}
-      </Text>
-      <Box mt={3}>
-        <Text size="xs">{content}</Text>
-      </Box>
-      <Text size="xs" color="dimmed" mt={-5} align="right">
-        {time}
-      </Text>
+    <UnstyledButton onClick={goToNew} className={classes.buttonHovered} p="xs">
+      <Grid align="start">
+        <Grid.Col span={2}>
+          <Avatar
+            src={getPhoto(author.photo!) || NO_PHOTO}
+            sx={{
+              borderRadius: "50%",
+            }}
+          />
+        </Grid.Col>
+        <Grid.Col span={10}>
+          {post.title ? (
+            <Text size="md" weight={700} color="blue">
+              {post.title}
+            </Text>
+          ) : (
+            <Text size="md" weight={700} color="dimmed">
+              Sem titulo
+            </Text>
+          )}
+          <Text size="xs" color="dimmed" mt={-1}>
+            {post.user.username}
+          </Text>
+          <Box mt={3}>
+            <Text size="xs">{content}</Text>
+          </Box>
+          <Text size="xs" color="dimmed" mt={-5} align="right">
+            {dateDistance(new Date(post.createdAt))}
+          </Text>
+        </Grid.Col>
+      </Grid>
     </UnstyledButton>
   );
 }
