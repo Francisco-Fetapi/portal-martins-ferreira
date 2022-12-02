@@ -28,6 +28,7 @@ export default function FormComment({ post }: FormCommentProps) {
         e.preventDefault();
         sendComment();
       }}
+      autoComplete="off"
     >
       <InputWithButton
         onClick={sendComment}
