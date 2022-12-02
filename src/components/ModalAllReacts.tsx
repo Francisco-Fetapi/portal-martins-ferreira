@@ -31,7 +31,9 @@ export default function ModalAllReacts({
   const [opened, { close }] = modal;
   const theme = useMantineTheme();
 
-  const reacts = (post ? post?.post_reacts : comment?.comment_reacts)!;
+  const hasPost = !!post;
+
+  const reacts = (hasPost ? post?.post_reacts : comment?.comment_reacts)!;
 
   return (
     <Modal
@@ -46,7 +48,11 @@ export default function ModalAllReacts({
       overlayOpacity={0.55}
       overlayBlur={3}
       centered={false}
-      title={<Title order={4}>Reações ({reacts.length})</Title>}
+      title={
+        <Title order={4}>
+          Reações {hasPost ? "da Noticia" : "do Comentário"} ({reacts.length})
+        </Title>
+      }
       transition="slide-down"
       transitionDuration={200}
       transitionTimingFunction="ease-in-out"

@@ -1,5 +1,6 @@
 import {
   createStyles,
+  Container,
   LoadingOverlay,
   Text,
   Anchor,
@@ -11,7 +12,7 @@ import {
   Textarea,
   Center,
 } from "@mantine/core";
-import { IconEdit, IconTrash, IconThumbUp, IconThumbDown } from "@tabler/icons";
+import { IconEdit, IconTrash, IconThumbUp, IconThumbDown, IconUsers } from "@tabler/icons";
 import dateDistance from "../helpers/dateDistance";
 import { closeAllModals, openConfirmModal, openModal } from "@mantine/modals";
 import Link from "next/link";
@@ -23,6 +24,8 @@ import { DISLIKED, LIKED, NO_PHOTO } from "../helpers/constants";
 import usePost from "../hooks/usePost";
 import { customLoader } from "./CustomLoader";
 import FormEditComment from "./forms/FormEditComment";
+import ModalAllReacts from "./ModalAllReacts";
+import { useDisclosure } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   body: {
@@ -55,6 +58,13 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
     deleteReactComment.isLoading ||
     deleteComment.isLoading ||
     editComment.isLoading;
+
+  const modalReacts = useDisclosure(false);
+  const modalReactsActions = modalReacts[1];
+
+  function showModalAllReacts() {
+    modalReactsActions.open();
+  }
 
   const likes = useMemo(() => {
     return comment.comment_reacts.filter((react) => react.type === LIKED)
@@ -124,6 +134,7 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
         padding: "20px auto",
       }}
     >
+      <ModalAllReacts comment={comment} modal={modalReacts} />
       <Group
         style={{
           justifyContent: "space-between",
@@ -147,9 +158,11 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
             <Link href={isMyComment ? "/perfil" : `/perfil/${author.id}`}>
               <Anchor size="sm">{author.username}</Anchor>
             </Link>
-            <Text size="xs" color="dimmed">
-              {dateDistance(new Date(comment.createdAt))}
-            </Text>
+            <Group>
+              <Text size="xs" color="dimmed">
+                {dateDistance(new Date(comment.createdAt))}
+              </Text>
+            </Group>
           </div>
         </Group>
         <div>
@@ -194,6 +207,18 @@ export function CommentSimple({ comment }: CommentSimpleProps) {
           >
             {dislikes}
           </Button>
+
+          {comment.comment_reacts.length > 0 && (      
+          <Button
+            color="gray"
+            size="xs"
+            variant="light"
+            leftIcon={<IconUsers size={15} />}
+            onClick={showModalAllReacts}
+          >
+            {dislikes + likes}
+          </Button>
+              )}
         </Group>
       </div>
       <br />

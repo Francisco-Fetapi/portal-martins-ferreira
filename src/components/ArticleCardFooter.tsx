@@ -23,6 +23,7 @@ import {
   IconTrash,
   IconEdit,
   IconInfoCircle,
+  IconUsers,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { ApiPost } from "../api/interfaces";
@@ -185,18 +186,22 @@ export function ArticleCardFooter({
         <Text color="dimmed" size="xs">
           <Group spacing={1}>
             <IconThumbUp size={18} />
-            <div>{likes} pessoas</div>
+            <div>{likes} pessoa(s)</div>
           </Group>
         </Text>
         <Text color="dimmed" size="xs">
           <Group spacing={1}>
             <IconThumbDown size={18} />
-            <div>{dislikes} pessoas</div>
+            <div>{dislikes} pessoa(s)</div>
           </Group>
         </Text>
         {post.post_reacts.length > 0 && (
           <Anchor size="xs" onClick={showModalAllReacts}>
-            (Ver todas)
+            <Group spacing={1}>
+            <IconUsers size={18} />
+            <div>{likes + dislikes} pessoa(s)</div>
+          </Group>
+            
           </Anchor>
         )}
         {!post.approved && (
