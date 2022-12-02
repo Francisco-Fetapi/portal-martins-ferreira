@@ -10,8 +10,8 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[8]
-          : theme.colors.gray[0],
+          ? theme.colors.dark[6]
+          : theme.colors.gray[3],
     },
   },
   background: {

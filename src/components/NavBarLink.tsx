@@ -21,8 +21,8 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[8]
-          : theme.colors.gray[0],
+          ? theme.colors.dark[6]
+          : theme.colors.gray[3],
     },
   },
   link: {
@@ -32,14 +32,14 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
     color:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+        ? theme.colors.dark[6]
+        : theme.colors.gray[3],
 
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[7]
-          : theme.colors.gray[0],
+          ? theme.colors.dark[6]
+          : theme.colors.gray[3],
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
     },
   },

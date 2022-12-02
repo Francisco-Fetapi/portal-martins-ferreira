@@ -17,10 +17,11 @@ export default function Footer() {
 
   return (
     <FooterMantine height={60} p="md">
-      <MediaQuery largerThan="md" styles={{ display: "none" }}>
+      <Center>{copyrights}</Center>
+      {/* <MediaQuery largerThan="md" styles={{ display: "none" }}>
         <Center>{copyrights}</Center>
-      </MediaQuery>
-      <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+      </MediaQuery> */}
+      {/* <MediaQuery smallerThan="md" styles={{ display: "none" }}>
         <Group
           sx={{
             justifyContent: "space-between",
@@ -39,7 +40,7 @@ export default function Footer() {
             </Breadcrumbs>
           </Group>
         </Group>
-      </MediaQuery>
+      </MediaQuery> */}
     </FooterMantine>
   );
 }

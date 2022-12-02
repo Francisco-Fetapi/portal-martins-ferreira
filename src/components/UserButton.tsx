@@ -26,26 +26,17 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[8]
-          : theme.colors.gray[0],
+          ? theme.colors.dark[6]
+          : theme.colors.gray[3],
     },
   },
 }));
 
 interface UserButtonProps extends UnstyledButtonProps {
-  image: string;
-  name: string;
-  email: string;
   icon?: React.ReactNode;
 }
 
-export function UserButton({
-  image,
-  name,
-  email,
-  icon,
-  ...others
-}: UserButtonProps) {
+export function UserButton({ icon, ...others }: UserButtonProps) {
   const { classes } = useStyles();
   const { user } = useUser();
   const { photoPreviewURL } = useContext(UserContext) as Required<IUserContext>;

@@ -47,11 +47,7 @@ export default function NavBar({ opened }: NavBarProps) {
       <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
         <Navbar.Section>
           <Divider />
-          <UserButton
-            name="Nome do usuario"
-            email="emaildousuario@gmail.com"
-            image="/user.jpg"
-          />
+          <UserButton />
         </Navbar.Section>
       </MediaQuery>
     </Navbar>
