@@ -1,6 +1,6 @@
 import { TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons";
-
+import { useEffect } from "react";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 
@@ -12,6 +12,12 @@ export default function NavBarSearch() {
       search,
     },
   });
+
+  useEffect(() => {
+    if (search) {
+      form.setFieldValue("search", search);
+    }
+  }, [search]);
 
   function handleSubmit(values: typeof form.values) {
     if (values.search) {

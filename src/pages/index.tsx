@@ -13,14 +13,13 @@ interface PageProps {
 }
 
 export default function IndexPage({ user }: PageProps) {
-  const { posts, getPostsQuery } = usePost();
+  const { posts, myPosts, getPostsQuery } = usePost();
   const router = useRouter();
   const search = router.query.q as string | undefined;
-  // console.log("post list", posts.data);
   const postsSearched = useMemo(() => {
     if (!search) return;
     return getPostsQuery(search);
-  }, [search]);
+  }, [search, posts.data, myPosts.data]);
 
   return (
     <UserProvider user={user}>

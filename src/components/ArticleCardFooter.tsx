@@ -1,5 +1,6 @@
 import {
   createStyles,
+  Highlight,
   Tooltip,
   Anchor,
   Card,
@@ -86,6 +87,7 @@ export function ArticleCardFooter({
   const thisPostIsSaved = isSaved(post);
   const modalReacts = useDisclosure(false);
   const modalReactsActions = modalReacts[1];
+  const searchQuery = router.query.q as string | undefined;
 
   function showModalAllReacts() {
     modalReactsActions.open();
@@ -179,7 +181,9 @@ export function ArticleCardFooter({
       )}
 
       <Title order={4} className={classes.title} mt="xs">
-        {post.title}
+        <Highlight highlightColor="blue" highlight={searchQuery || ""}>
+          {post.title}
+        </Highlight>
       </Title>
       <ModalAllReacts post={post} modal={modalReacts} />
       <Group spacing={10} my={3} mb={15}>
@@ -198,10 +202,9 @@ export function ArticleCardFooter({
         {post.post_reacts.length > 0 && (
           <Anchor size="xs" onClick={showModalAllReacts}>
             <Group spacing={1}>
-            <IconUsers size={18} />
-            <div>{likes + dislikes} pessoa(s)</div>
-          </Group>
-            
+              <IconUsers size={18} />
+              <div>{likes + dislikes} pessoa(s)</div>
+            </Group>
           </Anchor>
         )}
         {!post.approved && (
@@ -221,10 +224,14 @@ export function ArticleCardFooter({
             hideLabel="Mostrar menos"
             transitionDuration={0}
           >
-            {post.content}
+            <Highlight highlightColor="blue" highlight={searchQuery || ""}>
+              {post.content}
+            </Highlight>
           </Spoiler>
         ) : (
-          <>{post.content}</>
+          <Highlight highlightColor="blue" highlight={searchQuery || ""}>
+            {post.content}
+          </Highlight>
         )}
       </Text>
 
@@ -237,7 +244,9 @@ export function ArticleCardFooter({
         <div>
           <Link href={isMyPost ? "/perfil" : `/perfil/${post.user.id}`}>
             <Anchor size="xs" weight={500}>
-              {post.user.username}
+              <Highlight highlightColor="blue" highlight={searchQuery || ""}>
+                {post.user.username}
+              </Highlight>
             </Anchor>
           </Link>
 
