@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, AppShell, useMantineTheme } from "@mantine/core";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
@@ -14,6 +14,13 @@ export default function AppScheme({ children }: AppSchemeProps) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const router = useRouter();
+  const q = router.query.q as string | undefined;
+
+  useEffect(() => {
+    if (q) {
+      setOpened(false);
+    }
+  }, [q]);
 
   return (
     <AppShell
