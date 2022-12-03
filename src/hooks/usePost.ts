@@ -325,8 +325,33 @@ export default function usePost() {
     queryClient.refetchQueries("post_comments");
   }
 
+  function getPostsQuery(query: string) {
+    if (!myPosts.data || !posts.data) return;
+
+    const allPosts: ApiPost[] = [...posts.data];
+    myPosts.data.forEach((post) => {
+      const alreadyExists = allPosts.some((p) => p.id === post.id);
+      if (!alreadyExists) {
+        allPosts.push(post);
+      }
+    });
+
+    return allPosts.filter((post) => {
+      const title = post.title.toLowerCase();
+      const content = post.content.toLowerCase();
+      const username = post.user.username.toLowerCase();
+      const q = query.toLowerCase();
+
+      if (title.includes(q)) return true;
+      if (content.includes(q)) return true;
+      if (username.includes(q)) return true;
+      return false;
+    });
+  }
+
   return {
     posts,
+    getPostsQuery,
     myPosts,
     savePostToggle,
     postComments,

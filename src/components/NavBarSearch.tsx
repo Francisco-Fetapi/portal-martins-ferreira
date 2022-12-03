@@ -2,17 +2,20 @@ import { TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons";
 
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/router";
 
 export default function NavBarSearch() {
+  const router = useRouter();
+  const search = router.query.q || "";
   const form = useForm({
     initialValues: {
-      search: "",
+      search,
     },
   });
 
   function handleSubmit(values: typeof form.values) {
     if (values.search) {
-      console.log(values);
+      router.push(`/?q=${values.search}`);
     }
   }
 
