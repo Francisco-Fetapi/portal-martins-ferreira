@@ -1,21 +1,8 @@
-import {
-  Navbar,
-  Divider,
-  Text,
-  ScrollArea,
-  TextInput,
-  Stack,
-  MediaQuery,
-} from "@mantine/core";
-import {
-  IconHome,
-  IconNotes,
-  IconPaperBag,
-  IconSearch,
-  IconUser,
-} from "@tabler/icons";
+import { Navbar, Divider, ScrollArea, Stack, MediaQuery } from "@mantine/core";
+import { IconHome, IconNotes, IconUser } from "@tabler/icons";
 import React from "react";
 import NavBarLink from "./NavBarLink";
+import NavBarSearch from "./NavBarSearch";
 import { UserButton } from "./UserButton";
 
 interface NavBarProps {
@@ -28,13 +15,7 @@ export default function NavBar({ opened }: NavBarProps) {
       <Navbar.Section grow component={ScrollArea} p="md">
         {/* Os itens do menu */}
         <Stack>
-          <TextInput
-            placeholder="Procurar noticias"
-            size="xs"
-            icon={<IconSearch size={12} stroke={1.5} />}
-            rightSectionWidth={70}
-            mb="sm"
-          />
+          <NavBarSearch />
         </Stack>
         <NavBarLink Icon={IconHome} label="Página Inicial" link="/" />
         <NavBarLink Icon={IconUser} label="Perfil" link="/perfil" />
