@@ -1,5 +1,9 @@
 import React from "react";
-import { MantineProvider, useMantineColorScheme } from "@mantine/core";
+import {
+  MantineProvider,
+  useMantineColorScheme,
+  useMantineTheme,
+} from "@mantine/core";
 import { GlobalStyles } from "../styles/GlobalStyles";
 import { NotificationsProvider } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
@@ -26,8 +30,32 @@ export default function AppProvider({ Page }: MantineProviderInterface) {
       <RouterTransition />
       <GlobalStyles mode={colorScheme} />
       <NotificationsProvider>
-        <ModalsProvider>{Page}</ModalsProvider>
+        <ModalProvider>{Page}</ModalProvider>
       </NotificationsProvider>
     </MantineProvider>
+  );
+}
+
+interface ModalProviderProps {
+  children: React.ReactNode;
+}
+
+function ModalProvider({ children }: ModalProviderProps) {
+  const theme = useMantineTheme();
+
+  return (
+    <ModalsProvider
+      modalProps={{
+        overlayColor:
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[9]
+            : theme.colors.gray[2],
+
+        overlayOpacity: 0.55,
+        overlayBlur: 3,
+      }}
+    >
+      {children}
+    </ModalsProvider>
   );
 }
