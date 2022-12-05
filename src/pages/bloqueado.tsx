@@ -14,7 +14,7 @@ export default function BlockedPage() {
             maxWidth: 500,
           }}
         >
-          <Title align="center" order={2}>
+          <Title align="center" order={2} mb={10}>
             Você foi bloqueado!
           </Title>
           <Text align="center" size="xs" color="dimmed">

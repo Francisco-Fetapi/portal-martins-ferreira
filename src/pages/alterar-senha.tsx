@@ -13,11 +13,13 @@ export default function ChangePasswordPage({ user }: PageProps) {
       <Head>
         <title>Alterar Senha</title>
       </Head>
-      <Center sx={{ minHeight: "100vh" }}>
-        <Box className="page-container">
-          <ChangePasswordForm user={user} />
-        </Box>
-      </Center>
+      <AppSchemeSimple>
+        <Center sx={{ minHeight: "100vh" }}>
+          <Box className="page-container">
+            <ChangePasswordForm user={user} />
+          </Box>
+        </Center>
+      </AppSchemeSimple>
     </>
   );
 }
@@ -25,6 +27,7 @@ export default function ChangePasswordPage({ user }: PageProps) {
 import { GetServerSideProps } from "next";
 import { strapi } from "../api/strapi";
 import { IUserLogged } from "../interfaces/IUser";
+import AppSchemeSimple from "../components/AppSchemeSimple";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { email, id } = ctx.query;

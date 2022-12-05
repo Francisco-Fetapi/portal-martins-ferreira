@@ -1,5 +1,6 @@
 import { Box, Center } from "@mantine/core";
 import Head from "next/head";
+import AppSchemeSimple from "../components/AppSchemeSimple";
 import { ConfirmEmailForm } from "../components/forms/ConfirmEmailForm";
 
 export default function EmailConfirmPage() {
@@ -8,11 +9,13 @@ export default function EmailConfirmPage() {
       <Head>
         <title>Confirmar email</title>
       </Head>
-      <Center sx={{ minHeight: "100vh" }}>
-        <Box className="page-container">
-          <ConfirmEmailForm />
-        </Box>
-      </Center>
+      <AppSchemeSimple>
+        <Center sx={{ minHeight: "100vh" }}>
+          <Box className="page-container">
+            <ConfirmEmailForm />
+          </Box>
+        </Center>
+      </AppSchemeSimple>
     </>
   );
 }
