@@ -139,3 +139,13 @@ export interface ApiPagination {
   pageCount: number;
   total: number;
 }
+
+export interface ApiError<T = null, U = any> {
+  data: T;
+  error: {
+    status: number;
+    name: string;
+    message: string;
+    details: U;
+  };
+}

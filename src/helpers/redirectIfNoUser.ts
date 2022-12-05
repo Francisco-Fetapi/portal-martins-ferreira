@@ -7,6 +7,7 @@ import { strapi } from "../api/strapi";
 import { IUserLogged } from "../interfaces/IUser";
 import nookies from "nookies";
 import { ParsedUrlQuery } from "querystring";
+import { AxiosError, AxiosResponse } from "axios";
 
 export function getToken(
   ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
@@ -32,18 +33,28 @@ export const redirectIfNoUser: GetServerSideProps = async (ctx) => {
   }
 
   try {
-    const { data } = await strapi.get<IUserLogged>("/users/me?populate=photo", {
+    const res = await strapi.get<IUserLogged>("/users/me?populate=photo", {
       headers: {
         Authorization: "Bearer " + token,
       },
     });
+
+    const user = res?.data;
+    // 401 unauthorized
+    // 400 bad request
+    if (!user) {
+      throw new Error("");
+    }
+
     return {
       props: {
-        user: data,
+        user,
       },
     };
   } catch (e: any) {
-    console.log(e.message);
+    const err = e as Error;
+    console.log("!error", err.message);
+    nookies.destroy(ctx, "token");
     return redirectToLogin;
   }
 };
