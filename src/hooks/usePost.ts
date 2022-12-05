@@ -339,12 +339,12 @@ export default function usePost() {
     return allPosts.filter((post) => {
       const title = post.title.toLowerCase();
       const content = post.content.toLowerCase();
-      const username = post.user.username.toLowerCase();
+      const username = post.user?.username.toLowerCase();
       const q = query.toLowerCase();
 
       if (title.includes(q)) return true;
       if (content.includes(q)) return true;
-      if (username.includes(q)) return true;
+      if (username && username.includes(q)) return true;
       return false;
     });
   }

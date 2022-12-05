@@ -2,18 +2,10 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import AppStore from "../core/AppStore";
 import AppProvider from "../core/AppProvider";
-import { ColorScheme, ColorSchemeProvider } from "@mantine/core";
-import { useSelector } from "react-redux";
-import { selectTheme } from "../store/App.selectors";
-import { useDispatch } from "react-redux";
-import {
-  setTheme,
-  THEME_KEY_IN_LOCALSTORAGE,
-  toggleTheme,
-} from "../store/App.store";
-import { useEffect } from "react";
-import useStatePersist from "../hooks/useStatePersist";
+import { ColorSchemeProvider } from "@mantine/core";
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import nookies, { setCookie } from "nookies";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,9 +16,25 @@ const queryClient = new QueryClient({
     },
   },
 });
+interface WithColorScheme {
+  preferredColorScheme: "light" | "dark";
+}
 
-export default function App(props: AppProps) {
+const THEME_COOKIE = "theme_mantine";
+export default function App(props: AppProps & WithColorScheme) {
   const { Component, pageProps } = props;
+
+  const [colorScheme, setColorScheme] = useState(props.preferredColorScheme);
+
+  function toggleColorScheme(value: "light" | "dark") {
+    const nextColorScheme =
+      value || (colorScheme === "light" ? "dark" : "light");
+    setColorScheme(nextColorScheme);
+    setCookie(null, THEME_COOKIE, nextColorScheme, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: "/",
+    });
+  }
 
   return (
     <>
@@ -45,34 +53,21 @@ export default function App(props: AppProps) {
 
       <QueryClientProvider client={queryClient}>
         <AppStore>
-          <ColorSchemeContainer>
+          <ColorSchemeProvider
+            colorScheme={colorScheme}
+            toggleColorScheme={toggleColorScheme}
+          >
             <AppProvider Page={<Component {...pageProps} />} />
-          </ColorSchemeContainer>
+          </ColorSchemeProvider>
         </AppStore>
       </QueryClientProvider>
     </>
   );
 }
-
-function ColorSchemeContainer({ children }: { children: React.ReactNode }) {
-  const darkMode = useSelector(selectTheme);
-  const dispatch = useDispatch();
-  const themeLocal = useStatePersist<boolean>(THEME_KEY_IN_LOCALSTORAGE);
-
-  const toggleColorScheme = (value?: ColorScheme) => {
-    dispatch(toggleTheme());
+App.getInitialProps = ({ ctx }: { ctx: any }) => {
+  const cookies = nookies.get(ctx);
+  console.log("cookies", cookies);
+  return {
+    preferredColorScheme: cookies[THEME_COOKIE] || "light",
   };
-
-  useEffect(() => {
-    dispatch(setTheme(themeLocal.get()));
-  }, []);
-
-  return (
-    <ColorSchemeProvider
-      colorScheme={darkMode ? "dark" : "light"}
-      toggleColorScheme={toggleColorScheme}
-    >
-      {children}
-    </ColorSchemeProvider>
-  );
-}
+};

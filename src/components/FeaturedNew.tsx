@@ -19,6 +19,7 @@ interface FeaturedNewProps {
 export default function FeaturedNew({ post }: FeaturedNewProps) {
   const { classes } = useGlobalStyles();
   const content = getShortText(post.content, 15);
+  const title = getShortText(post.title, 3);
   const router = useRouter();
   const author = post.user;
 
@@ -45,7 +46,7 @@ export default function FeaturedNew({ post }: FeaturedNewProps) {
         <Grid.Col span={10}>
           {post.title ? (
             <Text size="md" weight={700} color="blue">
-              {post.title}
+              {title}
             </Text>
           ) : (
             <Text size="md" weight={700} color="dimmed">
