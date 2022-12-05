@@ -28,7 +28,13 @@ import {
 } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { ApiPost } from "../api/interfaces";
-import { DISLIKED, LIKED, NO_PHOTO } from "../helpers/constants";
+import {
+  ADMINISTRATOR_NAME,
+  ADMINISTRATOR_PHOTO,
+  DISLIKED,
+  LIKED,
+  NO_PHOTO,
+} from "../helpers/constants";
 import dateDistance from "../helpers/dateDistance";
 import getPhoto from "../helpers/getPhoto";
 import useGlobalStyles from "../hooks/useGlobalStyles";
@@ -116,10 +122,11 @@ export function ArticleCardFooter({
   }
 
   if (user) {
+    // se nao tiver user no post, eh admin.
     post.user = user;
   }
 
-  const isMyPost = userLogged.id === post.user.id;
+  const isMyPost = userLogged.id === post.user?.id;
   const isLoading =
     savePostToggle.isLoading ||
     deleteReact.isLoading ||
@@ -236,19 +243,35 @@ export function ArticleCardFooter({
       </Text>
 
       <Group mt="xl" spacing={10}>
-        <Avatar
-          src={getPhoto(post.user.photo!, "small") || NO_PHOTO}
-          alt="Foto do usuario"
-          style={{ borderRadius: "50%", width: 40, height: 40, zoom: 0.9 }}
-        />
+        {post.user ? (
+          <Avatar
+            src={getPhoto(post.user.photo!, "small") || NO_PHOTO}
+            alt="Foto do usuario"
+            style={{ borderRadius: "50%", width: 40, height: 40, zoom: 0.9 }}
+          />
+        ) : (
+          <Avatar
+            src={ADMINISTRATOR_PHOTO}
+            alt="Foto do usuario"
+            style={{ borderRadius: "50%", width: 40, height: 40, zoom: 0.9 }}
+          />
+        )}
         <div>
-          <Link href={isMyPost ? "/perfil" : `/perfil/${post.user.id}`}>
-            <Anchor size="xs" weight={500}>
+          {post.user ? (
+            <Link href={isMyPost ? "/perfil" : `/perfil/${post.user.id}`}>
+              <Anchor size="xs" weight={500}>
+                <Highlight highlightColor="blue" highlight={searchQuery || ""}>
+                  {post.user.username}
+                </Highlight>
+              </Anchor>
+            </Link>
+          ) : (
+            <Text color="dimmed" size="xs" weight={500}>
               <Highlight highlightColor="blue" highlight={searchQuery || ""}>
-                {post.user.username}
+                {ADMINISTRATOR_NAME}
               </Highlight>
-            </Anchor>
-          </Link>
+            </Text>
+          )}
 
           <Text size="xs" color="dimmed">
             {dateDistance(new Date(post.publishedAt))}

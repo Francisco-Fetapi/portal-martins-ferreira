@@ -2,7 +2,11 @@ import { Avatar, Box, Grid, Text, UnstyledButton } from "@mantine/core";
 import { useRouter } from "next/router";
 import React from "react";
 import { ApiPost } from "../api/interfaces";
-import { NO_PHOTO } from "../helpers/constants";
+import {
+  ADMINISTRATOR_NAME,
+  ADMINISTRATOR_PHOTO,
+  NO_PHOTO,
+} from "../helpers/constants";
 import dateDistance from "../helpers/dateDistance";
 import getPhoto from "../helpers/getPhoto";
 import getShortText from "../helpers/getShortText";
@@ -22,12 +26,17 @@ export default function FeaturedNew({ post }: FeaturedNewProps) {
     router.push("/noticia/" + post.id);
   }
 
+  const isAdmin = !post.user;
+
   return (
     <UnstyledButton onClick={goToNew} className={classes.buttonHovered} p="xs">
       <Grid align="start">
         <Grid.Col span={2}>
           <Avatar
-            src={getPhoto(author.photo!) || NO_PHOTO}
+            src={
+              getPhoto(author?.photo!) ||
+              (isAdmin ? ADMINISTRATOR_PHOTO : NO_PHOTO)
+            }
             sx={{
               borderRadius: "50%",
             }}
@@ -44,12 +53,12 @@ export default function FeaturedNew({ post }: FeaturedNewProps) {
             </Text>
           )}
           <Text size="xs" color="dimmed" mt={-1}>
-            {post.user.username}
+            {post.user?.username || ADMINISTRATOR_NAME}
           </Text>
           <Box mt={3}>
             <Text size="xs">{content}</Text>
           </Box>
-          <Text size="xs" color="dimmed" mt={-5} align="right">
+          <Text size="xs" color="dimmed" mt={2} align="right">
             {dateDistance(new Date(post.createdAt))}
           </Text>
         </Grid.Col>

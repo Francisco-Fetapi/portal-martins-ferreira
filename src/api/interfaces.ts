@@ -91,7 +91,7 @@ interface IPost {
 
 export interface ApiPost extends ApiWithTimestamps, IPost {
   id: number;
-  user: IUserLogged;
+  user?: IUserLogged;
   photo: ApiUploadDataResponse | null;
   post_comments: ApiComment[];
   post_reacts: ApiReact[];
