@@ -16,6 +16,7 @@ import { Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import { destroyCookie } from "nookies";
 import { strapi } from "../api/strapi";
+import Image from "next/image";
 
 interface HeaderProps {
   opened: boolean;
@@ -80,7 +81,14 @@ export default function Header({ opened, setOpened }: HeaderProps) {
           />
         </MediaQuery>
 
-        <Text>Logo Do Sistema</Text>
+        <img
+          // src={`/logo-light.png`}
+          src={`/logo-${theme.colorScheme}.png`}
+          width={50}
+          height={40}
+          alt="Logo do sistema"
+        />
+
         <Group>
           <ActionIcon
             onClick={() => toggleColorScheme()}
