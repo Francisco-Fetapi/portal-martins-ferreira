@@ -175,6 +175,15 @@ export function ArticleCardFooter({
     }
   }
 
+  const content = post.content.split("\n").map((paragraph,key)=>{
+    return <div key={key} style={{marginBottom:20}}>
+    <Highlight highlightColor="blue" highlight={searchQuery || ""}>
+    {paragraph}
+    </Highlight>
+    </div>
+  });
+
+
   return (
     <Card withBorder p="lg" radius="md" className={classes.card}>
       {post.photo && (
@@ -231,14 +240,14 @@ export function ArticleCardFooter({
             hideLabel="Mostrar menos"
             transitionDuration={0}
           >
-            <Highlight highlightColor="blue" highlight={searchQuery || ""}>
-              {post.content}
-            </Highlight>
+            
+              {content}
+            
           </Spoiler>
         ) : (
-          <Highlight highlightColor="blue" highlight={searchQuery || ""}>
-            {post.content}
-          </Highlight>
+          
+            content
+          
         )}
       </Text>
 
