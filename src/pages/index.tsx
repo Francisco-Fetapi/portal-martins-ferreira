@@ -41,7 +41,7 @@ export default function IndexPage({ user }: PageProps) {
             title="Noticias"
             text={
               <>
-                Veja as últimas noticias do <b>Obadias Malaquias</b> em primeira
+                Veja as últimas noticias do <b>Martins Ferreira</b> em primeira
                 mão.
               </>
             }

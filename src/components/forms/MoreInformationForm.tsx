@@ -24,6 +24,7 @@ import { useState, useEffect } from "react";
 import { showNotification } from "@mantine/notifications";
 import Link from "next/link";
 import {
+  classes,
   courses,
   getAlternativeCourse,
   glades,
@@ -31,6 +32,7 @@ import {
   IGlades,
   thisGladeHaveACourse,
 } from "../../helpers/ObadiasFakeDatabase";
+import { sleep } from "../../helpers/sleep";
 
 export function MoreInformationForm() {
   const validate = useValidateFunctions();
@@ -69,14 +71,17 @@ export function MoreInformationForm() {
     }
     console.log(values);
     setLoading(true);
-    let res = await strapi.get("/validation/phonenumber", {
-      params: {
-        phoneNumber: values.phoneNumber,
-      },
-    });
+
+    await sleep(2);
+    // let res = await strapi.get("/validation/phonenumber", {
+    //   params: {
+    //     phoneNumber: values.phoneNumber,
+    //   },
+    // });
     setLoading(false);
-    console.log(res.data);
-    if (res.data[1]) {
+    // console.log(res.data);
+    // if (res.data[1]) {
+    if (false) {
       form.setFieldError("phoneNumber", "Este número de telefone já existe.");
     } else {
       showNotification({
@@ -130,10 +135,12 @@ export function MoreInformationForm() {
             {...form.getInputProps("phoneNumber")}
             disabled={noEmail}
           />
-          <TextInput
-            label="Minha turma/sala"
-            placeholder="Turma 1, sala B...."
+
+          <Select
+            data={classes}
             {...form.getInputProps("myClass")}
+            placeholder="Escolha sua turma"
+            label="Minha turma"
             required
             disabled={noEmail}
           />
@@ -147,16 +154,14 @@ export function MoreInformationForm() {
             disabled={noEmail}
           />
 
-          {myGladeHasACourse && (
-            <Select
-              data={courses}
-              {...form.getInputProps("myCourse")}
-              placeholder="Escolha um curso"
-              label="Selecione seu curso"
-              required
-              disabled={noEmail}
-            />
-          )}
+          <Select
+            data={courses}
+            {...form.getInputProps("myCourse")}
+            placeholder="Escolha um curso"
+            label="Selecione seu curso"
+            required
+            disabled={noEmail}
+          />
 
           <Center>
             <Button disabled={noEmail} loading={loading} type="submit">

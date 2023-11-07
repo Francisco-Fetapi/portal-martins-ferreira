@@ -3,4 +3,4 @@ export const LIKED = 1;
 export const DISLIKED = -1;
 
 export const ADMINISTRATOR_NAME = "Administrador";
-export const ADMINISTRATOR_PHOTO = "/obadias-malaquias-logo.jpg";
+export const ADMINISTRATOR_PHOTO = "/logo-martins-ferreira.jpg";

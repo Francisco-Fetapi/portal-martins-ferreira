@@ -16,7 +16,8 @@ export const STRAPI_URL =
 // export const STRAPI_URL = environment.production;
 
 const strapi = axios.create({
-  baseURL: `${STRAPI_URL}/api`,
+  // baseURL: `${STRAPI_URL}/api`,
+  baseURL: `https://localhost:3001/api`,
   headers: {
     Authorization: token ? `Bearer ${token}` : null,
   },

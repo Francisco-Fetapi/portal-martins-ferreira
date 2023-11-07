@@ -1,18 +1,26 @@
 export type ICourses =
   | "Ensino Primário"
   | "Primeiro Ciclo"
-  | "Informática de Gestão"
-  | "Enfermagem Geral"
-  | "Estomatologia";
+  | "Gestão de Sistemas Informáticos"
+  | "Contabilidade e Gestão"
+  | "Energias e Instalações Electricas"
+  | "Gestão Empresarial"
+  | "Electromecânica";
 
 export type IGlades = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export const courses: ICourses[] = [
-  "Informática de Gestão",
-  "Enfermagem Geral",
-  "Estomatologia",
+  "Gestão de Sistemas Informáticos",
+  "Contabilidade e Gestão",
+  "Energias e Instalações Electricas",
+  "Gestão Empresarial",
+  "Electromecânica",
 ];
-const allGlades: IGlades[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+const allGlades: IGlades[] = [10, 11, 12, 13];
+
+export const classes = ["A", "B", "C", "D", "E", "F", "G", "H", "I"].map(
+  (classRoom) => `Turma ${classRoom}`
+);
 
 export const glades = allGlades.map((item) => ({
   value: item,

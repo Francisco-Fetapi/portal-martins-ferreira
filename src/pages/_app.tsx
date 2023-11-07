@@ -39,7 +39,7 @@ export default function App(props: AppProps & WithColorScheme) {
   return (
     <>
       <Head>
-        <title>Portal Obadias Malaquias</title>
+        <title>Portal Martins Ferreira</title>
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
@@ -47,7 +47,7 @@ export default function App(props: AppProps & WithColorScheme) {
         />
         <meta
           name="description"
-          content="Portal de noticias do colégio Obadias Malaquias, saiba tudo em primeiro mão."
+          content="Portal de noticias do colégio Martins Ferreira, saiba tudo em primeiro mão."
         />
       </Head>
 

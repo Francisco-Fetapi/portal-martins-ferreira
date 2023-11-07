@@ -11,7 +11,7 @@ import Link from "next/link";
 export default function Footer() {
   const copyrights = (
     <Text size="xs">
-      Colégio Obadias Malaquias - &copy; Todos os direitos reservados
+      Colégio Martins Ferreira - &copy; Todos os direitos reservados
     </Text>
   );
 

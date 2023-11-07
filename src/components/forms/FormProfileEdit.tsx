@@ -149,7 +149,7 @@ export default function FormProfileEdit() {
             <Checkbox
               label={
                 <p>
-                  Sou um(a) aluno(a) do <b>Obadias Malaquias</b>
+                  Sou um(a) aluno(a) do <b>Martins Ferreira</b>
                 </p>
               }
               checked={form.values.isStudent}

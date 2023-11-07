@@ -26,6 +26,7 @@ import FormHeader from "../FormHeader";
 import { genres } from "./FormProfileEdit";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
+import { sleep } from "../../helpers/sleep";
 
 export function SignUpForm() {
   const validate = useValidateFunctions();
@@ -63,29 +64,32 @@ export function SignUpForm() {
 
   const handleSubmit = async (values: typeof form.values) => {
     setLoading(true);
-    let { data: usernameExists } = await strapi.get("/validation/username", {
-      params: {
-        username: values.username,
-      },
-    });
 
-    let { data: emailExists } = await strapi.get("/validation/email", {
-      params: {
-        email: values.email,
-      },
-    });
+    await sleep(2);
+    // let { data: usernameExists } = await strapi.get("/validation/username", {
+    //   params: {
+    //     username: values.username,
+    //   },
+    // });
 
-    if (usernameExists[1]) {
-      form.setFieldError("username", "Este nome de usuario já existe.");
-    }
-    if (emailExists[1]) {
-      form.setFieldError("email", "Este email já existe.");
-    }
+    // let { data: emailExists } = await strapi.get("/validation/email", {
+    //   params: {
+    //     email: values.email,
+    //   },
+    // });
+
+    // if (usernameExists[1]) {
+    //   form.setFieldError("username", "Este nome de usuario já existe.");
+    // }
+    // if (emailExists[1]) {
+    //   form.setFieldError("email", "Este email já existe.");
+    // }
     setLoading(false);
-    console.log("username", usernameExists);
-    console.log("email", emailExists);
+    // console.log("username", usernameExists);
+    // console.log("email", emailExists);
 
-    if (!usernameExists[1] && !emailExists[1]) {
+    // if (!usernameExists[1] && !emailExists[1]) {
+    if (true) {
       showNotification({
         title: "Dados validados",
         message: "Todos os dados foram validados com sucesso!",
@@ -176,7 +180,7 @@ export function SignUpForm() {
             <Checkbox
               label={
                 <p>
-                  Sou aluno(a) do <b>Obadias Malaquias</b>
+                  Sou aluno(a) do <b>Martins Ferreira</b>
                 </p>
               }
               {...form.getInputProps("isStudent")}
