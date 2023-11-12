@@ -5,19 +5,18 @@ import { ApiError } from "./interfaces";
 
 const token = parseCookies().token;
 const environment = {
-  production: "https://portal-obadias-backend-strapi-production.up.railway.app",
+  production: "https://strapi-martins-ferreira-production.up.railway.app/api",
   development: "http://localhost:1337",
 };
 
 const ACCOUNT_BLOCKED = "Your account has been blocked by an administrator";
 
-export const STRAPI_URL =
-  environment[process.env.NODE_ENV as keyof typeof environment];
-// export const STRAPI_URL = environment.production;
+// export const STRAPI_URL =
+//   environment[process.env.NODE_ENV as keyof typeof environment];
+export const STRAPI_URL = environment.production;
 
 const strapi = axios.create({
-  // baseURL: `${STRAPI_URL}/api`,
-  baseURL: `https://localhost:3001/api`,
+  baseURL: `${STRAPI_URL}/api`,
   headers: {
     Authorization: token ? `Bearer ${token}` : null,
   },
