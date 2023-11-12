@@ -65,12 +65,11 @@ export function ConfirmEmailForm() {
   const noEmail = !formSigninData.email;
 
   async function sendCodeConfirmation() {
-    // const { data } = await strapi.post<IConfirmationEmail>("/confirm-email", {
-    //   email: formSigninData.email,
-    // });
+    const { data } = await strapi.post<IConfirmationEmail>("/confirm-email", {
+      email: formSigninData.email,
+    });
 
-    // codeConfirmation.current = data.code || "12345";
-    codeConfirmation.current = "12345";
+    codeConfirmation.current = data.code || "12345";
     console.log("code", codeConfirmation.current);
   }
 
@@ -79,7 +78,7 @@ export function ConfirmEmailForm() {
   }, []);
 
   async function resendCode() {
-    // await sendCodeConfirmation();
+    await sendCodeConfirmation();
     showNotification({
       title: "Código reenvido",
       message:

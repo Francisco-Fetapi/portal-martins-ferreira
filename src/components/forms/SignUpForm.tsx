@@ -65,31 +65,30 @@ export function SignUpForm() {
   const handleSubmit = async (values: typeof form.values) => {
     setLoading(true);
 
-    await sleep(2);
-    // let { data: usernameExists } = await strapi.get("/validation/username", {
-    //   params: {
-    //     username: values.username,
-    //   },
-    // });
+    // await sleep(2);
+    let { data: usernameExists } = await strapi.get("/validation/username", {
+      params: {
+        username: values.username,
+      },
+    });
 
-    // let { data: emailExists } = await strapi.get("/validation/email", {
-    //   params: {
-    //     email: values.email,
-    //   },
-    // });
+    let { data: emailExists } = await strapi.get("/validation/email", {
+      params: {
+        email: values.email,
+      },
+    });
 
-    // if (usernameExists[1]) {
-    //   form.setFieldError("username", "Este nome de usuario já existe.");
-    // }
-    // if (emailExists[1]) {
-    //   form.setFieldError("email", "Este email já existe.");
-    // }
+    if (usernameExists[1]) {
+      form.setFieldError("username", "Este nome de usuario já existe.");
+    }
+    if (emailExists[1]) {
+      form.setFieldError("email", "Este email já existe.");
+    }
     setLoading(false);
     // console.log("username", usernameExists);
     // console.log("email", emailExists);
 
-    // if (!usernameExists[1] && !emailExists[1]) {
-    if (true) {
+    if (!usernameExists[1] && !emailExists[1]) {
       showNotification({
         title: "Dados validados",
         message: "Todos os dados foram validados com sucesso!",

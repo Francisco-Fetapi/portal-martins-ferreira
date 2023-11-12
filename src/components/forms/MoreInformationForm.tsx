@@ -72,16 +72,15 @@ export function MoreInformationForm() {
     console.log(values);
     setLoading(true);
 
-    await sleep(2);
-    // let res = await strapi.get("/validation/phonenumber", {
-    //   params: {
-    //     phoneNumber: values.phoneNumber,
-    //   },
-    // });
+    // await sleep(2);
+    let res = await strapi.get("/validation/phonenumber", {
+      params: {
+        phoneNumber: values.phoneNumber,
+      },
+    });
     setLoading(false);
-    // console.log(res.data);
-    // if (res.data[1]) {
-    if (false) {
+    console.log(res.data);
+    if (res.data[1]) {
       form.setFieldError("phoneNumber", "Este número de telefone já existe.");
     } else {
       showNotification({
