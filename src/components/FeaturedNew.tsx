@@ -45,7 +45,7 @@ export default function FeaturedNew({ post }: FeaturedNewProps) {
         </Grid.Col>
         <Grid.Col span={10}>
           {post.title ? (
-            <Text size="md" weight={700} color="blue">
+            <Text size="md" weight={700} color="white">
               {title}
             </Text>
           ) : (
