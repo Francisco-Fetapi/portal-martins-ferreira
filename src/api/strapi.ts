@@ -5,7 +5,7 @@ import { ApiError } from "./interfaces";
 
 const token = parseCookies().token;
 const environment = {
-  production: "https://strapi-martins-ferreira-production.up.railway.app/api",
+  production: "https://strapi-martins-ferreira-production.up.railway.app",
   development: "http://localhost:1337",
 };
 

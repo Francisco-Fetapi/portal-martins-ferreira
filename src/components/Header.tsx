@@ -81,13 +81,7 @@ export default function Header({ opened, setOpened }: HeaderProps) {
           />
         </MediaQuery>
 
-        <img
-          // src={`/logo-light.png`}
-          src={`/logo-${theme.colorScheme}.png`}
-          width={50}
-          height={40}
-          alt="Logo do sistema"
-        />
+        <h3>PORTAL MARTINS FERREIRA</h3>
 
         <Group>
           <ActionIcon
